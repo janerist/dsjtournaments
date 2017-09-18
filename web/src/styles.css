@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+  overflow-y: scroll;
+}
+
+[hidden] { display: none !important;}
+
+.ui.dsj3.label {
+  color: #fff;
+  background-color: #B29839;
+}
+
+.ui.dsj4.label {
+  color: #fff;
+  background-color: #B26639;
+}
+
+.ui.segment.item {
+  position: relative;
+  background: #fff;
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+  margin: 1rem 0;
+  padding: 1em;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+}
+
+.table.result {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.table.result td, .table.result tr th {
+  padding: 0.4em 0.5em;
+}
+
+.table.table tr th {
+  cursor: help;
+}
+
+td.longest-jump {
+  font-weight: bold;
+}
+

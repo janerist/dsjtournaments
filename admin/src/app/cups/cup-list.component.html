@@ -1,0 +1,35 @@
+<div>
+  <p class="float-sm-right">
+    <i class="fa fa-plus"></i>
+    <a [routerLink]="['/cups/create']" href="#">
+      New cup
+    </a>
+  </p>
+</div>
+
+<table *ngIf="cups$" class="table table-sm">
+  <thead class="thead-default">
+    <th>Name</th>
+    <th>Rank method</th>
+    <th>Starts</th>
+    <th>Ends</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cup of cups$ | async">
+    <td>
+      <span class="badge badge-dsj{{cup.gameVersion}}">DSJ{{cup.gameVersion}}</span>
+      <a [routerLink]="['/cups', cup.id]">{{cup.name}}</a>
+      <span class="badge badge-default">{{cup.tournamentCount}}</span>
+    </td>
+    <td>
+      {{cup.rankMethod | dsjtRankMethod}}
+    </td>
+    <td>
+      {{cup.startDate | date}}
+    </td>
+    <td>
+      {{cup.endDate | date}}
+    </td>
+  </tr>
+  </tbody>
+</table>

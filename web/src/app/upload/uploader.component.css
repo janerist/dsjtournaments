@@ -1,0 +1,22 @@
+.uploader {
+  border: dotted 3px lightgray;
+  display: flex;
+  height: 300px;
+}
+
+.uploader label {
+  cursor: pointer;
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploader label input {
+  display: none;
+}
+
+.uploader.is-drop-over {
+  border: dotted 3px black;
+}
+

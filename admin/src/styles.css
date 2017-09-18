@@ -1,0 +1,28 @@
+#main {
+  padding-top: 10px;
+}
+.badge.badge-dsj4 {
+  background-color: #B26639;
+}
+
+.badge.badge-dsj3 {
+  background-color: #B29839;
+}
+
+.datepicker-inline  {
+  width: 175px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
+.datepicker table tr td {
+  height: 15px;
+}
+
+.toast {
+  opacity: 1 !important;
+}
+
+#toast-container > div {
+  opacity: 1 !important;
+}

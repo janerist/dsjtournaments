@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-4">
+    <div class="input-group">
+      <input #s type="search"
+             class="form-control"
+             placeholder="Search for jumper"
+             [(ngModel)]="q"
+             (keyup.enter)="search()">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button" (click)="search()">
+          <i class="fa fa-search"></i>
+          Search
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="col-4 offset-4">
+    <div class="float-right">
+      <dsjt-pager *ngIf="totalCount"
+                  [page]="page"
+                  [pageSize]="pageSize"
+                  [totalCount]="totalCount"
+                  [routeCommands]="['/jumpers']"
+                  [getQueryParams]="createGetQueryParams()">
+      </dsjt-pager>
+      <span *ngIf="totalCount === 0">No jumpers found.</span>
+    </div>
+  </div>
+</div>
+
+<table class="table table-sm">
+  <thead class="thead-default" *ngIf="totalCount > 0">
+  <tr>
+    <th>
+      <a routerLink="/jumpers"
+         [queryParams]="assignQueryParams({sortBy: 'name', sortOrder: sortOrder*-1})">
+        Name
+      </a>
+    </th>
+    <th>
+      <a routerLink="/jumpers"
+         [queryParams]="assignQueryParams({sortBy: 'nation', sortOrder: sortOrder*-1})">
+        Nation
+      </a>
+    </th>
+    <th>
+      <a routerLink="/jumpers"
+         [queryParams]="assignQueryParams({sortBy: 'participations', sortOrder: sortOrder*-1})">
+        Participations
+      </a>
+    </th>
+    <th>
+      <a routerLink="/jumpers"
+         [queryParams]="assignQueryParams({sortBy: 'lastActive', sortOrder: sortOrder*-1})">
+        Last active
+      </a>
+    </th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let jumper of jumpers$ | async"
+        dsjt-jumper-list-row
+        [model]="jumper"
+        (mergeButtonClicked)="openJumperMergeModal($event)">
+    </tr>
+  </tbody>
+</table>
+
+<dsjt-jumper-merge-modal
+  [show]="showJumperMergeModal"
+  [sourceJumpers]="[selectedJumperForMerge]"
+  (modalClosed)="showJumperMergeModal = false"
+  (mergeConfirmed)="mergeJumpers($event)">
+</dsjt-jumper-merge-modal>

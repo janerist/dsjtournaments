@@ -1,0 +1,48 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group" [class.has-danger]="name.touched && !name.valid">
+        <label class="form-control-label">Name</label>
+        <input type="text" class="form-control" formControlName="name">
+        <div class="form-control-feedback" *ngIf="name.touched && name.hasError('required')">
+          Can't be blank.
+        </div>
+      </div>
+
+      <div class="form-group" [class.has-danger]="rankMethod.touched && !rankMethod.valid">
+        <label class="form-control-label">Rank method</label>
+        <select class="form-control" formControlName="rankMethod">
+          <option value="cup_points">Cup points</option>
+          <option value="jump_points">Jump points</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="rankMethod.touched && rankMethod.hasError('required')">
+          Can't be blank.
+        </div>
+      </div>
+
+      <div class="form-group" [class.has-danger]="gameVersion.touched && !gameVersion.valid">
+        <label class="form-control-label">Game version</label>
+        <select class="form-control" formControlName="gameVersion">
+          <option value="4">DSJ4</option>
+          <option value="3">DSJ3</option>
+        </select>
+        <div class="form-control-feedback" *ngIf="gameVersion.touched && gameVersion.hasError('required')">
+          Can't be blank.
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <dsjt-cup-schedule
+        [form]="form"
+        [numMonths]="6"
+        [cupDates]="cup ? cup.dates : []"
+        [types]="types"
+        [gameVersion]="gameVersion">
+      </dsjt-cup-schedule>
+    </div>
+  </div>
+</form>
