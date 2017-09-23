@@ -5,11 +5,6 @@ namespace DSJTournaments.Api.Identity
 {
     public static class IdentityConfig
     {
-        public static string[] AdminOrigins = {
-            "http://localhost:4200",
-            "https://admin.dsjtournaments.com"
-        };
-
         public static Client[] Clients = {
             new Client
             {

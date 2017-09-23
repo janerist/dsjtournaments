@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using DSJTournaments.Api.Data;
 using DSJTournaments.Api.Identity;
 using DSJTournaments.Api.Infrastructure.ActionFilters;
@@ -134,14 +135,12 @@ namespace DSJTournaments.Api
                     await next();
                 }
             });
-            
+
             app.UseCors(builder => builder
-                .WithOrigins(
-                    "http://localhost:4200", 
-                    "https://dsjtournaments.com", 
-                    "https://admin.dsjtournaments.com")
+                .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
