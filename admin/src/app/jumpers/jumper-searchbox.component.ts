@@ -44,7 +44,7 @@ export class JumperSearchboxComponent implements OnInit {
         cache: true,
         transport: <any>((params: JQueryAjaxSettings, success, failure) => {
           this.jumperService
-            .getJumpers(params.data.q, params.data.page, params.data.pageSize)
+            .getJumpers(params.data['q'], params.data['page'], params.data['pageSize'])
             .subscribe(
               jumpers => success(jumpers),
               err => failure(err)

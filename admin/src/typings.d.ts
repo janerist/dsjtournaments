@@ -4,8 +4,6 @@ interface NodeModule {
   id: string;
 }
 
-declare var System: any;
-
 // Type definitions for bootstrap-datepicker
 // Project: https://github.com/eternicode/bootstrap-datepicker
 // Definitions by: Boris Yankov <https://github.com/borisyankov/>

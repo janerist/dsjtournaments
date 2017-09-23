@@ -5,7 +5,7 @@ import {JumperResponseModel} from './jumper-models';
   selector: 'dsjt-jumper-details',
   template: `
     <div class="card" *ngIf="model">
-      <div class="card-block">
+      <div class="card-body">
         <h6 class="card-title">
           <span [dsjtFlag]="model.nation"></span>
           <strong>{{ model.name }}</strong>

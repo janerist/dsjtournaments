@@ -35,8 +35,8 @@ export class JumperListComponent implements OnInit {
 
   ngOnInit() {
     this.jumpers$ = Observable.merge(this.route.queryParams, this.paramsSource.asObservable())
-      .flatMap(params => {
-        this.q = params['q'] || null;
+      .switchMap(params => {
+        this.q = params['q'];
         this.page = +params['page'] || 1;
         this.pageSize = +params['pageSize'] || 20;
         this.sortBy = params['sortBy'] || 'participations';
