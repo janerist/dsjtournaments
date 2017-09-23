@@ -94,13 +94,13 @@ namespace DSJTournaments.Api.Resources.Upload.Services
                         UploadedAt = DateTime.Now
                     });
                     await _fileArchive.ArchiveFile(stream, path);
+                    
+                    if (statFile is StandingStats || statFile is TeamFinalResultStats)
+                    {
+                        await _db.ExecuteAsync("REFRESH MATERIALIZED VIEW jumper_results");
+                    }
 
                     trans.Complete();
-                }
-
-                if (statFile is StandingStats || statFile is TeamFinalResultStats)
-                {
-                    await _db.ExecuteAsync("REFRESH MATERIALIZED VIEW jumper_results");
                 }
             }
             finally

@@ -94,6 +94,8 @@ namespace DSJTournaments.Api.Resources.Jumpers.Services
                         ", new {DestinationJumperId = model.DestinationJumperId, SourceJumperId = sourceJumperId});
                     await _database.Delete<Jumper>(sourceJumperId);
                 }
+                
+                await _database.ExecuteAsync("REFRESH MATERIALIZED VIEW jumper_results");
 
                 trans.Complete();
             }
