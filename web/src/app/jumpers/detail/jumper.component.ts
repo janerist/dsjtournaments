@@ -10,7 +10,8 @@ import {environment} from '../../../environments/environment';
   template: `
     <ng-container *ngIf="jumper$ | async, let jumper">
       <h2 class="ui header">
-        <i class="circular user icon"></i>
+        <i *ngIf="!jumper.gravatarHash" class="circular user icon"></i>
+        <img *ngIf="jumper.gravatarHash" [appGravatar]="jumper.gravatarHash">
         <div class="content">
           {{jumper.name}}
           <div class="sub header">

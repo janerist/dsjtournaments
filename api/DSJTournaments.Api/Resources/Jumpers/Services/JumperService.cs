@@ -21,19 +21,22 @@ namespace DSJTournaments.Api.Resources.Jumpers.Services
             _database = database;
         }
 
-        public async Task<PagedResponse<JumperResponseModel>> GetPagedJumpers(GetJumpersRequestModel model)
+        public async Task<PagedResponse<JumperResponseModel>> GetPagedJumpers(GetJumpersRequestModel model,
+            bool isAuthorized)
         {
             var (data, count) = await _queries.JumperQuery()
-                .Where("j.name ILIKE @Query", new { Query = $"%{model.Q}%"}, onlyIf: !string.IsNullOrWhiteSpace(model.Q))
+                .Select("j.gravatar_email", onlyIf: isAuthorized)
+                .Where("j.name ILIKE @Query", new {Query = $"%{model.Q}%"}, onlyIf: !string.IsNullOrWhiteSpace(model.Q))
                 .OrderBy(model.Sort)
                 .PageAndCountAsync(model.Page, model.PageSize);
 
             return new PagedResponse<JumperResponseModel>(data, model.Page, model.PageSize, count);
         }
 
-        public async Task<JumperResponseModel> GetJumper(int id)
+        public async Task<JumperResponseModel> GetJumper(int id, bool isAuthorized)
         {
             var jumper = await _queries.JumperQuery()
+                .Select("j.gravatar_email", onlyIf: isAuthorized)
                 .Where("j.id = @Id", new {Id = id})
                 .FirstOrDefaultAsync();
 
@@ -77,8 +80,8 @@ namespace DSJTournaments.Api.Resources.Jumpers.Services
 
         public async Task<JumperResponseModel> UpdateJumper(int id, JumperUpdateRequestModel model)
         {
-            await _database.Update<Jumper>(id, new {model.Nation});
-            return await GetJumper(id);
+            await _database.Update<Jumper>(id, new {model.Nation, model.GravatarEmail});
+            return await GetJumper(id, true);
         }
 
         public async Task<JumperResponseModel> MergeJumpers(JumperMergeRequestModel model)
@@ -100,7 +103,7 @@ namespace DSJTournaments.Api.Resources.Jumpers.Services
                 trans.Complete();
             }
 
-            return await GetJumper(model.DestinationJumperId);
+            return await GetJumper(model.DestinationJumperId, true);
         }
     }
 }

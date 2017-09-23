@@ -8,5 +8,8 @@ namespace DSJTournaments.Api.Resources.Jumpers.RequestModels
         [Required]
         [CountryCode]
         public string Nation { get; set; }
+        
+        [EmailAddress]
+        public string GravatarEmail { get; set; }
     }
 }

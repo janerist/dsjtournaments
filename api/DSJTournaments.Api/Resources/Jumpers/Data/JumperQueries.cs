@@ -17,7 +17,7 @@ namespace DSJTournaments.Api.Resources.Jumpers.Data
         {
             return _database.Query<JumperResponseModel>()
                 .Select(
-                    "j.*",
+                    "j.id, j.name, j.nation, md5(j.gravatar_email) as gravatar_hash",
                     "COUNT(jr.*) AS participations",
                     "MAX(jr.date) AS last_active")
                 .From("jumpers j")

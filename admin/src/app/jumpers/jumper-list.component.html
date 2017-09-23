@@ -44,6 +44,9 @@
       </a>
     </th>
     <th>
+      E-mail for gravatar
+    </th>
+    <th>
       <a routerLink="/jumpers"
          [queryParams]="assignQueryParams({sortBy: 'participations', sortOrder: sortOrder*-1})">
         Participations
@@ -59,10 +62,11 @@
   </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let jumper of jumpers$ | async"
-        dsjt-jumper-list-row
-        [model]="jumper"
-        (mergeButtonClicked)="openJumperMergeModal($event)">
+    <tr
+      *ngFor="let jumper of jumpers$ | async"
+      dsjt-jumper-list-row
+      [model]="jumper"
+      (mergeButtonClicked)="openJumperMergeModal($event)">
     </tr>
   </tbody>
 </table>

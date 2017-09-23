@@ -1,41 +1,45 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {JumperResponseModel} from './jumper-models';
 import {JumperService} from './jumper.service';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: '[dsjt-jumper-list-row]',
   templateUrl: './jumper-list-row.component.html'
 })
-export class JumperListRowComponent {
+export class JumperListRowComponent implements OnInit {
   @Input() model: JumperResponseModel;
 
   @Output() mergeButtonClicked = new EventEmitter<JumperResponseModel>();
 
-  isSaving = false;
-  showSaveFeedback = false;
-  countryCodeIsValid = true;
+  form: FormGroup;
 
-  constructor(private jumperService: JumperService) {
+  constructor(private jumperService: JumperService, private fb: FormBuilder) {
   }
 
-  handleCountryCodeChanged(newValue: string) {
-    if (newValue.length === 3) {
-      this.isSaving = true;
+  ngOnInit() {
+    const emailOrEmpty = (control: AbstractControl) => control.value ? Validators.email(control) : null;
+    this.form = this.fb.group({
+      'nation': [this.model.nation, Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(3)])],
 
-      this.jumperService
-        .updateJumper(this.model.id, {nation: newValue})
-        .subscribe(() => {
-          this.isSaving = false;
-          this.showSaveFeedback = true;
-          this.countryCodeIsValid = true;
+      'gravatarEmail': [this.model.gravatarEmail, emailOrEmpty]
+    });
 
-          setTimeout(() => this.showSaveFeedback = false, 2000);
-        }, () => {
-          this.isSaving = false;
-          this.countryCodeIsValid = false;
-        });
-    } else {
-      this.countryCodeIsValid = false;
-    }
+    this.form
+      .valueChanges
+      .debounceTime(500)
+      .filter(() => this.form.valid)
+      .subscribe(newValue => this.save(this.form.value));
+  }
+
+  save({nation, gravatarEmail}: {nation: string, gravatarEmail: string}) {
+    this.jumperService
+      .updateJumper(this.model.id, { nation: nation, gravatarEmail: gravatarEmail || null})
+      .subscribe((jumper: JumperResponseModel) => {
+        this.model = jumper;
+      });
   }
 }

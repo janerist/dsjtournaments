@@ -98,6 +98,7 @@ export interface JumperResponseModel {
   id: number;
   name: string;
   nation: string;
+  gravatarHash: string;
   participations: number;
 }
 

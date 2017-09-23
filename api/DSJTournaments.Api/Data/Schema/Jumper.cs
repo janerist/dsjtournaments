@@ -8,6 +8,7 @@ namespace DSJTournaments.Api.Data.Schema
         public int Id { get; set; }
         public string Name { get; set; }
         public string Nation { get; set; }
+        public string GravatarEmail { get; set; }
         
         [Write(false)]
         public DateTime CreatedAt { get; set; }

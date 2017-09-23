@@ -50,6 +50,7 @@ import {CupStandingsTextComponent} from './cups/detail/cup-standings-text.compon
 import {CupStandingsTableTextComponent} from './cups/detail/cup-standings-table-text.component';
 import {CupRankingsTableComponent} from './cups/detail/cup-rankings-table.component';
 import {GlobalErrorHandler} from './util/global-error-handler';
+import {GravatarDirective} from './shared/directives/gravatar.directive';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'tournaments', pathMatch: 'full'},
@@ -82,6 +83,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     PageNotFoundComponent,
     FlagDirective,
+    GravatarDirective,
     RankMethodPipe,
     DatePipe,
     DatetimePipe,

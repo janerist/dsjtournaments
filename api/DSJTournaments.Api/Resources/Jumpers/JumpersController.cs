@@ -4,6 +4,7 @@ using DSJTournaments.Api.Infrastructure.Responses;
 using DSJTournaments.Api.Resources.Jumpers.RequestModels;
 using DSJTournaments.Api.Resources.Jumpers.ResponseModels;
 using DSJTournaments.Api.Resources.Jumpers.Services;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +22,13 @@ namespace DSJTournaments.Api.Resources.Jumpers
         [HttpGet("/jumpers")]
         public Task<PagedResponse<JumperResponseModel>> GetJumpers(GetJumpersRequestModel model)
         {
-            return _jumperService.GetPagedJumpers(model);
+            return _jumperService.GetPagedJumpers(model, User.IsAuthenticated());
         }
 
         [HttpGet("/jumpers/{id}")]
         public Task<JumperResponseModel> GetJumper(int id)
         {
-            return _jumperService.GetJumper(id);
+            return _jumperService.GetJumper(id, User.IsAuthenticated());
         }
 
         [HttpGet("/jumpers/{id}/activity")]
