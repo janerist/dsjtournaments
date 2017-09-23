@@ -31,7 +31,6 @@ import {LoginComponent} from './login/login.component';
 import {StorageService} from './common/services/storage.service';
 import {LoginWidgetComponent} from './navbar/login-widget.component';
 import {AuthenticatedHttpService} from './common/services/authenticated-http.service';
-import {LogoutComponent} from './login/logout.component';
 
 @NgModule({
   declarations: [
