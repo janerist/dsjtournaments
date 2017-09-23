@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule, LOCALE_ID} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule, Http} from '@angular/http';
 
@@ -50,7 +50,6 @@ import {LogoutComponent} from './login/logout.component';
 
     // Login
     LoginComponent,
-    LogoutComponent,
 
     // Cups
     CupListComponent,
@@ -80,9 +79,8 @@ import {LogoutComponent} from './login/logout.component';
     RouterModule.forRoot([
       { path: '', redirectTo: 'cups', pathMatch: 'full', canActivate: [AuthGuard]},
 
-      // Auth
+      // Login
       { path: 'login', component: LoginComponent},
-      { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
 
       // Cups
       { path: 'cups', component: CupListComponent, canActivate: [AuthGuard]},

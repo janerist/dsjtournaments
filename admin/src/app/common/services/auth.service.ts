@@ -59,6 +59,7 @@ export class AuthService {
 
   private clearAuthData() {
     this.storageService.remove(TOKEN_STORAGE_KEY);
+    this.storageService.remove(USERNAME_STORAGE_KEY);
     this.isLoggedIn = false;
     this.username = null;
   }

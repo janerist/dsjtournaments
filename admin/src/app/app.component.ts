@@ -3,14 +3,14 @@ import {AuthService} from './common/services/auth.service';
 
 @Component({
   selector: 'dsjt-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+    <dsjt-navbar *ngIf="authService.isLoggedIn"></dsjt-navbar>
+    <div class="container" id="main">
+      <router-outlet></router-outlet>
+    </div>
+  `
 })
 export class AppComponent {
-  constructor(private authService: AuthService) {
-  }
-
-  get isLoggedIn() {
-    return this.authService.isLoggedIn;
+  constructor(public authService: AuthService) {
   }
 }
