@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Parser
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser
 {
     public class StatParserException : Exception
     {

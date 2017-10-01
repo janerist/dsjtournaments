@@ -1,7 +1,7 @@
 using System;
-using DSJTournaments.Api.Resources.Upload.Services.Parser.Model;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser.Model;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Parser.ColumnDefs
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser.ColumnDefs
 {
     public class StandingsColumnDef : ColumnDef<StandingResult>
     {

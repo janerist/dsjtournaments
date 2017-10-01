@@ -16,7 +16,7 @@
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
     <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\shared\DSJTournaments.Data\DSJTournaments.Data.csproj" />
     <ProjectReference Include="..\..\shared\DSJTournaments.Data\DSJTournaments.Data.csproj" />

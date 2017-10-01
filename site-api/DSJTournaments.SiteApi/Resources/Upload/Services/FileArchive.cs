@@ -1,9 +1,9 @@
 using System.IO;
 using System.Threading.Tasks;
-using DSJTournaments.Api.Options;
+using DSJTournaments.SiteApi.Options;
 using Microsoft.Extensions.Options;
 
-namespace DSJTournaments.Api.Resources.Upload.Services
+namespace DSJTournaments.SiteApi.Resources.Upload.Services
 {
     public class FileArchive
     {

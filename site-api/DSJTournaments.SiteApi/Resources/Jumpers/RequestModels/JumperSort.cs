@@ -1,4 +1,4 @@
-﻿namespace DSJTournaments.Api.Resources.Jumpers.RequestModels
+﻿namespace DSJTournaments.SiteApi.Resources.Jumpers.RequestModels
 {
     public enum JumperSort
     {

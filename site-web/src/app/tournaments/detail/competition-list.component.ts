@@ -16,8 +16,7 @@ import {CompetitionResponseModel} from '../../shared/api-responses';
           </a>
         </div>
       </div>
-    </div>
-    
+    </div>    
   `
 })
 export class CompetitionListComponent {

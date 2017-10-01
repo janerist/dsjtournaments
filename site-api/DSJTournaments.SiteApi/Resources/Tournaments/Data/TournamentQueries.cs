@@ -1,7 +1,7 @@
-﻿using DSJTournaments.Api.Resources.Tournaments.ResponseModels;
-using DSJTournaments.Data;
+﻿using DSJTournaments.Data;
+using DSJTournaments.SiteApi.Resources.Tournaments.ResponseModels;
 
-namespace DSJTournaments.Api.Resources.Tournaments.Data
+namespace DSJTournaments.SiteApi.Resources.Tournaments.Data
 {
     public class TournamentQueries
     {
@@ -74,8 +74,28 @@ namespace DSJTournaments.Api.Resources.Tournaments.Data
                     "j.nation AS jumper_nation",
                     "t.id AS team_id",
                     "t.nation AS team_nation",
+                    "t.rank AS team_rank")
+                .From("final_standings fs")
+                .OuterJoin("jumpers j ON j.id = fs.jumper_id")
+                .OuterJoin("teams t on t.id = fs.team_id")
+                .Where("fs.tournament_id = @TournamentId")
+                .GroupBy("j.id, fs.id, t.id")
+                .OrderBy("fs.rank");
+        }
+
+        public QueryBuilder<TournamentRankingsResponseModel> RankingsQuery()
+        {
+            return _database.Query<TournamentRankingsResponseModel>()
+                .Select(
+                    "fs.rank",
+                    "j.id AS jumper_id",
+                    "j.name AS jumper_name",
+                    "j.nation AS jumper_nation",
+                    "t.id AS team_id",
+                    "t.nation AS team_nation",
                     "t.rank AS team_rank",
-                    "jsonb_agg(COALESCE(ranks.*, team_ranks.*)) AS competition_ranks_json")
+                    "jsonb_agg(COALESCE(ranks.*, team_ranks.*)) AS competition_ranks_json"
+                )
                 .From("final_standings fs")
                 .OuterJoin("jumpers j ON j.id = fs.jumper_id")
                 .OuterJoin("teams t on t.id = fs.team_id")
@@ -92,7 +112,7 @@ namespace DSJTournaments.Api.Resources.Tournaments.Data
                     FROM team_final_results fr
                     JOIN competitions c ON c.id = fr.competition_id
                     WHERE c.tournament_id = @TournamentId
-                    AND fr.team_id = t.id                    
+                    AND fr.team_id = t.id
                 ) team_ranks ON TRUE")
                 .Where("fs.tournament_id = @TournamentId")
                 .GroupBy("j.id, fs.id, t.id")

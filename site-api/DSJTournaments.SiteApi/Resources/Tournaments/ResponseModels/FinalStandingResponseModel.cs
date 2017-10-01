@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace DSJTournaments.Api.Resources.Tournaments.ResponseModels
+namespace DSJTournaments.SiteApi.Resources.Tournaments.ResponseModels
 {
     public class FinalStandingResponseModel
     {
@@ -23,9 +23,5 @@ namespace DSJTournaments.Api.Resources.Tournaments.ResponseModels
         public int? TeamId { get; set; }
         public string TeamNation { get; set; }
         public string TeamRank { get; set; }
-
-        [JsonIgnore]
-        public string CompetitionRanksJson { get; set; }
-        public Dictionary<int, int> CompetitionRanks { get; set; }
     }
 }

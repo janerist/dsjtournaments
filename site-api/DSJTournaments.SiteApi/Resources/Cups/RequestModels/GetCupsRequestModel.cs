@@ -1,5 +1,5 @@
 ﻿
-namespace DSJTournaments.Api.Resources.Cups.RequestModels
+namespace DSJTournaments.SiteApi.Resources.Cups.RequestModels
 {
     public class GetCupsRequestModel
     {

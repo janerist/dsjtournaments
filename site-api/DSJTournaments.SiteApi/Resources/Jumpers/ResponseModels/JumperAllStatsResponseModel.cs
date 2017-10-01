@@ -1,4 +1,4 @@
-﻿namespace DSJTournaments.Api.Resources.Jumpers.ResponseModels
+﻿namespace DSJTournaments.SiteApi.Resources.Jumpers.ResponseModels
 {
     public class JumperAllStatsResponseModel
     {

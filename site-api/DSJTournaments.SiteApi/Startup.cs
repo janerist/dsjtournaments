@@ -1,16 +1,16 @@
 ﻿using System;
-using DSJTournaments.Api.Options;
-using DSJTournaments.Api.Resources.Cups.Data;
-using DSJTournaments.Api.Resources.Cups.Services;
-using DSJTournaments.Api.Resources.Jumpers.Data;
-using DSJTournaments.Api.Resources.Jumpers.Services;
-using DSJTournaments.Api.Resources.Tournaments.Data;
-using DSJTournaments.Api.Resources.Tournaments.Services;
-using DSJTournaments.Api.Resources.Upload.Services;
-using DSJTournaments.Api.Resources.Upload.Services.Parser;
-using DSJTournaments.Api.Resources.Upload.Services.Processor;
 using DSJTournaments.Data;
 using DSJTournaments.Mvc.ActionFilters;
+using DSJTournaments.SiteApi.Options;
+using DSJTournaments.SiteApi.Resources.Cups.Data;
+using DSJTournaments.SiteApi.Resources.Cups.Services;
+using DSJTournaments.SiteApi.Resources.Jumpers.Data;
+using DSJTournaments.SiteApi.Resources.Jumpers.Services;
+using DSJTournaments.SiteApi.Resources.Tournaments.Data;
+using DSJTournaments.SiteApi.Resources.Tournaments.Services;
+using DSJTournaments.SiteApi.Resources.Upload.Services;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Processor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -20,7 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Context;
 
-namespace DSJTournaments.Api
+namespace DSJTournaments.SiteApi
 {
     public class Startup
     {

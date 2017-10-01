@@ -1,4 +1,4 @@
-﻿namespace DSJTournaments.Api.Resources.Tournaments.RequestModels
+﻿namespace DSJTournaments.SiteApi.Resources.Tournaments.RequestModels
 {
     public enum TournamentSort
     {

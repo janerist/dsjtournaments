@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Transactions;
-using DSJTournaments.Api.Resources.Upload.Services;
-using DSJTournaments.Api.Resources.Upload.Services.Processor;
 using DSJTournaments.Data;
+using DSJTournaments.SiteApi.Resources.Upload.Services;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Processor;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 

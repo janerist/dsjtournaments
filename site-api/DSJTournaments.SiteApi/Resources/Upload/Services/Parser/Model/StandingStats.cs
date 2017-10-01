@@ -1,4 +1,4 @@
-namespace DSJTournaments.Api.Resources.Upload.Services.Parser.Model
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser.Model
 {
     public class StandingStats : Stats<StandingResult>
     {

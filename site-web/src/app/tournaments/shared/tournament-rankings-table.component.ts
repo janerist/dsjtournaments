@@ -1,31 +1,31 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import {CompetitionResponseModel, FinalStandingResponseModel} from '../../shared/api-responses';
+import {CompetitionResponseModel, TournamentRankingsResponseModel} from '../../shared/api-responses';
 import {iso3toiso2} from '../../shared/country-codes';
 
 @Component({
-  selector: 'app-final-standings-per-hill',
+  selector: 'app-tournament-rankings-table',
   template: `
     <div drag-scroll [style.cursor]="'move'">
-      <table *ngIf="results.length" class="ui small striped fixed result table">
+      <table *ngIf="rankings.length" class="ui small striped fixed result table">
         <thead>
-          <tr>
-            <th style="width: 50px;"></th>
-            <th style="width: 200px;"></th>
-            <th *ngFor="let comp of competitions" 
-                class="center aligned hill"
-                style="width: 50px; cursor: help; white-space: nowrap; text-overflow: ellipsis"
-                [attr.data-html]="getPopupContent(comp)">
-              <i [appFlag]="comp.hillNation"></i><br />
-              <a [routerLink]="['competitions', comp.id]">{{comp.hillName}}</a>
-              <span *ngIf="comp.fileNumber > 1">[{{comp.fileNumber}}]</span>
-              <span *ngIf="comp.ko">(KO)</span>
-            </th>
-          </tr>
+        <tr>
+          <th style="width: 50px;"></th>
+          <th style="width: 200px;"></th>
+          <th *ngFor="let comp of competitions"
+              class="center aligned hill"
+              style="width: 50px; cursor: help; white-space: nowrap; text-overflow: ellipsis"
+              [attr.data-html]="getPopupContent(comp)">
+            <i [appFlag]="comp.hillNation"></i><br/>
+            <a [routerLink]="['competitions', comp.id]">{{comp.hillName}}</a>
+            <span *ngIf="comp.fileNumber > 1">[{{comp.fileNumber}}]</span>
+            <span *ngIf="comp.ko">(KO)</span>
+          </th>
+        </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let fr of results, let i = index">
+        <tr *ngFor="let fr of rankings, let i = index">
           <td>
-            <span *ngIf="fr.rank > results[i - 1]?.rank">{{fr.rank}}.</span>
+            <span *ngIf="fr.rank > rankings[i - 1]?.rank">{{fr.rank}}.</span>
           </td>
           <td>
             <i [appFlag]="fr.jumperNation || fr.teamNation"></i>
@@ -37,15 +37,15 @@ import {iso3toiso2} from '../../shared/country-codes';
           </td>
         </tr>
         </tbody>
-        
+
       </table>
     </div>
-    <p *ngIf="!results.length">There is no data available.</p>
+    <p *ngIf="!rankings.length">There is no data available.</p>
   `
 })
-export class FinalStandingsPerHillTableComponent implements AfterViewInit {
+export class TournamentRankingsTableComponent implements AfterViewInit {
   @Input() competitions: CompetitionResponseModel[];
-  @Input() results: FinalStandingResponseModel[];
+  @Input() rankings: TournamentRankingsResponseModel[];
 
   getPopupContent(comp: CompetitionResponseModel) {
     return `

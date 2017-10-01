@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Jumpers.Data;
-using DSJTournaments.Api.Resources.Jumpers.RequestModels;
-using DSJTournaments.Api.Resources.Jumpers.ResponseModels;
 using DSJTournaments.Mvc.Exceptions;
 using DSJTournaments.Mvc.Responses;
+using DSJTournaments.SiteApi.Resources.Jumpers.Data;
+using DSJTournaments.SiteApi.Resources.Jumpers.RequestModels;
+using DSJTournaments.SiteApi.Resources.Jumpers.ResponseModels;
 
-namespace DSJTournaments.Api.Resources.Jumpers.Services
+namespace DSJTournaments.SiteApi.Resources.Jumpers.Services
 {
     public class JumperService
     {

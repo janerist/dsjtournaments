@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace DSJTournaments.Api
+namespace DSJTournaments.SiteApi
 {
     public class Program
     {

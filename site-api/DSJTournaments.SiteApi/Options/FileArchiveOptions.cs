@@ -1,4 +1,4 @@
-﻿namespace DSJTournaments.Api.Options
+﻿namespace DSJTournaments.SiteApi.Options
 {
     public class FileArchiveOptions
     {

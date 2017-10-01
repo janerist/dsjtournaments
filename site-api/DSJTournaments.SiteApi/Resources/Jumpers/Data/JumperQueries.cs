@@ -1,7 +1,7 @@
-﻿using DSJTournaments.Api.Resources.Jumpers.ResponseModels;
-using DSJTournaments.Data;
+﻿using DSJTournaments.Data;
+using DSJTournaments.SiteApi.Resources.Jumpers.ResponseModels;
 
-namespace DSJTournaments.Api.Resources.Jumpers.Data
+namespace DSJTournaments.SiteApi.Resources.Jumpers.Data
 {
     public class JumperQueries
     {

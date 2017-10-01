@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Upload.Services.Parser.Model;
 using DSJTournaments.Data;
 using DSJTournaments.Data.Schema;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser.Model;
 using FinalResult = DSJTournaments.Data.Schema.FinalResult;
 using QualificationResult = DSJTournaments.Data.Schema.QualificationResult;
 using TeamFinalResult = DSJTournaments.Data.Schema.TeamFinalResult;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Processor
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Processor
 {
     public class StatProcessor
     {

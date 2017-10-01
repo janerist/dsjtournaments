@@ -1,4 +1,4 @@
-﻿namespace DSJTournaments.Api.Resources.Tournaments.ResponseModels
+﻿namespace DSJTournaments.SiteApi.Resources.Tournaments.ResponseModels
 {
     public class CompetitionResponseModel
     {

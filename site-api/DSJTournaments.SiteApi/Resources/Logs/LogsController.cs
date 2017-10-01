@@ -1,8 +1,8 @@
-﻿using DSJTournaments.Api.Resources.Logs.RequestModels;
+﻿using DSJTournaments.SiteApi.Resources.Logs.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DSJTournaments.Api.Resources.Logs
+namespace DSJTournaments.SiteApi.Resources.Logs
 {
     public class LogsController : Controller
     {

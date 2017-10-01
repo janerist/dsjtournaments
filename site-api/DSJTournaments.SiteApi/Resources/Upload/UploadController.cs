@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Upload.Services;
+using DSJTournaments.SiteApi.Resources.Upload.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DSJTournaments.Api.Resources.Upload
+namespace DSJTournaments.SiteApi.Resources.Upload
 {
     public class UploadController : Controller
     {

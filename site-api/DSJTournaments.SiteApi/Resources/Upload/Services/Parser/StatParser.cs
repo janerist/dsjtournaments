@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Upload.Services.Parser.ColumnDefs;
-using DSJTournaments.Api.Resources.Upload.Services.Parser.Model;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser.ColumnDefs;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser.Model;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Parser
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser
 {
     public class StatParser
     {

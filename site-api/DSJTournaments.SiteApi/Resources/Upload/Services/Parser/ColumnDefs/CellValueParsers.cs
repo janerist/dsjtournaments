@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Parser.ColumnDefs
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser.ColumnDefs
 {
     public class CellValueParsers
     {

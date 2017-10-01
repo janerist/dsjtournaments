@@ -14,7 +14,6 @@ export interface TournamentResponseModel {
   participantCount?: number;
   top3: FinalStandingResponseModel[];
   competitions: CompetitionResponseModel[];
-  finalStandings: FinalStandingResponseModel[];
   cups: CupResponseModel[];
 }
 
@@ -34,7 +33,17 @@ export interface FinalStandingResponseModel {
   teamId?: number;
   teamNation?: string;
   teamRank?: string;
-  competitionRanks?: CompetitionToRank
+}
+
+export interface TournamentRankingsResponseModel {
+  rank: number;
+  jumperId?: number;
+  jumperName?: string;
+  jumperNation?: string;
+  teamId?: number;
+  teamNation?: string;
+  teamRank?: string;
+  competitionRanks: CompetitionToRank;
 }
 
 export interface CompetitionToRank {

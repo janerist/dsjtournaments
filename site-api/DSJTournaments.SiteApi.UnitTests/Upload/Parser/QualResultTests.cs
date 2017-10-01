@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Upload.Services.Parser;
-using DSJTournaments.Api.Resources.Upload.Services.Parser.Model;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser.Model;
 using Xunit;
 
 namespace dsjtournaments.api.unittests.Upload.Parser

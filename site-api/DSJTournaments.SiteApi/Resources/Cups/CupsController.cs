@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Cups.RequestModels;
-using DSJTournaments.Api.Resources.Cups.ResponseModels;
-using DSJTournaments.Api.Resources.Cups.Services;
 using DSJTournaments.Mvc.Responses;
+using DSJTournaments.SiteApi.Resources.Cups.RequestModels;
+using DSJTournaments.SiteApi.Resources.Cups.ResponseModels;
+using DSJTournaments.SiteApi.Resources.Cups.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DSJTournaments.Api.Resources.Cups
+namespace DSJTournaments.SiteApi.Resources.Cups
 {
     public class CupsController : Controller
     {

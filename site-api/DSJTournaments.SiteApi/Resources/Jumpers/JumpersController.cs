@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Jumpers.RequestModels;
-using DSJTournaments.Api.Resources.Jumpers.ResponseModels;
-using DSJTournaments.Api.Resources.Jumpers.Services;
 using DSJTournaments.Mvc.Responses;
+using DSJTournaments.SiteApi.Resources.Jumpers.RequestModels;
+using DSJTournaments.SiteApi.Resources.Jumpers.ResponseModels;
+using DSJTournaments.SiteApi.Resources.Jumpers.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DSJTournaments.Api.Resources.Jumpers
+namespace DSJTournaments.SiteApi.Resources.Jumpers
 {
     public class JumpersController : Controller
     {

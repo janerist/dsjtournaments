@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Cups.Data;
-using DSJTournaments.Api.Resources.Cups.RequestModels;
-using DSJTournaments.Api.Resources.Cups.ResponseModels;
 using DSJTournaments.Mvc.Exceptions;
 using DSJTournaments.Mvc.Responses;
+using DSJTournaments.SiteApi.Resources.Cups.Data;
+using DSJTournaments.SiteApi.Resources.Cups.RequestModels;
+using DSJTournaments.SiteApi.Resources.Cups.ResponseModels;
 using Newtonsoft.Json;
 
-namespace DSJTournaments.Api.Resources.Cups.Services
+namespace DSJTournaments.SiteApi.Resources.Cups.Services
 {
     public class CupService
     {

@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Cups.Data;
-using DSJTournaments.Api.Resources.Tournaments.Data;
-using DSJTournaments.Api.Resources.Tournaments.RequestModels;
-using DSJTournaments.Api.Resources.Tournaments.ResponseModels;
 using DSJTournaments.Data;
 using DSJTournaments.Data.Schema;
 using DSJTournaments.Mvc.Exceptions;
 using DSJTournaments.Mvc.Responses;
+using DSJTournaments.SiteApi.Resources.Cups.Data;
+using DSJTournaments.SiteApi.Resources.Cups.ResponseModels;
+using DSJTournaments.SiteApi.Resources.Tournaments.Data;
+using DSJTournaments.SiteApi.Resources.Tournaments.RequestModels;
+using DSJTournaments.SiteApi.Resources.Tournaments.ResponseModels;
 using Newtonsoft.Json;
 
-namespace DSJTournaments.Api.Resources.Tournaments.Services
+namespace DSJTournaments.SiteApi.Resources.Tournaments.Services
 {
     public class TournamentService
     {
@@ -72,18 +73,6 @@ namespace DSJTournaments.Api.Resources.Tournaments.Services
                 .OrderBy("h.name, c.file_number")
                 .AllAsync();
 
-            tournament.FinalStandings = await _queries.FinalStandingsQuery()
-                .Params(new { TournamentId = id })
-                .AllAsync();
-
-            foreach (var finalStanding in tournament.FinalStandings)
-            {
-                finalStanding.CompetitionRanks = JsonConvert
-                    .DeserializeObject<dynamic[]>(finalStanding.CompetitionRanksJson)
-                    .Where(cr => cr != null)
-                    .ToDictionary(cr => (int)cr.competition_id, cr => (int)cr.rank);
-            }
-
             tournament.Cups = await _cupQueries.CupsQuery()
                 .Where("cd.tournament_id = @TournamentId", new {TournamentId = id})
                 .AllAsync();
@@ -91,10 +80,15 @@ namespace DSJTournaments.Api.Resources.Tournaments.Services
             return tournament;
         }
 
-        public async Task<FinalResultResponseModel[]> GetFinalResults(int tournamentId, int competitionId)
+        public Task<FinalStandingResponseModel[]> GetFinalStandings(int id)
         {
-            await EnsureTournamentFound(tournamentId);
+            return _queries.FinalStandingsQuery()
+                .Params(new { TournamentId = id})
+                .AllAsync();
+        }
 
+        public async Task<FinalResultResponseModel[]> GetFinalResults(int competitionId)
+        {
             var teamFinalResults = await _queries.TeamFinalResultsQuery()
                 .Where("tfr.competition_id = @CompetitionId", new {CompetitionId = competitionId})
                 .OrderBy("tfr.rank")
@@ -120,20 +114,29 @@ namespace DSJTournaments.Api.Resources.Tournaments.Services
             return finalResults;
         }
 
-        public async Task<QualificationResultResponseModel[]> GetQualificationResults(int tournamentId, int competitionId)
+        public async Task<QualificationResultResponseModel[]> GetQualificationResults(int competitionId)
         {
-            await EnsureTournamentFound(tournamentId);
-
             return await _queries.QualificationResultsQuery()
                 .Where("qr.competition_id = @CompetitionId", new {CompetitionId = competitionId})
                 .OrderBy("qr.rank")
                 .AllAsync();
         }
 
-        private async Task EnsureTournamentFound(int id)
+        public async Task<TournamentRankingsResponseModel[]> GetRankings(int id)
         {
-            if (!await _database.Query<Tournament>().Where("id = @Id", new { Id = id}).ExistsAsync())
-                throw new NotFoundException();
+            var data = await _queries.RankingsQuery()
+                .Params(new {TournamentId = id})
+                .AllAsync();
+
+            foreach (var rankings in data)
+            {
+                rankings.CompetitionRanks = JsonConvert
+                    .DeserializeObject<dynamic[]>(rankings.CompetitionRanksJson)
+                    .Where(tr => tr != null)
+                    .ToDictionary(tr => (int) tr.competition_id, tr => (int) tr.rank);
+            }
+
+            return data;
         }
     }
 }

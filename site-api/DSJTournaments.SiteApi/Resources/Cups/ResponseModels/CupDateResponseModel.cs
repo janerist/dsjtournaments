@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DSJTournaments.Api.Resources.Cups.ResponseModels
+namespace DSJTournaments.SiteApi.Resources.Cups.ResponseModels
 {
     public class CupDateResponseModel
     {

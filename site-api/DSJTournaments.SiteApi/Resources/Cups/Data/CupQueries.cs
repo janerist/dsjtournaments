@@ -1,7 +1,7 @@
-﻿using DSJTournaments.Api.Resources.Cups.ResponseModels;
-using DSJTournaments.Data;
+﻿using DSJTournaments.Data;
+using DSJTournaments.SiteApi.Resources.Cups.ResponseModels;
 
-namespace DSJTournaments.Api.Resources.Cups.Data
+namespace DSJTournaments.SiteApi.Resources.Cups.Data
 {
     public class CupQueries
     {

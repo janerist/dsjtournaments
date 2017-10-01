@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
-using DSJTournaments.Api.Resources.Upload.Services.Parser;
-using DSJTournaments.Api.Resources.Upload.Services.Parser.Model;
-using DSJTournaments.Api.Resources.Upload.Services.Processor;
 using DSJTournaments.Data;
 using DSJTournaments.Mvc.Exceptions;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Parser.Model;
+using DSJTournaments.SiteApi.Resources.Upload.Services.Processor;
 using Microsoft.AspNetCore.Http;
 
-namespace DSJTournaments.Api.Resources.Upload.Services
+namespace DSJTournaments.SiteApi.Resources.Upload.Services
 {
     public class UploadService
     {

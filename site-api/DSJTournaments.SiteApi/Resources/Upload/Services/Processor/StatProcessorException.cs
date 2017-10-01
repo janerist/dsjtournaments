@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Processor
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Processor
 {
     public class StatProcessorException : Exception
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DSJTournaments.Api.Resources.Logs.RequestModels
+namespace DSJTournaments.SiteApi.Resources.Logs.RequestModels
 {
     public class LogRequestModel
     {

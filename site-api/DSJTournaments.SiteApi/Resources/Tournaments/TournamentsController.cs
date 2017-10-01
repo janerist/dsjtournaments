@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using DSJTournaments.Api.Resources.Tournaments.RequestModels;
-using DSJTournaments.Api.Resources.Tournaments.ResponseModels;
-using DSJTournaments.Api.Resources.Tournaments.Services;
 using DSJTournaments.Mvc.Responses;
-using Microsoft.AspNetCore.Authorization;
+using DSJTournaments.SiteApi.Resources.Tournaments.RequestModels;
+using DSJTournaments.SiteApi.Resources.Tournaments.ResponseModels;
+using DSJTournaments.SiteApi.Resources.Tournaments.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DSJTournaments.Api.Resources.Tournaments
+namespace DSJTournaments.SiteApi.Resources.Tournaments
 {
     public class TournamentsController : Controller
     {
@@ -35,16 +34,28 @@ namespace DSJTournaments.Api.Resources.Tournaments
             return _tournamentService.GetTournament(id);
         }
 
-        [HttpGet("/tournaments/{tournamentId}/competitions/{competitionId}/final")]
-        public Task<FinalResultResponseModel[]> GetFinalResults(int tournamentId, int competitionId)
+        [HttpGet("/tournaments/{id}/finalstandings")]
+        public Task<FinalStandingResponseModel[]> GetFinalStandings(int id)
         {
-            return _tournamentService.GetFinalResults(tournamentId, competitionId);
+            return _tournamentService.GetFinalStandings(id);
         }
 
-        [HttpGet("/tournaments/{tournamentId}/competitions/{competitionId}/qual")]
-        public Task<QualificationResultResponseModel[]> GetQualificationResults(int tournamentId, int competitionId)
+        [HttpGet("/tournaments/{id}/rankings")]
+        public Task<TournamentRankingsResponseModel[]> GetRankings(int id)
         {
-            return _tournamentService.GetQualificationResults(tournamentId, competitionId);
+            return _tournamentService.GetRankings(id);
+        }
+
+        [HttpGet("/competitions/{competitionId}/final")]
+        public Task<FinalResultResponseModel[]> GetFinalResults(int competitionId)
+        {
+            return _tournamentService.GetFinalResults(competitionId);
+        }
+
+        [HttpGet("/competitions/{competitionId}/qual")]
+        public Task<QualificationResultResponseModel[]> GetQualificationResults(int competitionId)
+        {
+            return _tournamentService.GetQualificationResults(competitionId);
         }
     }
 }

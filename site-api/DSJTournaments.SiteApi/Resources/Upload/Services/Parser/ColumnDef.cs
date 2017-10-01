@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DSJTournaments.Api.Resources.Upload.Services.Parser
+namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser
 {
     public abstract class ColumnDef<T>
     {

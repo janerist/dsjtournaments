@@ -1,7 +1,7 @@
 using System;
-using DSJTournaments.Api.Resources.Cups.ResponseModels;
+using DSJTournaments.SiteApi.Resources.Cups.ResponseModels;
 
-namespace DSJTournaments.Api.Resources.Tournaments.ResponseModels
+namespace DSJTournaments.SiteApi.Resources.Tournaments.ResponseModels
 {
     public class TournamentResponseModel
     {
@@ -15,7 +15,6 @@ namespace DSJTournaments.Api.Resources.Tournaments.ResponseModels
 
         public FinalStandingResponseModel[] Top3 { get; set; }
         public CompetitionResponseModel[] Competitions { get; set; }
-        public FinalStandingResponseModel[] FinalStandings { get; set; }
         public CupResponseModel[] Cups { get; set; }
     }
 }

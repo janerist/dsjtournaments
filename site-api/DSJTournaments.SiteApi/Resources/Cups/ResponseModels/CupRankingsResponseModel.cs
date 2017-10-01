@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace DSJTournaments.Api.Resources.Cups.ResponseModels
+namespace DSJTournaments.SiteApi.Resources.Cups.ResponseModels
 {
     public class CupRankingsResponseModel
     {

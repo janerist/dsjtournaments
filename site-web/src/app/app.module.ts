@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {NgUploaderModule} from 'ngx-uploader';
-
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -20,16 +19,16 @@ import {FlagDirective} from './shared/directives/flag.directive';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {DataInterceptor} from './shared/http/data-interceptor';
 import {TournamentComponent} from './tournaments/detail/tournament.component';
-import {QualificationResultsTableComponent} from './tournaments/detail/qualification-results-table.component';
-import {FinalResultsTableComponent} from './tournaments/detail/final-results-table.component';
+import {QualificationResultsTableComponent} from './tournaments/shared/qualification-results-table.component';
+import {FinalResultsTableComponent} from './tournaments/shared/final-results-table.component';
 import {CompetitionListComponent} from './tournaments/detail/competition-list.component';
-import {FinalStandingsTableComponent} from './tournaments/detail/final-standings-table.component';
+import {FinalStandingsTableComponent} from './tournaments/shared/final-standings-table.component';
 import {TournamentHeaderComponent} from './tournaments/shared/tournament-header.component';
-import {CompetitionComponent} from './tournaments/detail/competition.component';
+import {CompetitionComponent} from './tournaments/detail/competition/competition.component';
 import {JumperSearchComponent} from './jumpers/list/jumper-search.component';
 import {JumperSortComponent} from './jumpers/list/jumper-sort.component';
 import {JumperListComponent} from './jumpers/list/jumper-list.component';
-import {FinalStandingsPerHillTableComponent} from './tournaments/detail/final-standings-per-hill-table.component';
+import {TournamentRankingsTableComponent} from './tournaments/shared/tournament-rankings-table.component';
 import {DragScrollModule} from 'angular2-drag-scroll';
 import {JumperComponent} from './jumpers/detail/jumper.component';
 import {JumperFormComponent} from './jumpers/detail/jumper-form.component';
@@ -51,13 +50,26 @@ import {CupStandingsTableTextComponent} from './cups/detail/cup-standings-table-
 import {CupRankingsTableComponent} from './cups/detail/cup-rankings-table.component';
 import {GlobalErrorHandler} from './util/global-error-handler';
 import {GravatarDirective} from './shared/directives/gravatar.directive';
+import {FinalStandingsComponent} from './tournaments/detail/standings/final-standings.component';
+import {TournamentRankingsComponent} from './tournaments/detail/standings/tournament-rankings.component';
+import {TournamentStandingsComponent} from './tournaments/detail/standings/tournament-standings.component';
+import {CompetitionFinalResultsComponent} from './tournaments/detail/competition/competition-final-results.component';
+import {CompetitionQualResultsComponent} from './tournaments/detail/competition/competition-qual-results.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'tournaments', pathMatch: 'full'},
   {path: 'tournaments', component: TournamentsComponent},
   {path: 'tournaments/:id', component: TournamentComponent, children: [
-    {path: 'competitions/:cid', redirectTo: 'competitions/:cid/final', pathMatch: 'full'},
-    {path: 'competitions/:cid/:results', component: CompetitionComponent}
+    {path: '', component: TournamentStandingsComponent, children: [
+      {path: '', redirectTo: 'finalstandings', pathMatch: 'full'},
+      {path: 'finalstandings', component: FinalStandingsComponent},
+      {path: 'rankings', component: TournamentRankingsComponent, data: {hideCompetitions: true}}
+    ]},
+    {path: 'competitions/:cid', component: CompetitionComponent, children: [
+      {path: '', redirectTo: 'final', pathMatch: 'full'},
+      {path: 'final', component: CompetitionFinalResultsComponent},
+      {path: 'qual', component: CompetitionQualResultsComponent}
+  ]}
   ]},
   {path: 'jumpers', component: JumpersComponent},
   {path: 'jumpers/:id', component: JumperComponent, children: [
@@ -96,19 +108,33 @@ const appRoutes: Routes = [
     UploadComponent,
 
     // Tournaments
+    // -- Tournaments -- List
     TournamentsComponent,
     TournamentListComponent,
     TournamentSortComponent,
     TournamentMonthSelectComponent,
     TournamentTypesComponent,
+
+    // -- Tournaments -- Detail
     TournamentComponent,
+    CompetitionListComponent,
+
+    // -- Tournaments -- Detail -- Standings
+    TournamentStandingsComponent,
+    FinalStandingsComponent,
+    TournamentRankingsComponent,
+
+    // -- Tournaments -- Detail -- Competition
+    CompetitionComponent,
+    CompetitionFinalResultsComponent,
+    CompetitionQualResultsComponent,
+
+    // -- Shared
+    TournamentHeaderComponent,
+    FinalStandingsTableComponent,
+    TournamentRankingsTableComponent,
     FinalResultsTableComponent,
     QualificationResultsTableComponent,
-    CompetitionListComponent,
-    FinalStandingsTableComponent,
-    TournamentHeaderComponent,
-    CompetitionComponent,
-    FinalStandingsPerHillTableComponent,
 
     // Jumpers
     JumpersComponent,

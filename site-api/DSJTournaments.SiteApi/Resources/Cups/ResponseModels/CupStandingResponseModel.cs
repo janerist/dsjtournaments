@@ -1,4 +1,4 @@
-﻿namespace DSJTournaments.Api.Resources.Cups.ResponseModels
+﻿namespace DSJTournaments.SiteApi.Resources.Cups.ResponseModels
 {
     public class CupStandingResponseModel
     {

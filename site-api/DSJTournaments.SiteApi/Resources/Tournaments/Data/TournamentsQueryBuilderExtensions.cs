@@ -1,7 +1,7 @@
-﻿using DSJTournaments.Api.Resources.Tournaments.RequestModels;
-using DSJTournaments.Data;
+﻿using DSJTournaments.Data;
+using DSJTournaments.SiteApi.Resources.Tournaments.RequestModels;
 
-namespace DSJTournaments.Api.Resources.Tournaments.Data
+namespace DSJTournaments.SiteApi.Resources.Tournaments.Data
 {
     public static class TournamentsQueryBuilderExtensions
     {
