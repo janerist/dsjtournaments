@@ -35,7 +35,9 @@ namespace DSJTournaments.SiteApi.Resources.Upload.Services.Parser
             await reader.ReadLineAsync();
             await reader.ReadLineAsync();
 
-            ParseResults(stats, (await reader.ReadToEndAsync()).Split("\r\n", StringSplitOptions.RemoveEmptyEntries));
+            ParseResults(stats,
+                (await reader.ReadToEndAsync()).Split(new[] {"\r\n", "\r", "\n"},
+                    StringSplitOptions.RemoveEmptyEntries));
             
             return stats;
         }
