@@ -22,6 +22,12 @@ namespace DSJTournaments.AdminApi.Resources.Tournaments
             return _tournamentService.GetPageOfTournaments(model);
         }
         
+        [HttpGet("/tournaments/types")]
+        public Task<TournamentTypeResponseModel[]> GetTournamentTypes()
+        {
+            return _tournamentService.GetTournamentTypes();
+        }
+        
         [HttpDelete("/tournaments/{id}")]
         public Task<TournamentResponseModel> DeleteTournament(int id)
         {

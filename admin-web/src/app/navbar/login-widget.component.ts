@@ -29,7 +29,7 @@ export class LoginWidgetComponent {
   }
 
   logOut() {
-    this.authService.logout();
+    this.authService.clearAuthData();
     this.router.navigate(['/login']);
   }
 }

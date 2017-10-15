@@ -39,7 +39,16 @@ namespace DSJTournaments.AdminApi.Resources.Tournaments.Services
           
             return tournament;
         }
-        
+
+        public Task<TournamentTypeResponseModel[]> GetTournamentTypes()
+        {
+            return _database.Query<TournamentTypeResponseModel>()
+                .Select("tt.*")
+                .From("tournament_types tt")
+                .OrderBy("tt.name")
+                .AllAsync();
+        }
+
         public async Task<TournamentResponseModel> DeleteTournament(int id)
         {
             var tournament = await GetTournament(id);

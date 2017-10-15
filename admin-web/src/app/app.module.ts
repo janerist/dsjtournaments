@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule, Http} from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -30,7 +29,10 @@ import {AuthService} from './common/services/auth.service';
 import {LoginComponent} from './login/login.component';
 import {StorageService} from './common/services/storage.service';
 import {LoginWidgetComponent} from './navbar/login-widget.component';
-import {AuthenticatedHttpService} from './common/services/authenticated-http.service';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthInterceptor} from './common/http/auth-interceptor';
+import {DataInterceptor} from './common/http/data-interceptor';
+import {TokenExpirationInterceptor} from './common/http/token-expiration-interceptor';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,7 @@ import {AuthenticatedHttpService} from './common/services/authenticated-http.ser
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'cups', pathMatch: 'full', canActivate: [AuthGuard]},
 
@@ -94,7 +96,10 @@ import {AuthenticatedHttpService} from './common/services/authenticated-http.ser
     ])
   ],
   providers: [
-    { provide: Http, useClass: AuthenticatedHttpService },
+    // HTTP interceptors
+    { provide: HTTP_INTERCEPTORS, useClass: TokenExpirationInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: DataInterceptor, multi: true},
 
     // Cross-feature services
     ToastService,

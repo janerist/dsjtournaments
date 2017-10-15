@@ -1,40 +1,32 @@
 import {Injectable} from '@angular/core';
-import {ApiBaseService} from '../common/services/api-base.service';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs/Observable';
-import {TournamentTypeWithCountResponseModel, TournamentResponseModel} from './tournament-models';
-import {Http, URLSearchParams} from '@angular/http';
+import {TournamentTypeResponseModel, TournamentResponseModel} from './tournament-models';
 import {PagedResponse} from '../common/models';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Injectable()
-export class TournamentService extends ApiBaseService {
-  constructor(http: Http) {
-    super(http);
+export class TournamentService {
+  constructor(private http: HttpClient) {
   }
 
-  getTournamentTypes(): Observable<TournamentTypeWithCountResponseModel[]> {
+  getTournamentTypes(): Observable<TournamentTypeResponseModel[]> {
     return this.http
-      .get(`${environment.apiUrl}/tournaments/typeswithcount`)
-      .map(this.extractData)
-      .catch(this.handleError);
+      .get(`${environment.apiUrl}/tournaments/types`);
   }
 
   getTournaments(page: number, pageSize: number, sort: string): Observable<PagedResponse<TournamentResponseModel>> {
-    const params = new URLSearchParams();
-    params.append('page', page.toString());
-    params.append('pageSize', pageSize.toString());
-    params.append('sort', sort);
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString())
+      .set('sort', sort);
 
     return this.http
-      .get(`${environment.apiUrl}/tournaments`, {search: params})
-      .map(this.extractData)
-      .catch(this.handleError);
+      .get(`${environment.apiUrl}/tournaments`, {params: params});
   }
 
   deleteTournament(id: number) {
     return this.http
-      .delete(`${environment.apiUrl}/tournaments/${id}`)
-      .map(this.extractData)
-      .catch(this.handleError);
+      .delete(`${environment.apiUrl}/tournaments/${id}`);
   }
 }

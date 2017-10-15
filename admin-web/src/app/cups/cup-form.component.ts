@@ -2,7 +2,7 @@ import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {CupResponseModel, CupRequestModel} from './cup-models';
 import {FormService} from '../common/services/form.service';
-import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-models';
+import {TournamentTypeResponseModel} from '../tournaments/tournament-models';
 
 @Component({
   selector: 'dsjt-cup-form',
@@ -10,7 +10,7 @@ import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-mo
 })
 export class CupFormComponent implements OnInit {
   @Input() cup: CupResponseModel;
-  @Input() types: TournamentTypeWithCountResponseModel[];
+  @Input() types: TournamentTypeResponseModel[];
 
   @Output() save = new EventEmitter<CupRequestModel>();
 

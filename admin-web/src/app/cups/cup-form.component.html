@@ -1,32 +1,32 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <div class="row">
     <div class="col-sm-4">
-      <div class="form-group" [class.has-danger]="name.touched && !name.valid">
+      <div class="form-group">
         <label class="form-control-label">Name</label>
-        <input type="text" class="form-control" formControlName="name">
-        <div class="form-control-feedback" *ngIf="name.touched && name.hasError('required')">
+        <input type="text" class="form-control" formControlName="name" [class.is-invalid]="name.touched && !name.valid">
+        <div class="invalid-feedback" *ngIf="name.touched && name.hasError('required')">
           Can't be blank.
         </div>
       </div>
 
-      <div class="form-group" [class.has-danger]="rankMethod.touched && !rankMethod.valid">
+      <div class="form-group">
         <label class="form-control-label">Rank method</label>
-        <select class="form-control" formControlName="rankMethod">
+        <select class="form-control" formControlName="rankMethod" [class.is-invalid]="rankMethod.touched && !rankMethod.valid">
           <option value="cup_points">Cup points</option>
           <option value="jump_points">Jump points</option>
         </select>
-        <div class="form-control-feedback" *ngIf="rankMethod.touched && rankMethod.hasError('required')">
+        <div class="invalid-feedback" *ngIf="rankMethod.touched && rankMethod.hasError('required')">
           Can't be blank.
         </div>
       </div>
 
-      <div class="form-group" [class.has-danger]="gameVersion.touched && !gameVersion.valid">
+      <div class="form-group">
         <label class="form-control-label">Game version</label>
-        <select class="form-control" formControlName="gameVersion">
+        <select class="form-control" formControlName="gameVersion" [class.is-invalid]="gameVersion.touched && !gameVersion.valid">
           <option value="4">DSJ4</option>
           <option value="3">DSJ3</option>
         </select>
-        <div class="form-control-feedback" *ngIf="gameVersion.touched && gameVersion.hasError('required')">
+        <div class="invalid-feedback" *ngIf="gameVersion.touched && gameVersion.hasError('required')">
           Can't be blank.
         </div>
       </div>

@@ -1,47 +1,39 @@
 import {Injectable} from '@angular/core';
-import {ApiBaseService} from '../common/services/api-base.service';
-import {Http, URLSearchParams} from '@angular/http';
 import {environment} from '../../environments/environment';
 import {JumperResponseModel, JumperUpdateModel, JumperMergeRequestModel} from './jumper-models';
 import {Observable} from 'rxjs/Observable';
 import {PagedResponse} from '../common/models';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Injectable()
-export class JumperService extends ApiBaseService {
+export class JumperService {
 
-  constructor(http: Http) {
-    super(http);
+  constructor(private httpClient: HttpClient) {
   }
 
   getJumpers(q: string, page: number, pageSize: number, sort?: string): Observable<PagedResponse<JumperResponseModel>> {
-    const params = new URLSearchParams();
+    let params = new HttpParams();
     if (q) {
-      params.append('q', q);
+      params = params.append('q', q);
     }
-    params.append('page', page.toString());
-    params.append('pageSize', pageSize.toString());
+    params = params.append('page', page.toString());
+    params = params.append('pageSize', pageSize.toString());
 
     if (sort) {
-      params.append('sort', sort);
+      params = params.append('sort', sort);
     }
 
-    return this.http
-      .get(`${environment.apiUrl}/jumpers`, {search: params})
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .get(`${environment.apiUrl}/jumpers`, { params: params });
   }
 
   updateJumper(id: number, model: JumperUpdateModel): Observable<JumperResponseModel> {
-    return this.http
-      .put(`${environment.apiUrl}/jumpers/${id}`, model)
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .put(`${environment.apiUrl}/jumpers/${id}`, model);
   }
 
   mergeJumpers(model: JumperMergeRequestModel): Observable<JumperResponseModel> {
-    return this.http
-      .post(`${environment.apiUrl}/jumpers/merge`, model)
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .post(`${environment.apiUrl}/jumpers/merge`, model);
   }
 }

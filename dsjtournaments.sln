@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "site-api", "site-api", "{0B84ED5A-61F9-483E-8647-6C897847EA7D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{0B84ED5A-61F9-483E-8647-6C897847EA7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.SiteApi", "site-api\DSJTournaments.SiteApi\DSJTournaments.SiteApi.csproj", "{AFFDED53-1478-4842-A2C2-3DC19EA3A8CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api", "api\DSJTournaments.Api\DSJTournaments.Api.csproj", "{AFFDED53-1478-4842-A2C2-3DC19EA3A8CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.SiteApi.UnitTests", "site-api\DSJTournaments.SiteApi.UnitTests\DSJTournaments.SiteApi.UnitTests.csproj", "{A7AEEF9F-925D-4676-B971-835CE04D0100}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api.UnitTests", "api\DSJTournaments.Api.UnitTests\DSJTournaments.Api.UnitTests.csproj", "{A7AEEF9F-925D-4676-B971-835CE04D0100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.SiteApi.IntegrationTests", "site-api\DSJTournaments.SiteApi.IntegrationTests\DSJTournaments.SiteApi.IntegrationTests.csproj", "{83D16AAF-5867-4B6F-8293-D87BEA512D9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api.IntegrationTests", "api\DSJTournaments.Api.IntegrationTests\DSJTournaments.Api.IntegrationTests.csproj", "{83D16AAF-5867-4B6F-8293-D87BEA512D9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin-api", "admin-api", "{7D71EF41-26DC-4BDE-95D1-836442FC8C0E}"
 EndProject

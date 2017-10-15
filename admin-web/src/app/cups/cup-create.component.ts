@@ -3,14 +3,14 @@ import {CupRequestModel} from './cup-models';
 import {CupService} from './cup.service';
 import {Router} from '@angular/router';
 import {TournamentService} from '../tournaments/tournament.service';
-import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-models';
+import {TournamentTypeResponseModel} from '../tournaments/tournament-models';
 import {ToastService} from '../common/services/toast.service';
 
 @Component({
   templateUrl: './cup-create.component.html'
 })
 export class CupCreateComponent implements OnInit {
-  types: TournamentTypeWithCountResponseModel[];
+  types: TournamentTypeResponseModel[];
 
   constructor(
     private cupService: CupService,

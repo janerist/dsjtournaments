@@ -2,49 +2,37 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {CupResponseModel, CupRequestModel} from './cup-models';
-import {ApiBaseService} from '../common/services/api-base.service';
-import {Http} from '@angular/http';
 import {PagedResponse} from '../common/models';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
-export class CupService extends ApiBaseService {
+export class CupService {
 
-  constructor(http: Http) {
-    super(http);
+  constructor(private httpClient: HttpClient) {
   }
 
   getCups(): Observable<PagedResponse<CupResponseModel>> {
-    return this.http
+    return this.httpClient
       .get(`${environment.apiUrl}/cups?pageSize=1000`)
-      .map(this.extractData)
-      .catch(this.handleError);
   }
 
   getCup(id: number): Observable<CupResponseModel> {
-    return this.http
-      .get(`${environment.apiUrl}/cups/${id}`)
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .get(`${environment.apiUrl}/cups/${id}`);
   }
 
   createCup(cup: CupRequestModel): Observable<CupResponseModel> {
-    return this.http
-      .post(`${environment.apiUrl}/cups`, cup)
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .post(`${environment.apiUrl}/cups`, cup);
   }
 
   updateCup(id: number, cup: CupRequestModel): Observable<CupResponseModel> {
-    return this.http
-      .put(`${environment.apiUrl}/cups/${id}`, cup)
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .put(`${environment.apiUrl}/cups/${id}`, cup);
   }
 
   deleteCup(id: number): Observable<any> {
-    return this.http
-      .delete(`${environment.apiUrl}/cups/${id}`)
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this.httpClient
+      .delete(`${environment.apiUrl}/cups/${id}`);
   }
 }
