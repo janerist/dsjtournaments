@@ -423,10 +423,8 @@ namespace DSJTournaments.Data
 
         public async Task<(T[], int)> PageAndCountAsync(int page, int pageSize)
         {
-            _limit = pageSize;
-            _offset = (page - 1)*pageSize;
-            if (_offset == 0)
-                _offset = null;
+            _limit = Math.Max(0, pageSize);
+            _offset = (Math.Max(1, page) - 1) * _limit;
 
             var countSql = CountSql();
             var pageSql = Sql();
