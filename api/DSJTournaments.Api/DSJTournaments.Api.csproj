@@ -16,8 +16,7 @@
     <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\shared\DSJTournaments.Data\DSJTournaments.Data.csproj" />
-    <ProjectReference Include="..\..\shared\DSJTournaments.Data\DSJTournaments.Data.csproj" />
+    <ProjectReference Include="..\..\shared\DSJTournaments.Data\DSJTournaments.Data.csproj" />    
     <ProjectReference Include="..\..\shared\DSJTournaments.Mvc\DSJTournaments.Mvc.csproj" />
   </ItemGroup>
 </Project>

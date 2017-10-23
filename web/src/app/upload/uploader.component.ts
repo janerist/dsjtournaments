@@ -69,11 +69,9 @@ export class UploaderComponent {
   private startUpload() {
     this.uploadInput.emit({
       type: 'uploadAll',
-      url: `${environment.apiUrl}/upload`,
+      url: `${environment.uploadUrl}/upload`,
       method: 'POST',
       concurrency: 5
     });
   }
 }
-
-

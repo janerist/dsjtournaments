@@ -1,7 +1,7 @@
 ﻿using System;
-using DSJTournaments.AdminApi.Resources.Cups.Services;
-using DSJTournaments.AdminApi.Resources.Jumpers.Services;
-using DSJTournaments.AdminApi.Resources.Tournaments.Services;
+using DSJTournaments.AdminApi.Controllers.Cups.Services;
+using DSJTournaments.AdminApi.Controllers.Jumpers.Services;
+using DSJTournaments.AdminApi.Controllers.Tournaments.Services;
 using DSJTournaments.Data;
 using DSJTournaments.Mvc.ActionFilters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

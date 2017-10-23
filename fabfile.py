@@ -5,6 +5,7 @@ env.hosts = ['janerist@dsjtournaments.com']
 
 def deploy():
     deploy_api()
+    deploy_upload()
     deploy_web()
 
     deploy_id()
@@ -23,6 +24,12 @@ def deploy_api():
     deploy_dotnetcoreapp('api/DSJTournaments.Api/DSJTournaments.Api.csproj',
                          '/opt/dsjtournaments/api',
                          'dsjtournaments-api')
+
+
+def deploy_upload():
+    deploy_dotnetcoreapp('upload/DSJTournaments.Upload/DSJTournaments.Upload.csproj',
+                         '/opt/dsjtournaments/upload',
+                         'dsjtournaments-upload')
 
 
 def deploy_admin_api():
