@@ -4,7 +4,6 @@ using DSJTournaments.AdminApi.Controllers.Jumpers.Services;
 using DSJTournaments.AdminApi.Controllers.Tournaments.Services;
 using DSJTournaments.Data;
 using DSJTournaments.Mvc.ActionFilters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,16 +50,13 @@ namespace DSJTournaments.AdminApi
             // Framework services
             services.AddCors();
 
-            services.AddAuthentication(opts =>
-            {
-                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(opts =>
-            {
-                opts.Authority = _configuration["IdentityServer:Origin"];
-                opts.Audience = "dsjt";
-                opts.RequireHttpsMetadata = false;
-            });
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(opts =>
+                {
+                    opts.Authority = _configuration["IdentityServer:Origin"];
+                    opts.RequireHttpsMetadata = false;
+                    opts.ApiName = "dsjt";
+                });
 
             services.AddMvc(opts =>
             {
