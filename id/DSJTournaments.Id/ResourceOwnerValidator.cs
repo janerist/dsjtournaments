@@ -24,7 +24,7 @@ namespace DSJTournaments.Id
                 .Where("username = @UserName", new {context.UserName})
                 .FirstOrDefaultAsync();
 
-            if (user == null || !PasswordMatch(user, context.Password))
+            if (user == null || !_passwordHasher.VerifyHashedPassword(user.PasswordHash, context.Password))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant,
                     "Invalid username or password.");
@@ -34,14 +34,6 @@ namespace DSJTournaments.Id
                 await _database.Update<User, string>(user, u => u.LastLogin = DateTime.Now);
                 context.Result = new GrantValidationResult(user.Username, "application");
             }
-        }
-
-        private bool PasswordMatch(User user, string typedPassword)
-        {
-            var saltBytes = Convert.FromBase64String(user.Salt);
-            var hashedPassword = _passwordHasher.HashPassword(typedPassword, saltBytes);
-
-            return user.PasswordHash == hashedPassword;
         }
     }
 }
