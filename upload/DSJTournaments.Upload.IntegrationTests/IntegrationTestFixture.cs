@@ -23,7 +23,10 @@ namespace DSJTournaments.Upload.IntegrationTests
         public IntegrationTestFixture()
         {
             var webHostBuilder = new WebHostBuilder()
-                .ConfigureAppConfiguration((_, builder) => builder.AddJsonFile("appsettings.json"))
+                .ConfigureAppConfiguration((_, builder) => 
+                    builder
+                        .AddJsonFile("appsettings.json")
+                        .AddEnvironmentVariables())
                 .UseEnvironment("Test")
                 .UseStartup<Startup>();
             

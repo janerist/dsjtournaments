@@ -21,18 +21,22 @@ namespace DSJTournaments.Upload.IntegrationTests.Upload
         [InlineData(@"C:\stats\examples\2014-02-07 Marathon A")]
         public async Task UploadEverythingInFolder(string path)
         {
-            var files = Directory.GetFiles(path, "*.txt");
-
-            var sw = Stopwatch.StartNew();
-            foreach (var file in files)
+            if (Directory.Exists(path))
             {
-                var response = await Client.UploadStatsAsync(File.ReadAllText(file), fileName: Path.GetFileName(file));
-                await ResponseAssert.Ok(response);
+                var files = Directory.GetFiles(path, "*.txt");
+
+                var sw = Stopwatch.StartNew();
+                foreach (var file in files)
+                {
+                    var response =
+                        await Client.UploadStatsAsync(File.ReadAllText(file), fileName: Path.GetFileName(file));
+                    await ResponseAssert.Ok(response);
+                }
+
+                sw.Stop();
+
+                _output.WriteLine($"Uploaded {files.Length} files in {sw.Elapsed}");
             }
-
-            sw.Stop();
-
-            _output.WriteLine($"Uploaded {files.Length} files in {sw.Elapsed}");
         }
     }
 }
