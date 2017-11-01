@@ -21,6 +21,6 @@ export class AppComponent {
     // Scroll to top on route changes
     router.events
       .filter(event => event instanceof NavigationEnd)
-      .subscribe(() => document.body.scrollTop = 0);
+      .subscribe(() => window.scrollTo(0, 0));
   }
 }
