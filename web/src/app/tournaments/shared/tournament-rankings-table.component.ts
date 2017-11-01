@@ -52,7 +52,7 @@ export class TournamentRankingsTableComponent implements AfterViewInit {
       <i class="flag ${iso3toiso2[comp.hillNation]}"></i>
       ${comp.hillName} ${comp.fileNumber > 1 ? '[' + comp.fileNumber + ']' : ''}
       ${comp.ko ? '(KO)' : ''}
-    `
+    `;
   }
 
   ngAfterViewInit() {

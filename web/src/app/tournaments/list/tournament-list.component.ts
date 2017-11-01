@@ -5,7 +5,7 @@ import {TournamentResponseModel} from '../../shared/api-responses';
 
 @Component({
   selector: 'app-tournament-list',
-  template: `    
+  template: `
     <div *ngIf="tournaments.length" class="ui items">
       <app-tournament-header *ngFor="let tournament of tournaments"
                              [tournament]="tournament"
@@ -20,7 +20,7 @@ import {TournamentResponseModel} from '../../shared/api-responses';
     <div *ngIf="!tournaments.length">
       No tournaments found for selected type and/or date range.
       <a routerLink="./">Show all tournaments</a>.
-    </div>    
+    </div>
   `
 })
 export class TournamentListComponent {

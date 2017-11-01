@@ -59,6 +59,6 @@ export class JumperActivityComponent implements OnInit {
         this.httpClient.get<PagedResponse<JumperActivityResponseModel>>(
           `${environment.apiUrl}/jumpers/${id}/activity?page=${page || 1}`)
       )
-      .do(pagedResponse => this.formRankings = pagedResponse.data.filter(a => a.rank).reverse())
+      .do(pagedResponse => this.formRankings = pagedResponse.data.filter(a => a.rank).reverse());
   }
 }

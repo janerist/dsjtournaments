@@ -35,7 +35,7 @@ import {QualificationResultResponseModel} from '../../shared/api-responses';
         <td class="right aligned">{{qr.rating}}</td>
         <td class="right aligned" [class.longest-jump]="qr.length === longestJump">
           <span *ngIf="qr.length">
-            <span *ngIf="qr.crashed">*</span>{{qr.length.toFixed(2)}}m            
+            <span *ngIf="qr.crashed">*</span>{{qr.length.toFixed(2)}}m
           </span>
         </td>
         <td class="right aligned">{{qr.points?.toFixed(1)}}</td>
@@ -51,7 +51,7 @@ import {QualificationResultResponseModel} from '../../shared/api-responses';
       </tr>
       </tbody>
     </table>
-    
+
     <p *ngIf="!results.length">There is no data available.</p>
   `
 })

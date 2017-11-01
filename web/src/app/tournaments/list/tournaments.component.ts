@@ -45,7 +45,7 @@ export class TournamentsComponent implements OnInit {
 
   ngOnInit() {
     this.tournamentPages$ = this.route.queryParams.switchMap(params =>
-      this.httpClient.get(`${environment.apiUrl}/tournaments`, {
+      this.httpClient.get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {
           params: new HttpParams()
             .set('type', params['type'] || '')
             .set('startDate', params['startDate'] || '')

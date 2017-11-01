@@ -47,7 +47,7 @@ export interface TournamentRankingsResponseModel {
 }
 
 export interface CompetitionToRank {
-  [competitionId: string]: number
+  [competitionId: string]: number;
 }
 
 export interface TournamentTypeWithCount {
@@ -196,5 +196,5 @@ export interface CupRankingsResponseModel {
 }
 
 export interface TournamentToRank {
-  [tournamentId: string]: number
+  [tournamentId: string]: number;
 }

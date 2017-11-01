@@ -12,11 +12,11 @@ import {CupService} from './cup.service';
     <div *ngIf="rankingPages$ | async, let rankingPage">
       <app-pagination [page]="rankingPage.page"
                       [pageSize]="rankingPage.pageSize"
-                      [totalCount]="rankingPage.totalCount">        
+                      [totalCount]="rankingPage.totalCount">
       </app-pagination>
-      
+
       <app-cup-rankings-table [rankings]="rankingPage.data"
-                              [dates]="cup?.dates">        
+                              [dates]="cup?.dates">
       </app-cup-rankings-table>
 
       <app-pagination [page]="rankingPage.page"
@@ -35,7 +35,8 @@ export class CupRankingsComponent implements OnInit {
   ngOnInit() {
     this.rankingPages$ = Observable
       .combineLatest(this.route.parent.params, this.route.queryParams, (params, qparams) => ({id: params['id'], page: qparams['page']}))
-      .switchMap(({id, page}) => this.httpClient.get(`${environment.apiUrl}/cups/${id}/rankings?page=${page || '1'}`));
+      .switchMap(({id, page}) =>
+        this.httpClient.get<PagedResponse<CupRankingsResponseModel>>(`${environment.apiUrl}/cups/${id}/rankings?page=${page || '1'}`));
   }
 
   get cup() {

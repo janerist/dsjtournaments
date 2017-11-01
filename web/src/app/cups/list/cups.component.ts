@@ -39,7 +39,7 @@ export class CupsComponent implements OnInit {
 
   ngOnInit() {
     this.cupPages$ = this.route.queryParams.switchMap(params =>
-      this.httpClient.get(`${environment.apiUrl}/cups`, {
+      this.httpClient.get<PagedResponse<CupResponseModel>>(`${environment.apiUrl}/cups`, {
           params: new HttpParams()
             .set('page', params['page'] || '1')
             .set('season', params['season'] || '')

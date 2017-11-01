@@ -18,9 +18,9 @@ import 'rxjs/add/operator/map';
           <app-jumper-sort></app-jumper-sort>
         </div>
       </div>
-  
+
       <app-jumper-list [jumpers]="jumperPage.data"></app-jumper-list>
-  
+
       <app-pagination [totalCount]="jumperPage.totalCount"
                       [page]="jumperPage.page"
                       [pageSize]="jumperPage.pageSize">
@@ -39,7 +39,7 @@ export class JumpersComponent implements OnInit {
 
   ngOnInit() {
     this.jumperPages$ = this.route.queryParams.switchMap(params =>
-      this.httpClient.get(`${environment.apiUrl}/jumpers`, {
+      this.httpClient.get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, {
         params: new HttpParams()
           .set('q', params['q'] || '')
           .set('sort', params['sort'] || '')

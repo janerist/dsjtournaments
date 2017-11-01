@@ -7,7 +7,7 @@ import {FinalResultResponseModel} from '../../shared/api-responses';
     <table *ngIf="results.length" class="ui striped result table">
       <thead>
       <tr>
-        <th class="one wide" title="Team rank">Rank</th>        
+        <th class="one wide" title="Team rank">Rank</th>
         <th *ngIf="!isTeamResults" class="one wide" title="Bib">Bib</th>
         <th class="five wide" title="Name">Name</th>
         <th class="two wide" title="Nation">Nation</th>
@@ -42,12 +42,12 @@ import {FinalResultResponseModel} from '../../shared/api-responses';
             <td class="right aligned">{{fr.rating}}</td>
             <td class="right aligned" [class.longest-jump]="fr.length1 === longestJump1">
               <span *ngIf="fr.length1">
-                <span *ngIf="fr.crashed1">*</span>{{fr.length1.toFixed(2)}}m            
+                <span *ngIf="fr.crashed1">*</span>{{fr.length1.toFixed(2)}}m
               </span>
             </td>
             <td class="right aligned" [class.longest-jump]="fr.length2 === longestJump2">
               <span *ngIf="fr.length2">
-                <span *ngIf="fr.crashed2">*</span>{{fr.length2.toFixed(2)}}m            
+                <span *ngIf="fr.crashed2">*</span>{{fr.length2.toFixed(2)}}m
               </span>
             </td>
             <td class="right aligned">{{fr.points?.toFixed(1)}}</td>
@@ -66,12 +66,12 @@ import {FinalResultResponseModel} from '../../shared/api-responses';
             <td class="right aligned">{{jfr.rating}}</td>
             <td class="right aligned" [class.longest-jump]="jfr.length1 === longestJump1">
               <span *ngIf="jfr.length1">
-                <span *ngIf="jfr.crashed1">*</span>{{jfr.length1.toFixed(2)}}m            
+                <span *ngIf="jfr.crashed1">*</span>{{jfr.length1.toFixed(2)}}m
               </span>
             </td>
             <td class="right aligned" [class.longest-jump]="jfr.length2 === longestJump2">
               <span *ngIf="jfr.length2">
-                <span *ngIf="jfr.crashed2">*</span>{{jfr.length2.toFixed(2)}}m            
+                <span *ngIf="jfr.crashed2">*</span>{{jfr.length2.toFixed(2)}}m
               </span>
             </td>
             <td class="right aligned">{{jfr.points?.toFixed(1)}}</td>
@@ -80,9 +80,9 @@ import {FinalResultResponseModel} from '../../shared/api-responses';
         </ng-container>
       </tbody>
     </table>
-    
+
     <p *ngIf="!results.length">There is no data available.</p>
-  `
+`
 })
 export class FinalResultsTableComponent implements OnChanges {
   @Input() results: FinalResultResponseModel[];

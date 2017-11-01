@@ -34,7 +34,7 @@ import {CupResponseModel} from '../../shared/api-responses';
         </td>
       </tr>
       </tbody>
-    </table>    
+    </table>
   `
 })
 export class CupListComponent {
