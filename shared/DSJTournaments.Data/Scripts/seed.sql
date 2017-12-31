@@ -85,3 +85,6 @@ INSERT INTO hills (id, name, nation, game_version) VALUES (62, 'Klingenthal HS14
 INSERT INTO hills (id, name, nation, game_version) VALUES (65, 'Wisła HS134', 'POL', 4);
 INSERT INTO hills (id, name, nation, game_version) VALUES (63, 'Park City HS100', 'USA', 4);
 INSERT INTO hills (id, name, nation, game_version) VALUES (64, 'Park City HS134', 'USA', 4);
+
+-- User
+INSERT INTO users (username, password_hash) VALUES ('admin', 'AQAAAAEAACcQAAAAECcju8UqdRBp09Qck0C1h/u91NEk3aCcK+qupOZlevBZCe55QnoDwZPEg8nIqBNQAw==');
