@@ -257,7 +257,8 @@
 
             // Legacy codes
             "SLO",
-            "ROM"
+            "ROM",
+            "DEN"
         };
     }
 }
