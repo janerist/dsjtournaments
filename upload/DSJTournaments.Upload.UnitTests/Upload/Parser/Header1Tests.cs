@@ -42,7 +42,7 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
             Assert.Equal("Marathon", stats.Type);
             Assert.Equal(3, stats.GameVersion);
         }
-
+        
         [Fact]
         public async Task DSJ4_WorldCupA()
         {
@@ -120,6 +120,16 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
 
             Assert.Equal(DateTime.Parse("2016-02-09 20:00", CultureInfo.InvariantCulture), stats.Date);
             Assert.Equal("Tour de DSJ 2016", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
+
+        [Fact]
+        public async Task DSJ4_NationalCup()
+        {
+            var stats = await _parser.Parse("National Cup - Sun 19.00 CE(S)T 2017-12-31".AsHeader1().Build());
+            
+            Assert.Equal(DateTime.Parse("2017-12-31 19:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("National Cup", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
     }

@@ -183,6 +183,13 @@ namespace DSJTournaments.Upload.Services.Parser
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[6], elems[4]);
             }
+            else if (elems.Length == 7 && elems[0] == "National")
+            {
+                // DSJ4 (1.6) National Cup
+                stats.Type = "National Cup";
+                stats.GameVersion = 4;
+                stats.Date = ParseDate(elems[6], elems[4]);
+            }
             else if (elems.Length == 10 && elems[0] == "Tour")
             {
                 // DSJ4 (1.6) Tour de DSJ

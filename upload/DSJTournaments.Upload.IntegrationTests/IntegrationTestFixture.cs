@@ -91,12 +91,12 @@ namespace DSJTournaments.Upload.IntegrationTests
                 command: $"CREATE DATABASE {cnnStringBuilder.Database}");
         }
 
-        private void ExecutePsql(string host, string database, string command = null, string file = null)
+        private void ExecutePsql(string host, string database, string userName = "postgres", string command = null, string file = null)
         {
             var psi = new ProcessStartInfo
             {
                 FileName = "psql",
-                Arguments = $"-h {host} -d {database}",
+                Arguments = $"-h {host} -d {database} -U {userName}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };

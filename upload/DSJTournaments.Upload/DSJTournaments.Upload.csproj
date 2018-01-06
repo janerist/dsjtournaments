@@ -14,7 +14,4 @@
     <ProjectReference Include="..\..\shared\DSJTournaments.Data\DSJTournaments.Data.csproj" />
     <ProjectReference Include="..\..\shared\DSJTournaments.Mvc\DSJTournaments.Mvc.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources" />
-  </ItemGroup>
 </Project>

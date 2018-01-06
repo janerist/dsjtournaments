@@ -19,6 +19,7 @@ INSERT INTO tournament_types (id, name, game_version) VALUES (17, 'Tour de DSJ 2
 INSERT INTO tournament_types (id, name, game_version) VALUES (18, 'Tour de DSJ 2015', 4);
 INSERT INTO tournament_types (id, name, game_version) VALUES (19, 'Tour de DSJ 2016', 4);
 INSERT INTO tournament_types (id, name, game_version) VALUES (20, 'Tour de DSJ 2017', 4);
+INSERT INTO tournament_types (id, name, game_version) VALUES (21, 'National Cup', 4);
 
 -- Hills
 INSERT INTO hills (id, name, nation, game_version) VALUES (3, 'Germany HS261', 'GER', 3);
