@@ -6,6 +6,7 @@ namespace DSJTournaments.Upload.Services.Parser.Model
     {
         public DateTime Date { get; set; }
         public string Type { get; set; }
+        public string SubType { get; set; }
         public int GameVersion { get; set; }
     }
 

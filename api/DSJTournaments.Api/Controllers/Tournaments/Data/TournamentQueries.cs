@@ -16,7 +16,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
         {
             return _database.Query<TournamentResponseModel>()
                 .Select(
-                    "t.id, t.date, t.hill_count, t.game_version, t.tournament_type_id",
+                    "t.id, t.date, t.hill_count, t.game_version, t.tournament_type_id, t.sub_type",
                     "tt.name AS type",
                     "(SELECT COUNT(*) FROM final_standings fs WHERE fs.tournament_id = t.id) AS participant_count")
                 .From("tournaments t")

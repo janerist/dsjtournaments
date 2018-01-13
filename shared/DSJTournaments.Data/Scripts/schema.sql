@@ -215,4 +215,4 @@ create index ix_jumper_results_tournament_id ON jumper_results (tournament_id);
 -- Change scripts (consider proper migration system some day)
 ALTER TABLE jumpers ADD COLUMN gravatar_email VARCHAR(100);
 ALTER TABLE users DROP COLUMN salt;
-
+ALTER TABLE tournaments ADD COLUMN sub_type VARCHAR (50);

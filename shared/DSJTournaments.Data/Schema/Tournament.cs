@@ -10,5 +10,6 @@ namespace DSJTournaments.Data.Schema
         public int GameVersion { get; set; }
         public int? HillCount { get; set; }
         public int TournamentTypeId { get; set; }
+        public string SubType { get; set; }
     }
 }

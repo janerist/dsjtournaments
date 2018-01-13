@@ -8,6 +8,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.ResponseModels
         public int Id { get; set; }
         public int TournamentTypeId { get; set; }
         public string Type { get; set; }
+        public string SubType { get; set; }
         public DateTime Date { get; set; }
         public int GameVersion { get; set; }
         public int HillCount { get; set; }

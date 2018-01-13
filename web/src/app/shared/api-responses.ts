@@ -8,6 +8,7 @@ export interface PagedResponse<T> {
 export interface TournamentResponseModel {
   id: number;
   type: string;
+  subType: string;
   date: string;
   gameVersion: number;
   hillCount?: number;

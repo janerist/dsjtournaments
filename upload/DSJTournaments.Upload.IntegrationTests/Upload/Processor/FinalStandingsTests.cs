@@ -132,5 +132,23 @@ Poz.  Gracz                        Kraj         I    II   III     N     Punkty
             Assert.Equal(8650, pol1.Points);
             Assert.Equal(100, pol1.CupPoints);
         }
+        
+        [Fact]
+        public async Task CreatesNationalCupSubType()
+        {
+            var response = await Client.UploadStatsAsync(@"
+National Cup - Sun 19.00 CE(S)T 2017-12-31
+Klasyfikacja końcowa po 24/24 konkursach
+
+Poz.  Gracz                    Kraj        Ocena     I    II   III     N     Punkty
+1.    Mariusz Sobon            POL          1638     5     6     4    23       1528
+2.    Michał Kwiatkowski       POL          1645     2     6     3    23       1364
+3.    Maciej Sylwestrzuk       POL          1731     8     1     1    16       1170");
+
+            await ResponseAssert.Ok(response);
+
+            var tournament = await Database.Query<Tournament>().FirstAsync();
+            Assert.Equal("POL", tournament.SubType);
+        }
     }
 }

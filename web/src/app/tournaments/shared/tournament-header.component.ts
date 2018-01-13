@@ -7,7 +7,7 @@ import {TournamentResponseModel} from '../../shared/api-responses';
     <div class="content">
       <div class="header">
         <span class="ui dsj{{tournament.gameVersion}} ribbon label">DSJ{{tournament.gameVersion}}</span>
-        <a [routerLink]="['/tournaments', tournament.id]">{{tournament.type}}</a>
+        <a [routerLink]="['/tournaments', tournament.id]">{{tournament.type}} {{tournament.subType}}</a>
       </div>
       <div class="meta">
         <span class="ui labels">

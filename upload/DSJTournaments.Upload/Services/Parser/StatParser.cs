@@ -38,7 +38,26 @@ namespace DSJTournaments.Upload.Services.Parser
             ParseResults(stats,
                 (await reader.ReadToEndAsync()).Split(new[] {"\r\n", "\r", "\n"},
                     StringSplitOptions.RemoveEmptyEntries));
-            
+
+            if (stats.Type == "National Cup")
+            {
+                // The sub type is the nation of the first jumper (all jumpers are same nation of course)
+                switch (stats)
+                {
+                    case StandingStats s:
+                        stats.SubType = s.Results.FirstOrDefault()?.Nation;
+                        break;
+
+                    case QualificationStats qs:
+                        stats.SubType = qs.Results.FirstOrDefault()?.Nation;
+                        break;
+
+                    case FinalResultStats fs:
+                        stats.SubType = fs.Results.FirstOrDefault()?.Nation;
+                        break;
+                }
+            }
+
             return stats;
         }
 

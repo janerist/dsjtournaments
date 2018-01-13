@@ -394,6 +394,7 @@ namespace DSJTournaments.Upload.Services.Processor
                 Date = stats.Date,
                 GameVersion = stats.GameVersion,
                 TournamentTypeId = tournamentType.Id,
+                SubType = stats.SubType,
                 HillCount = stats is StandingStats s ? s.TotalHills : (int?) null
             });
             
