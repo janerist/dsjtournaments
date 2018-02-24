@@ -13,22 +13,22 @@ export class CupService {
 
   getCups(): Observable<PagedResponse<CupResponseModel>> {
     return this.httpClient
-      .get(`${environment.apiUrl}/cups?pageSize=1000`)
+      .get<PagedResponse<CupResponseModel>>(`${environment.apiUrl}/cups?pageSize=1000`)
   }
 
   getCup(id: number): Observable<CupResponseModel> {
     return this.httpClient
-      .get(`${environment.apiUrl}/cups/${id}`);
+      .get<CupResponseModel>(`${environment.apiUrl}/cups/${id}`);
   }
 
   createCup(cup: CupRequestModel): Observable<CupResponseModel> {
     return this.httpClient
-      .post(`${environment.apiUrl}/cups`, cup);
+      .post<CupResponseModel>(`${environment.apiUrl}/cups`, cup);
   }
 
   updateCup(id: number, cup: CupRequestModel): Observable<CupResponseModel> {
     return this.httpClient
-      .put(`${environment.apiUrl}/cups/${id}`, cup);
+      .put<CupResponseModel>(`${environment.apiUrl}/cups/${id}`, cup);
   }
 
   deleteCup(id: number): Observable<any> {

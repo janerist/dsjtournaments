@@ -24,16 +24,16 @@ export class JumperService {
     }
 
     return this.httpClient
-      .get(`${environment.apiUrl}/jumpers`, { params: params });
+      .get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, { params: params });
   }
 
   updateJumper(id: number, model: JumperUpdateModel): Observable<JumperResponseModel> {
     return this.httpClient
-      .put(`${environment.apiUrl}/jumpers/${id}`, model);
+      .put<JumperResponseModel>(`${environment.apiUrl}/jumpers/${id}`, model);
   }
 
   mergeJumpers(model: JumperMergeRequestModel): Observable<JumperResponseModel> {
     return this.httpClient
-      .post(`${environment.apiUrl}/jumpers/merge`, model);
+      .post<JumperResponseModel>(`${environment.apiUrl}/jumpers/merge`, model);
   }
 }

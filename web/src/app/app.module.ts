@@ -9,7 +9,7 @@ import {CupListComponent} from './cups/list/cup-list.component';
 import {TournamentListComponent} from './tournaments/list/tournament-list.component';
 import {JumpersComponent} from './jumpers/list/jumpers.component';
 import {PageNotFoundComponent} from './util/page-not-found.component';
-import {UploaderComponent} from 'app/upload/uploader.component';
+import {UploaderComponent} from './upload/uploader.component';
 import {PaginationComponent} from './shared/components/pagination.component';
 import {TournamentsComponent} from './tournaments/list/tournaments.component';
 import {TournamentSortComponent} from './tournaments/list/tournament-sort.component';

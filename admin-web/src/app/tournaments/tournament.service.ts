@@ -12,7 +12,7 @@ export class TournamentService {
 
   getTournamentTypes(): Observable<TournamentTypeResponseModel[]> {
     return this.http
-      .get(`${environment.apiUrl}/tournaments/types`);
+      .get<TournamentTypeResponseModel[]>(`${environment.apiUrl}/tournaments/types`);
   }
 
   getTournaments(page: number, pageSize: number, sort: string): Observable<PagedResponse<TournamentResponseModel>> {
@@ -22,7 +22,7 @@ export class TournamentService {
       .set('sort', sort);
 
     return this.http
-      .get(`${environment.apiUrl}/tournaments`, {params: params});
+      .get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {params: params});
   }
 
   deleteTournament(id: number) {

@@ -108,8 +108,8 @@ export class LoginComponent implements OnInit {
             this.authService.setAuthData(username, res);
             resolve(this.authService.redirectUrl || '/');
           },
-          (err: HttpErrorResponse) => {
-            reject(JSON.parse(err.error).error_description);
+          (err: HttpErrorResponse) => {            
+            reject(err.error.error_description);
           }, () => this.authService.redirectUrl = null);
     });
   }

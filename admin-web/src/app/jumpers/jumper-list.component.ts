@@ -5,6 +5,8 @@ import {ActivatedRoute, Router, Params} from '@angular/router';
 import {ToastService} from '../common/services/toast.service';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'dsjt-jumper-list',
