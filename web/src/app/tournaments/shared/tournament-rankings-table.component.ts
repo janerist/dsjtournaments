@@ -5,7 +5,7 @@ import {iso3toiso2} from '../../shared/country-codes';
 @Component({
   selector: 'app-tournament-rankings-table',
   template: `
-    <div drag-scroll [style.cursor]="'move'">
+    <div dragScroll [style.cursor]="'move'">
       <table *ngIf="rankings.length" class="ui small striped fixed result table">
         <thead>
         <tr>

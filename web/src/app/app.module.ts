@@ -29,7 +29,7 @@ import {JumperSearchComponent} from './jumpers/list/jumper-search.component';
 import {JumperSortComponent} from './jumpers/list/jumper-sort.component';
 import {JumperListComponent} from './jumpers/list/jumper-list.component';
 import {TournamentRankingsTableComponent} from './tournaments/shared/tournament-rankings-table.component';
-import {DragScrollModule} from 'angular2-drag-scroll';
+import {DragScrollModule} from 'ngx-drag-scroll';
 import {JumperComponent} from './jumpers/detail/jumper.component';
 import {JumperFormComponent} from './jumpers/detail/jumper-form.component';
 import {JumperActivityComponent} from './jumpers/detail/jumper-activity.component';
