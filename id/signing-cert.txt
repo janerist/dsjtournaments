@@ -1,0 +1,6 @@
+# Create x509 cert:
+openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout dsjtournaments-id.key -out dsjtournaments-id.crt -subj "/CN=id.dsjtournaments.com" -days 365
+
+# Create self-contained .pfx:
+openssl pkcs12 -export -out dsjtournaments-id.pfx -inkey dsjtournaments-id.key -in dsjtournaments-id.crt -certfile dsjtournaments-id.crt
+(Press ENTER without typing export password to create pfx without password)
