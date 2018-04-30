@@ -36,7 +36,7 @@ import {CupStandingResponseModel} from '../../shared/api-responses';
     </div>
 
     <p *ngIf="!standings.length">
-      There is not data available.
+      There is no data available.
     </p>
   `
 })
