@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {JumperActivityResponseModel, JumperRankingResponseModel, PagedResponse} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {JumperActivityResponseModel, PagedResponse} from '../../shared/api-responses';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import * as moment from 'moment';
-import 'rxjs/add/observable/combineLatest';
+import {combineLatest} from 'rxjs';
+import {map, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-jumper-activity',
@@ -41,7 +42,7 @@ import 'rxjs/add/observable/combineLatest';
       <div class="ten wide column">
         <app-jumper-form [rankings]="formRankings"></app-jumper-form>
       </div>
-    </div>    
+    </div>
   `
 })
 export class JumperActivityComponent implements OnInit {
@@ -53,12 +54,12 @@ export class JumperActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activityPages$ = Observable
-      .combineLatest(this.route.parent.params, this.route.queryParams, (params, qparams) => ({id: params['id'], page: qparams['page']}))
-      .switchMap(({id, page}) =>
-        this.httpClient.get<PagedResponse<JumperActivityResponseModel>>(
-          `${environment.apiUrl}/jumpers/${id}/activity?page=${page || 1}`)
-      )
-      .do(pagedResponse => this.formRankings = pagedResponse.data.filter(a => a.rank).reverse());
+    this.activityPages$ = combineLatest(this.route.parent.params, this.route.queryParamMap)
+      .pipe(
+        map(([params, qparams]) => ({id: params['id'], page: qparams.get('page')})),
+        switchMap(({id, page}) => this.httpClient
+          .get<PagedResponse<JumperActivityResponseModel>>(`${environment.apiUrl}/jumpers/${id}/activity?page=${page || 1}`)),
+        tap(pagedResponse => this.formRankings = pagedResponse.data.filter(a => a.rank).reverse())
+      );
   }
 }

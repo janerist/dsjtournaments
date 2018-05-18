@@ -6,15 +6,15 @@ import {Component} from '@angular/core';
   template: `
     <h4>Season:</h4>
     <div class="ui list">
-      <a *ngFor="let season of seasons" 
-         class="item" 
-         routerLink="./" 
-         [queryParams]="{page: 1, season: season.replace('/', '-')}" 
+      <a *ngFor="let season of seasons"
+         class="item"
+         routerLink="./"
+         [queryParams]="{page: 1, season: season.replace('/', '-')}"
          queryParamsHandling="merge">
         {{season}}
       </a>
     </div>
-    
+
   `
 })
 export class CupSeasonsComponent {

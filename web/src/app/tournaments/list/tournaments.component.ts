@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {PagedResponse, TournamentResponseModel, TournamentTypeWithCount} from '../../shared/api-responses';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tournaments',
@@ -44,15 +45,18 @@ export class TournamentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tournamentPages$ = this.route.queryParams.switchMap(params =>
-      this.httpClient.get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {
-          params: new HttpParams()
-            .set('type', params['type'] || '')
-            .set('startDate', params['startDate'] || '')
-            .set('endDate', params['endDate'] || '')
-            .set('sort', params['sort'] || '')
-            .set('page', params['page'] || '1')
-        }));
+    this.tournamentPages$ = this.route.queryParams
+      .pipe(
+        switchMap(params =>
+          this.httpClient.get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {
+            params: new HttpParams()
+              .set('type', params['type'] || '')
+              .set('startDate', params['startDate'] || '')
+              .set('endDate', params['endDate'] || '')
+              .set('sort', params['sort'] || '')
+              .set('page', params['page'] || '1')
+          }))
+      );
 
     this.typesWithCount$ = this.httpClient
       .get<TournamentTypeWithCount[]>(`${environment.apiUrl}/tournaments/typeswithcount`);

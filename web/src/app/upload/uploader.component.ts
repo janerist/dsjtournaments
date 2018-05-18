@@ -70,8 +70,7 @@ export class UploaderComponent {
     this.uploadInput.emit({
       type: 'uploadAll',
       url: `${environment.uploadUrl}/upload`,
-      method: 'POST',
-      concurrency: 5
+      method: 'POST'
     });
   }
 }

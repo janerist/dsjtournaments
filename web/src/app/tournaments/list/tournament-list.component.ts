@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
+
+
 import {TournamentResponseModel} from '../../shared/api-responses';
 
 @Component({

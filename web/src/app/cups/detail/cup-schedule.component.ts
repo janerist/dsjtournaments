@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-cup-schedule',
-  template: `    
+  template: `
     <div *ngIf="getCupDateGroups(dates), let months" class="ui list">
       <div *ngFor="let month of keys(months)" class="item">
         <strong>{{month}}</strong>

@@ -2,8 +2,7 @@ import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {JumperResponseModel} from './jumper-models';
 import {JumperService} from './jumper.service';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/filter';
+import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
   selector: '[dsjt-jumper-list-row]',
@@ -32,8 +31,10 @@ export class JumperListRowComponent implements OnInit {
 
     this.form
       .valueChanges
-      .debounceTime(500)
-      .filter(() => this.form.valid)
+      .pipe(
+        debounceTime(500),
+        filter(() => this.form.valid)
+      )
       .subscribe(newValue => this.save(this.form.value));
   }
 

@@ -32,7 +32,7 @@ import {JumperAllStatsResponseModel, JumperStatsResponseModel} from '../../share
         <td class="right aligned">{{typeStats.avgRating || '-'}}</td>
         <td class="right aligned">{{typeStats.bestPoints || '-'}}</td>
         <td class="right aligned">{{typeStats.avgPoints || '-'}}</td>
-      </tr>      
+      </tr>
       </tbody>
     </table>
   `
@@ -56,7 +56,7 @@ export class JumperStatsTableComponent implements AfterViewInit {
         return 0;
       }
     })
-    .data('tablesort')
-    .sort($('th.default-sort'), 'desc');
+      .data('tablesort')
+      .sort($('th.default-sort'), 'desc');
   }
 }

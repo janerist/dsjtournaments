@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {CupService} from './cup.service';
 import {CupResponseModel} from './cup-models';
+import {map} from 'rxjs/operators';
 
 @Component({
   templateUrl: './cup-list.component.html'
@@ -13,6 +14,6 @@ export class CupListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cups$ = this.cupService.getCups().map(pagedResponse => pagedResponse.data);
+    this.cups$ = this.cupService.getCups().pipe(map(pagedResponse => pagedResponse.data));
   }
 }

@@ -34,7 +34,7 @@ export class JumperSearchComponent implements OnInit {
       maxResults: 8,
       apiSettings: {
         url: `${environment.apiUrl}/jumpers?q={query}`,
-        onResponse: ({data: data}: {data: PagedResponse<JumperResponseModel>}) => ({
+        onResponse: ({data: data}: { data: PagedResponse<JumperResponseModel> }) => ({ // tslint:disable-line
           results: data.data.map(jumper => ({
             id: jumper.id,
             title: jumper.name,
@@ -44,7 +44,7 @@ export class JumperSearchComponent implements OnInit {
           }))
         })
       },
-      onSelect: ({id}: {id: number}) => {
+      onSelect: ({id}: { id: number }) => {
         this.router.navigate(['/jumpers', id]);
       }
     });

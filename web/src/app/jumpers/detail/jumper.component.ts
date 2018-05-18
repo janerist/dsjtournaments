@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {JumperResponseModel} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-jumper',
@@ -25,7 +26,7 @@ import {environment} from '../../../environments/environment';
 
       <div class="ui secondary pointing menu">
         <a class="item" routerLink="activity" routerLinkActive="active">Activity</a>
-        <a class="item" routerLink="stats" routerLinkActive="active">Stats</a>        
+        <a class="item" routerLink="stats" routerLinkActive="active">Stats</a>
       </div>
       <router-outlet></router-outlet>
     </ng-container>
@@ -38,8 +39,10 @@ export class JumperComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jumper$ = this.route.params.switchMap(params => {
-      return this.httpClient.get<JumperResponseModel>(`${environment.apiUrl}/jumpers/${params['id']}`);
-    });
+    this.jumper$ = this.route.params
+      .pipe(
+        switchMap(params => this.httpClient
+          .get<JumperResponseModel>(`${environment.apiUrl}/jumpers/${params['id']}`))
+      );
   }
 }

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import {JumperResponseModel, PagedResponse} from '../../shared/api-responses';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import 'rxjs/add/operator/map';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-jumpers',
@@ -38,12 +38,15 @@ export class JumpersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jumperPages$ = this.route.queryParams.switchMap(params =>
-      this.httpClient.get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, {
-        params: new HttpParams()
-          .set('q', params['q'] || '')
-          .set('sort', params['sort'] || '')
-          .set('page', params['page'] || '1')
-      }));
+    this.jumperPages$ = this.route.queryParams
+      .pipe(
+        switchMap(params =>
+          this.httpClient.get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, {
+            params: new HttpParams()
+              .set('q', params['q'] || '')
+              .set('sort', params['sort'] || '')
+              .set('page', params['page'] || '1')
+          }))
+      );
   }
 }

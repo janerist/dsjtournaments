@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FinalResultResponseModel} from '../../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-competition-final-results',
@@ -23,8 +24,10 @@ export class CompetitionFinalResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$finalResults = this.route.parent.params.switchMap(params =>
-      this.httpClient.get<FinalResultResponseModel[]>(`${environment.apiUrl}/competitions/${params['cid']}/final`)
-    );
+    this.$finalResults = this.route.parent.params
+      .pipe(
+        switchMap(params => this.httpClient
+          .get<FinalResultResponseModel[]>(`${environment.apiUrl}/competitions/${params['cid']}/final`))
+      );
   }
 }

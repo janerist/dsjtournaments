@@ -17,9 +17,9 @@
   <tbody>
   <tr *ngFor="let cup of cups$ | async">
     <td>
-      <span class="badge badge-dsj{{cup.gameVersion}}">DSJ{{cup.gameVersion}}</span>
-      <a [routerLink]="['/cups', cup.id]">{{cup.name}}</a>
-      <span class="badge badge-default">{{cup.tournamentCount}}</span>
+      <span class="badge badge-secondary badge-dsj{{cup.gameVersion}}">DSJ{{cup.gameVersion}}</span>&nbsp;
+      <a [routerLink]="['/cups', cup.id]">{{cup.name}}</a>&nbsp;
+      <span class="badge badge-secondary">{{cup.tournamentCount}}</span>
     </td>
     <td>
       {{cup.rankMethod | dsjtRankMethod}}

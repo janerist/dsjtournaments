@@ -27,10 +27,10 @@ Poz.  Nr    Zawodnik                 Kraj        Ocena      Długość       Pun
 
             var competitions = await Database.Query<Competition>().AllAsync();
 
-            Assert.Equal(1, competitions.Length);
+            Assert.Single(competitions);
 
             Assert.Equal(1, competitions[0].FileNumber);
-            Assert.Equal(true, competitions[0].KO);
+            Assert.True(competitions[0].KO);
         }
 
         [Fact]

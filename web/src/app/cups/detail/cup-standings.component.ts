@@ -2,9 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {CupStandingResponseModel, PagedResponse} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {CupService} from './cup.service';
+import {map, switchMap} from 'rxjs/operators';
+import {combineLatest} from 'rxjs';
 
 @Component({
   selector: 'app-cup-standings',
@@ -14,12 +16,12 @@ import {CupService} from './cup.service';
                       [pageSize]="standingPage.pageSize"
                       [totalCount]="standingPage.totalCount">
       </app-pagination>
-      
+
       <app-cup-standings-table *ngIf="standingPage.data.length"
                                [standings]="standingPage.data"
                                [rankMethod]="cup?.rankMethod">
       </app-cup-standings-table>
-      
+
       <app-pagination [page]="standingPage.page"
                       [pageSize]="standingPage.pageSize"
                       [totalCount]="standingPage.totalCount">
@@ -42,10 +44,12 @@ export class CupStandingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.standingPages$ = Observable
-      .combineLatest(this.route.parent.params, this.route.queryParams, (params, qparams) => ({id: params['id'], page: qparams['page']}))
-      .switchMap(({id, page}) =>
-        this.httpClient.get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${id}/standings?page=${page || '1'}`));
+    this.standingPages$ = combineLatest(this.route.parent.params, this.route.queryParamMap)
+      .pipe(
+        map(([params, qparams]) => ({id: params['id'], page: qparams.get('page')})),
+        switchMap(({id, page}) =>
+          this.httpClient.get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${id}/standings?page=${page || '1'}`))
+      );
   }
 
   get cup() {

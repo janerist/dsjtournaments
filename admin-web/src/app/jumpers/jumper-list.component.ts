@@ -3,10 +3,9 @@ import {JumperService} from './jumper.service';
 import {JumperResponseModel, JumperMergeRequestModel} from './jumper-models';
 import {ActivatedRoute, Router, Params} from '@angular/router';
 import {ToastService} from '../common/services/toast.service';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/switchMap';
+import {Subject, Observable} from 'rxjs';
+import {merge} from 'rxjs';
+import {map, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'dsjt-jumper-list',
@@ -36,21 +35,23 @@ export class JumperListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jumpers$ = Observable.merge(this.route.queryParams, this.paramsSource.asObservable())
-      .switchMap(params => {
-        this.q = params['q'];
-        this.page = +params['page'] || 1;
-        this.pageSize = +params['pageSize'] || 20;
-        this.sortBy = params['sortBy'] || 'participations';
-        this.sortOrder = +params['sortOrder'] || -1;
+    this.jumpers$ = merge(this.route.queryParams, this.paramsSource.asObservable())
+      .pipe(
+        switchMap(params => {
+          this.q = params['q'];
+          this.page = +params['page'] || 1;
+          this.pageSize = +params['pageSize'] || 20;
+          this.sortBy = params['sortBy'] || 'participations';
+          this.sortOrder = +params['sortOrder'] || -1;
 
-        return this.jumperService
-          .getJumpers(this.q, this.page, this.pageSize, `${this.sortBy}${this.sortOrder === 1 ? 'asc' : 'desc'}`)
-          .map(m => {
-            this.totalCount = m.totalCount;
-            return m.data;
-          });
-      });
+          return this.jumperService
+            .getJumpers(this.q, this.page, this.pageSize, `${this.sortBy}${this.sortOrder === 1 ? 'asc' : 'desc'}`)
+            .pipe(
+              tap(m => this.totalCount = m.totalCount),
+              map(m => m.data)
+            );
+        })
+      );
   }
 
   assignQueryParams(source: any) {
@@ -93,6 +94,6 @@ export class JumperListComponent implements OnInit {
           this.paramsSource.next(this.assignQueryParams({}));
         },
         err => this.toastService.error('Something went wrong. Try again later or contact the administrator!')
-      )
+      );
   }
 }

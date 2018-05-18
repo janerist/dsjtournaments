@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TournamentTypeWithCount} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/share';
+import {Observable} from 'rxjs';
+import {map, share} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tournament-types',
@@ -43,10 +42,10 @@ export class TournamentTypesComponent implements OnInit {
   totalCount: Observable<number>;
 
   ngOnInit() {
-    const share = this.types.share();
+    const shared = this.types.pipe(share());
 
-    this.dsj3Types = share.map(types => types.filter(t => t.gameVersion === 3));
-    this.dsj4Types = share.map(types => types.filter(t => t.gameVersion === 4));
-    this.totalCount = share.map(types => types.reduce((sum, {count: count}) => sum + count, 0));
+    this.dsj3Types = shared.pipe(map(types => types.filter(t => t.gameVersion === 3)));
+    this.dsj4Types = shared.pipe(map(types => types.filter(t => t.gameVersion === 4)));
+    this.totalCount = shared.pipe(map(types => types.reduce((sum, {count: count}) => sum + count, 0)));
   }
 }

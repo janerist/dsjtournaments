@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {TournamentTypeResponseModel, TournamentResponseModel} from './tournament-models';
 import {PagedResponse} from '../common/models';
 import {HttpClient, HttpParams} from '@angular/common/http';

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {CupResponseModel, PagedResponse} from '../../shared/api-responses';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-cups',
@@ -38,11 +39,14 @@ export class CupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cupPages$ = this.route.queryParams.switchMap(params =>
-      this.httpClient.get<PagedResponse<CupResponseModel>>(`${environment.apiUrl}/cups`, {
-          params: new HttpParams()
-            .set('page', params['page'] || '1')
-            .set('season', params['season'] || '')
-        }));
+    this.cupPages$ = this.route.queryParams
+      .pipe(
+        switchMap(params =>
+          this.httpClient.get<PagedResponse<CupResponseModel>>(`${environment.apiUrl}/cups`, {
+            params: new HttpParams()
+              .set('page', params['page'] || '1')
+              .set('season', params['season'] || '')
+          }))
+      );
   }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Context;
@@ -26,7 +27,7 @@ namespace DSJTournaments.Upload
             _configuration = configuration;
             _environment = environment;
         }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -34,34 +35,33 @@ namespace DSJTournaments.Upload
             // Options
             services.AddOptions();
             services.Configure<FileArchiveOptions>(_configuration.GetSection("FileArchive"));
-            services.Configure<FormOptions>(opts =>
-            {
-                opts.MultipartBodyLengthLimit = 1000000;
-            });
-            
+            services.Configure<FormOptions>(opts => { opts.MultipartBodyLengthLimit = 1000000; });
+
             // Database
             if (_environment.IsDevelopment())
             {
                 //NpgsqlLogManager.Provider = new ConsoleLoggingProvider(NpgsqlLogLevel.Debug, true);
             }
+
             services.AddSingleton(_ => new Database(_configuration.GetConnectionString("DSJTournamentsDB")));
-            
+
             // Upload
             services.AddSingleton<UploadService>();
-            
+
             // Services
             services.AddSingleton<FileArchive>();
             services.AddSingleton<StatParser>();
             services.AddSingleton<StatProcessor>();
-            
+
             // Framework services
             services.AddCors();
 
             services.AddMvc(opts =>
-            {
-                opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
-            });
+                {
+                    opts.Filters.Add(new ExceptionHandlerFilterAttribute());
+                    opts.Filters.Add(new WrapResultInDataPropertyAttribute());
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +69,8 @@ namespace DSJTournaments.Upload
         {
             app.Use(async (context, next) =>
             {
-                using (LogContext.PushProperty("Request", $"{context.Request.Method} {context.Request.GetDisplayUrl()}"))
+                using (LogContext.PushProperty("Request",
+                    $"{context.Request.Method} {context.Request.GetDisplayUrl()}"))
                 {
                     await next();
                 }
@@ -86,7 +87,7 @@ namespace DSJTournaments.Upload
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor |
                                    ForwardedHeaders.XForwardedProto
             });
-           
+
             app.UseMvc();
         }
     }

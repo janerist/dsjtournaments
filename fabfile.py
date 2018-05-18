@@ -47,7 +47,7 @@ def deploy_admin():
 
 
 def deploy_dotnetcoreapp(csproj_path, remote_path, service_name, 
-                         framework='netcoreapp2.0',
+                         framework='netcoreapp2.1',
                          runtime='ubuntu.16.04-x64',
                          configuration='Release'):
     project_path = os.path.dirname(csproj_path)

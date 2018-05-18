@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {TournamentResponseModel} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {TournamentService} from './tournament.service';
+import {switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tournament',
@@ -65,10 +66,11 @@ export class TournamentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$tournament = this.route.params.switchMap(params => this.httpClient
-      .get<TournamentResponseModel>(`${environment.apiUrl}/tournaments/${params['id']}`)
-    )
-    .do(tournament => this.tournamentService.tournament = tournament);
+    this.$tournament = this.route.params
+      .pipe(
+        switchMap(params => this.httpClient.get<TournamentResponseModel>(`${environment.apiUrl}/tournaments/${params['id']}`)),
+        tap(tournament => this.tournamentService.tournament = tournament)
+      );
   }
 
   getSelectedCompetition(tournament: TournamentResponseModel) {

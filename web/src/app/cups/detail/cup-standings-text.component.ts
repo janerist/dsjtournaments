@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CupStandingResponseModel, PagedResponse} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-cup-standings-text',
@@ -24,9 +25,11 @@ export class CupStandingsTextComponent implements OnInit {
 
   ngOnInit() {
     this.standings$ = this.route.parent.params
-      .switchMap(params =>
-        this.httpClient
-          .get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params['id']}/standings?pageSize=10000`))
-      .map(pagedResponse => pagedResponse.data);
+      .pipe(
+        switchMap(params =>
+          this.httpClient
+            .get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params['id']}/standings?pageSize=10000`)),
+        map(pagedResponse => pagedResponse.data)
+      );
   }
 }

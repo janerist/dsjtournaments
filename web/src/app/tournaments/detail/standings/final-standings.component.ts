@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {FinalStandingResponseModel} from '../../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-final-standings',
   template: `
     <app-final-standings-table
       *ngIf="$finalStandings | async, let results"
-      [results]="results">  
+      [results]="results">
     </app-final-standings-table>
   `
 })
@@ -21,7 +22,10 @@ export class FinalStandingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$finalStandings = this.route.parent.params.switchMap(params =>
-      this.httpClient.get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params['id']}/finalstandings`));
+    this.$finalStandings = this.route.parent.params
+      .pipe(
+        switchMap(params => this.httpClient
+          .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params['id']}/finalstandings`))
+      );
   }
 }

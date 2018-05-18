@@ -45,7 +45,7 @@
   <tbody>
   <tr *ngFor="let tournament of tournaments$ | async">
     <td>
-      <span class="badge badge-dsj{{tournament.gameVersion}}">DSJ{{tournament.gameVersion}}</span>
+      <span class="badge badge-secondary badge-dsj{{tournament.gameVersion}}">DSJ{{tournament.gameVersion}}</span>
       <a href="http://dsjtournaments.com/tournaments/{{tournament.id}}" target="_blank">
         {{tournament.type}}
       </a>

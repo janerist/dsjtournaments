@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {JumperResponseModel} from '../../shared/api-responses';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-jumper-list',
@@ -20,10 +20,10 @@ import {Observable} from 'rxjs/Observable';
     </div>
   `,
   styles: [`
-    .jumper.card  {
+    .jumper.card {
       font-size: 75% !important;
     }
-    
+
     .jumper.card .content .header {
       overflow: hidden;
       white-space: nowrap;

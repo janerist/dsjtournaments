@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {JumperAllStatsResponseModel} from '../../shared/api-responses';
 import {environment} from '../../../environments/environment';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-jumper-stats',
@@ -37,7 +38,7 @@ import {environment} from '../../../environments/environment';
         </tbody>
       </table>
       <h4>Per type</h4>
-      <app-jumper-stats-table [stats]="stats.perType"></app-jumper-stats-table>      
+      <app-jumper-stats-table [stats]="stats.perType"></app-jumper-stats-table>
     </div>
   `
 })
@@ -48,9 +49,10 @@ export class JumperStatsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stats$ = this.route.parent.params.switchMap(params => {
-      return this.httpClient
-        .get<JumperAllStatsResponseModel>(`${environment.apiUrl}/jumpers/${params['id']}/stats`);
-    });
+    this.stats$ = this.route.parent.params
+      .pipe(
+        switchMap(params => this.httpClient
+          .get<JumperAllStatsResponseModel>(`${environment.apiUrl}/jumpers/${params['id']}/stats`))
+      );
   }
 }

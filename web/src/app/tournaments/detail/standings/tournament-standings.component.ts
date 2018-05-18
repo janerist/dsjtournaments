@@ -11,7 +11,7 @@ import {TournamentService} from '../tournament.service';
       <a *ngIf="tournament.competitions.length" class="item" routerLink="rankings" routerLinkActive="active">
         Per-hill rankings
       </a>
-    </div>    
+    </div>
     <router-outlet></router-outlet>
   `
 })

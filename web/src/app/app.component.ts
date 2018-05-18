@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,7 @@ import {NavigationEnd, Router} from '@angular/router';
 export class AppComponent {
   constructor(router: Router) {
     // Scroll to top on route changes
-    router.events
-      .filter(event => event instanceof NavigationEnd)
+    router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => window.scrollTo(0, 0));
   }
 }

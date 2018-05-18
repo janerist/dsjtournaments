@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,9 +36,10 @@ namespace DSJTournaments.AdminApi
             {
                 //NpgsqlLogManager.Provider = new ConsoleLoggingProvider(NpgsqlLogLevel.Debug, true);
             }
+
             services.AddSingleton(_ => new Database(_configuration.GetConnectionString("DSJTournamentsDB")));
-            
-            
+
+
             // Tournaments
             services.AddSingleton<TournamentService>();
 
@@ -46,7 +48,7 @@ namespace DSJTournaments.AdminApi
 
             // Cups
             services.AddSingleton<CupService>();
-            
+
             // Framework services
             services.AddCors();
 
@@ -59,16 +61,17 @@ namespace DSJTournaments.AdminApi
                 });
 
             services.AddMvc(opts =>
-            {
-                var authorizationPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                
-                opts.Filters.Add(new AuthorizeFilter(authorizationPolicy));
-                opts.Filters.Add(new ModelStateValidationFilterAttribute());
-                opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
-            });
+                {
+                    var authorizationPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+
+                    opts.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+                    opts.Filters.Add(new ModelStateValidationFilterAttribute());
+                    opts.Filters.Add(new ExceptionHandlerFilterAttribute());
+                    opts.Filters.Add(new WrapResultInDataPropertyAttribute());
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,12 +79,13 @@ namespace DSJTournaments.AdminApi
         {
             app.Use(async (context, next) =>
             {
-                using (LogContext.PushProperty("Request", $"{context.Request.Method} {context.Request.GetDisplayUrl()}"))
+                using (LogContext.PushProperty("Request",
+                    $"{context.Request.Method} {context.Request.GetDisplayUrl()}"))
                 {
                     await next();
                 }
             });
-            
+
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()

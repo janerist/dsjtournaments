@@ -83,56 +83,56 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
                 {
                     Assert.Equal(1, fr.Rank);
                     Assert.Equal(1, fr.Bib);
-                    Assert.Equal(false, fr.LuckyLoser);
+                    Assert.False(fr.LuckyLoser);
                     Assert.Equal("Mateusz Sobon", fr.Name);
                     Assert.Equal("IRL", fr.Nation);
                     Assert.Equal(1660, fr.Rating);
                     Assert.Equal(131.0m, fr.Length1);
-                    Assert.Equal(false, fr.Crashed1);
+                    Assert.False(fr.Crashed1);
                     Assert.Equal(129.0m, fr.Length2);
-                    Assert.Equal(false, fr.Crashed2);
+                    Assert.False(fr.Crashed2);
                     Assert.Equal(274.0m, fr.Points);
                 },
                 fr =>
                 {
                     Assert.Equal(20, fr.Rank);
                     Assert.Equal(2, fr.Bib);
-                    Assert.Equal(false, fr.LuckyLoser);
+                    Assert.False(fr.LuckyLoser);
                     Assert.Equal("Przemysław Strzelczyk", fr.Name);
                     Assert.Equal("POL", fr.Nation);
                     Assert.Equal(1055, fr.Rating);
                     Assert.Equal(127.5m, fr.Length1);
-                    Assert.Equal(false, fr.Crashed1);
+                    Assert.False(fr.Crashed1);
                     Assert.Equal(128.5m, fr.Length2);
-                    Assert.Equal(false, fr.Crashed2);
+                    Assert.False(fr.Crashed2);
                     Assert.Equal(260.8m, fr.Points);
                 },
                 fr =>
                 {
                     Assert.Equal(25, fr.Rank);
                     Assert.Equal(3, fr.Bib);
-                    Assert.Equal(false, fr.LuckyLoser);
+                    Assert.False(fr.LuckyLoser);
                     Assert.Equal("Želimir Božič", fr.Name);
                     Assert.Equal("SLO", fr.Nation);
                     Assert.Equal(940, fr.Rating);
                     Assert.Equal(128.5m, fr.Length1);
-                    Assert.Equal(false, fr.Crashed1);
+                    Assert.False(fr.Crashed1);
                     Assert.Equal(120.0m, fr.Length2);
-                    Assert.Equal(false, fr.Crashed2);
+                    Assert.False(fr.Crashed2);
                     Assert.Equal(247.3m, fr.Points);
                 },
                 fr =>
                 {
                     Assert.Equal(30, fr.Rank);
                     Assert.Equal(4, fr.Bib);
-                    Assert.Equal(false, fr.LuckyLoser);
+                    Assert.False(fr.LuckyLoser);
                     Assert.Equal("Zoma Telemark", fr.Name);
                     Assert.Equal("AUT", fr.Nation);
                     Assert.Equal(875, fr.Rating);
                     Assert.Equal(119.0m, fr.Length1);
-                    Assert.Equal(false, fr.Crashed1);
+                    Assert.False(fr.Crashed1);
                     Assert.Equal(125.0m, fr.Length2);
-                    Assert.Equal(false, fr.Crashed2);
+                    Assert.False(fr.Crashed2);
                     Assert.Equal(232.7m, fr.Points);
                 });
         }

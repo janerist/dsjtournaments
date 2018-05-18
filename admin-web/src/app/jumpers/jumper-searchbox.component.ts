@@ -6,11 +6,12 @@ import {environment} from '../../environments/environment';
 import {JumperService} from './jumper.service';
 import {PagedResponse} from '../common/models';
 import {JumperResponseModel} from './jumper-models';
+import {QueryOptions} from 'select2';
 
 @Component({
   selector: 'dsjt-jumper-searchbox',
   template: `
-  <select class="col-sm-4">    
+  <select class="col-sm-4">
   </select>
   `
 })
@@ -50,14 +51,14 @@ export class JumperSearchboxComponent implements OnInit {
               err => failure(err)
             );
         }),
-        data: (params: Select2QueryOptions) => {
+        data: (params: QueryOptions) => {
           return {
             q: params.term,
             page: params.page || 1,
             pageSize: this.pageSize
           };
         },
-        processResults: (data: PagedResponse<JumperResponseModel>, params: Select2QueryOptions) => {
+        processResults: (data: PagedResponse<JumperResponseModel>, params: QueryOptions) => {
           params.page = params.page || 1;
           return {
             results: data.data
@@ -74,7 +75,7 @@ export class JumperSearchboxComponent implements OnInit {
     });
 
     $selectEl.on('select2:select', e => {
-      this.select.emit(e['params'].data.jumper);
+      this.select.emit(e['params'].data['jumper']);
       $selectEl.val(null).trigger('change');
     });
     if (this.autoOpen) {

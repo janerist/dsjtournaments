@@ -51,7 +51,7 @@ Rank  Name                     Nation     Rating     I    II   III     N     Poi
             var jumpers = await Database.Query<Jumper>().AllAsync();
             var finalStandings = await Database.Query<FinalStanding>().AllAsync();
 
-            Assert.Equal(1, tournaments.Length);
+            Assert.Single(tournaments);
             Assert.Equal(2, jumpers.Length);
             Assert.Equal(2, finalStandings.Length);
 
