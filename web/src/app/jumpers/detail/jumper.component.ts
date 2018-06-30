@@ -18,7 +18,7 @@ import {switchMap} from 'rxjs/operators';
           <div class="sub header">
             <i [appFlag]="jumper.nation"></i>{{jumper.nation}}
             | Hill records:
-            <a class="item" href="http://www.mediamond.fi/dsj4/personalhillrecords/?name={{jumper.name}}&version=1.0.0">DSJ4</a>
+            <a class="item" href="http://www.mediamond.fi/dsj4/personalhillrecords/?name={{jumper.name}}&version=1.0.0">DSJ4</a>&nbsp;
             <a class="item" href="http://www.mediamond.fi/dsj3/personalhillrecords/?name={{jumper.name}}&version=1.6">DSJ3</a>
           </div>
         </div>
