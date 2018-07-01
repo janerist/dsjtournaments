@@ -55,6 +55,7 @@ import {TournamentRankingsComponent} from './tournaments/detail/standings/tourna
 import {TournamentStandingsComponent} from './tournaments/detail/standings/tournament-standings.component';
 import {CompetitionFinalResultsComponent} from './tournaments/detail/competition/competition-final-results.component';
 import {CompetitionQualResultsComponent} from './tournaments/detail/competition/competition-qual-results.component';
+import {AboutComponent} from './about/about.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'tournaments', pathMatch: 'full'},
@@ -85,6 +86,7 @@ const appRoutes: Routes = [
     {path: 'rankings', component: CupRankingsComponent},
   ]},
   {path: 'upload', component: UploadComponent},
+  {path: 'about', component: AboutComponent},
   {path: '**', component: PageNotFoundComponent}
 ];
 
@@ -93,6 +95,7 @@ const appRoutes: Routes = [
     // App
     AppComponent,
     HeaderComponent,
+    AboutComponent,
     PageNotFoundComponent,
     FlagDirective,
     GravatarDirective,

@@ -12,6 +12,9 @@
         <a class="item" routerLink="/jumpers" routerLinkActive="active">Jumpers</a>
         <a class="item" routerLink="/cups" routerLinkActive="active">Cups &amp; Tours</a>
         <a class="item" routerLink="/upload" routerLinkActive="active">Upload</a>
+        <div class="right menu">
+          <a class="item" routerLink="/about" routerLinkActive="active">About</a>
+        </div>
       </div>
     </div>
   `,
