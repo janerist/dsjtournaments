@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DSJTournaments.AdminApi.Validation;
+using DSJTournaments.Mvc.Validation;
+using static DSJTournaments.Data.Schema.RankMethod;
 
 namespace DSJTournaments.AdminApi.Controllers.Cups.RequestModels
 {
@@ -9,7 +10,7 @@ namespace DSJTournaments.AdminApi.Controllers.Cups.RequestModels
         public string Name { get; set; }
 
         [Required]
-        [OneOf(Data.Schema.RankMethod.CupPoints, Data.Schema.RankMethod.JumpPoints)]
+        [OneOf(CupPoints, JumpPoints)]
         public string RankMethod { get; set; }
 
         [Required]

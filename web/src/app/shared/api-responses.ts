@@ -199,3 +199,24 @@ export interface CupRankingsResponseModel {
 export interface TournamentToRank {
   [tournamentId: string]: number;
 }
+
+export interface ResultResponseModel {
+  rank: number;
+  jumperId: string;
+  name: string;
+  nation: string;
+  participations: number;
+  totalTournaments: number;
+  firstPlaces: number;
+  secondPlaces: number;
+  thirdPlaces: number;
+  top10: number;
+  top30: number;
+  i: number;
+  ii: number;
+  iii: number;
+  completedHills: number;
+  totalHills: number;
+  jumpPoints: number;
+  cupPoints: number;
+}

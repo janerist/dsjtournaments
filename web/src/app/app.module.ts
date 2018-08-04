@@ -56,6 +56,10 @@ import {TournamentStandingsComponent} from './tournaments/detail/standings/tourn
 import {CompetitionFinalResultsComponent} from './tournaments/detail/competition/competition-final-results.component';
 import {CompetitionQualResultsComponent} from './tournaments/detail/competition/competition-qual-results.component';
 import {AboutComponent} from './about/about.component';
+import {ResultsComponent} from './results/results.component';
+import {ResultsFilterComponent} from './results/results-filter.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ResultsTableComponent} from './results/results-table.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'tournaments', pathMatch: 'full'},
@@ -78,6 +82,7 @@ const appRoutes: Routes = [
     {path: 'activity', component: JumperActivityComponent},
     {path: 'stats', component: JumperStatsComponent}
   ]},
+  {path: 'results', component: ResultsComponent},
   {path: 'cups', component: CupsComponent},
   {path: 'cups/:id', component: CupComponent, children: [
     {path: '', redirectTo: 'standings', pathMatch: 'full'},
@@ -150,6 +155,11 @@ const appRoutes: Routes = [
     JumperActivityComponent,
     JumperFormComponent,
 
+    // Results
+    ResultsComponent,
+    ResultsFilterComponent,
+    ResultsTableComponent,
+
     // Cups
     CupsComponent,
     CupListComponent,
@@ -169,6 +179,7 @@ const appRoutes: Routes = [
       appRoutes
     ),
     BrowserModule,
+    ReactiveFormsModule,
     NgUploaderModule,
     HttpClientModule,
     DragScrollModule,

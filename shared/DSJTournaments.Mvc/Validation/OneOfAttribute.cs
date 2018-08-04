@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DSJTournaments.AdminApi.Validation
+namespace DSJTournaments.Mvc.Validation
 {
     public class OneOfAttribute : ValidationAttribute
     {
@@ -14,7 +14,7 @@ namespace DSJTournaments.AdminApi.Validation
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (_values.Contains(value))
+            if (value == null || _values.Contains(value))
                 return null;
 
             var validValues = string.Join(", ", _values);

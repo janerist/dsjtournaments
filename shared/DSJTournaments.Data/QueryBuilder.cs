@@ -60,7 +60,7 @@ namespace DSJTournaments.Data
             if (!onlyIf)
                 return this;
 
-            Select($"({subQuery.Sql()}) {alias}");
+            Select($"({subQuery.GenerateSql()}) {alias}");
             Params(subQuery._parameters);
 
             return this;
@@ -101,7 +101,7 @@ namespace DSJTournaments.Data
             if (!onlyIf)
                 return this;
 
-            From(new[] {$"({subQuery.Sql()}) {alias}"});
+            From(new[] {$"({subQuery.GenerateSql()}) {alias}"});
             Params(subQuery._parameters);
 
             return this;
@@ -278,7 +278,7 @@ namespace DSJTournaments.Data
             return "GROUP BY " + string.Join(", ", _groupByClauses);
         }
 
-        private string Sql()
+        private string GenerateSql()
         {
             return GenerateQuery(
                 _cte,
@@ -353,32 +353,32 @@ namespace DSJTournaments.Data
 
         public T FirstOrDefault()
         {
-            return _database.QueryFirstOrDefault<T>(Sql(), _parameters);
+            return _database.QueryFirstOrDefault<T>(GenerateSql(), _parameters);
         }
 
         public Task<T> FirstOrDefaultAsync()
         {
-            return _database.QueryFirstOrDefaultAsync<T>(Sql(), _parameters);
+            return _database.QueryFirstOrDefaultAsync<T>(GenerateSql(), _parameters);
         }
 
         public T First()
         {
-            return _database.QueryFirst<T>(Sql(), _parameters);
+            return _database.QueryFirst<T>(GenerateSql(), _parameters);
         }
 
         public Task<T> FirstAsync()
         {
-            return _database.QueryFirstAsync<T>(Sql(), _parameters);
+            return _database.QueryFirstAsync<T>(GenerateSql(), _parameters);
         }
 
         public T[] All()
         {
-            return _database.Query<T>(Sql(), _parameters);
+            return _database.Query<T>(GenerateSql(), _parameters);
         }
 
         public Task<T[]> AllAsync()
         {
-            return _database.QueryAsync<T>(Sql(), _parameters);
+            return _database.QueryAsync<T>(GenerateSql(), _parameters);
         }
 
         public T[] Page(int page, int pageSize)
@@ -405,7 +405,7 @@ namespace DSJTournaments.Data
                 _offset = null;
 
             var countSql = CountSql();
-            var pageSql = Sql();
+            var pageSql = GenerateSql();
             var sql = countSql + ";" + pageSql + ";";
 
             int count = 0;
@@ -427,7 +427,7 @@ namespace DSJTournaments.Data
             _offset = (Math.Max(1, page) - 1) * _limit;
 
             var countSql = CountSql();
-            var pageSql = Sql();
+            var pageSql = GenerateSql();
             var sql = countSql + ";" + pageSql + ";";
 
             int count = 0;
@@ -465,6 +465,11 @@ namespace DSJTournaments.Data
             IDictionary<string, object> dapperRow = await _database.QuerySingleAsync<dynamic>(CountSql(), _parameters);
             var count = dapperRow.Values.First();
             return Convert.ToInt32(count);
+        }
+
+        public string Sql()
+        {
+            return GenerateSql();
         }
     }
 }

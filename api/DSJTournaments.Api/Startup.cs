@@ -3,6 +3,7 @@ using DSJTournaments.Api.Controllers.Cups.Data;
 using DSJTournaments.Api.Controllers.Cups.Services;
 using DSJTournaments.Api.Controllers.Jumpers.Data;
 using DSJTournaments.Api.Controllers.Jumpers.Services;
+using DSJTournaments.Api.Controllers.Results.Services;
 using DSJTournaments.Api.Controllers.Tournaments.Data;
 using DSJTournaments.Api.Controllers.Tournaments.Services;
 using DSJTournaments.Data;
@@ -52,6 +53,9 @@ namespace DSJTournaments.Api
             // Cups
             services.AddSingleton<CupService>();
             services.AddSingleton<CupQueries>();
+            
+            // Results
+            services.AddSingleton<ResultService>();
 
             // Framework services
             services.AddCors();
