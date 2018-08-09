@@ -157,6 +157,8 @@ export class ResultsFilterComponent implements OnInit, AfterViewInit {
   }
 
   typesOfVersion(version: string) {
-    return this.types.filter(type => version ? type.gameVersion === +version : true);
+    return this.types
+      .filter(type => version ? type.gameVersion === +version : true)
+      .filter(type => type.name !== 'Team Cup');
   }
 }
