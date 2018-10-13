@@ -216,3 +216,6 @@ create index ix_jumper_results_tournament_id ON jumper_results (tournament_id);
 ALTER TABLE jumpers ADD COLUMN gravatar_email VARCHAR(100);
 ALTER TABLE users DROP COLUMN salt;
 ALTER TABLE tournaments ADD COLUMN sub_type VARCHAR (50);
+ALTER TABLE final_standings ADD CONSTRAINT uq_final_standings_tournament_id_jumper_id UNIQUE(tournament_id, jumper_id);
+ALTER TABLE final_results ADD CONSTRAINT uq_final_results_competition_id_jumper_id UNIQUE(competition_id, jumper_id);
+ALTER TABLE qualification_results ADD CONSTRAINT uq_qualification_results_competition_id_jumper_id UNIQUE(competition_id, jumper_id);
