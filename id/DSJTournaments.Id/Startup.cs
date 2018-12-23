@@ -37,6 +37,7 @@ namespace DSJTournaments.Id
                     options.Endpoints.EnableUserInfoEndpoint = false;
                     options.Endpoints.EnableCheckSessionEndpoint = false;
                     options.Endpoints.EnableTokenRevocationEndpoint = false;
+                    options.Endpoints.EnableDeviceAuthorizationEndpoint = false;
                 })
                 .AddResourceOwnerValidator<ResourceOwnerValidator>()
                 .AddInMemoryApiResources(IdentityConfig.ApiResources)
@@ -53,10 +54,6 @@ namespace DSJTournaments.Id
             }
             
             // Database
-            if (_environment.IsDevelopment())
-            {
-                //NpgsqlLogManager.Provider = new ConsoleLoggingProvider(NpgsqlLogLevel.Debug, true);
-            }
             services.AddSingleton(_ => new Database(_configuration.GetConnectionString("DSJTournamentsDB")));
             
             // Services
@@ -69,14 +66,6 @@ namespace DSJTournaments.Id
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.Use(async (context, next) =>
-            {
-                using (LogContext.PushProperty("Request", $"{context.Request.Method} {context.Request.GetDisplayUrl()}"))
-                {
-                    await next();
-                }
-            });
-            
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()
@@ -89,11 +78,6 @@ namespace DSJTournaments.Id
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor |
                                    ForwardedHeaders.XForwardedProto
-            });
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
             });
         }
     }

@@ -7,13 +7,11 @@ using DSJTournaments.Mvc.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog.Context;
 
 namespace DSJTournaments.AdminApi
 {
@@ -32,13 +30,7 @@ namespace DSJTournaments.AdminApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Database
-            if (_environment.IsDevelopment())
-            {
-                //NpgsqlLogManager.Provider = new ConsoleLoggingProvider(NpgsqlLogLevel.Debug, true);
-            }
-
             services.AddSingleton(_ => new Database(_configuration.GetConnectionString("DSJTournamentsDB")));
-
 
             // Tournaments
             services.AddSingleton<TournamentService>();
@@ -64,6 +56,7 @@ namespace DSJTournaments.AdminApi
                 {
                     var authorizationPolicy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
+                        .RequireScope("dsjt")
                         .Build();
 
                     opts.Filters.Add(new AuthorizeFilter(authorizationPolicy));
@@ -71,21 +64,12 @@ namespace DSJTournaments.AdminApi
                     opts.Filters.Add(new ExceptionHandlerFilterAttribute());
                     opts.Filters.Add(new WrapResultInDataPropertyAttribute());
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.Use(async (context, next) =>
-            {
-                using (LogContext.PushProperty("Request",
-                    $"{context.Request.Method} {context.Request.GetDisplayUrl()}"))
-                {
-                    await next();
-                }
-            });
-
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()

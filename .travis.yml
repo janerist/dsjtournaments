@@ -1,15 +1,12 @@
 language: csharp
 mono: none
-dotnet: 2.1.403
-dist: trusty
+dotnet: 2.2.101
+dist: xenial
 
 notifications:
   email:
     - on_success: never
     - on_failure: always
-
-addons:
-  postgresql: "9.6"
 
 services:
   - postgresql

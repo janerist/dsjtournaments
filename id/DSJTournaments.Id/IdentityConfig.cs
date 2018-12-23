@@ -5,7 +5,7 @@ namespace DSJTournaments.Id
 {
     public static class IdentityConfig
     {
-        public static Client[] Clients = {
+        public static readonly Client[] Clients = {
             new Client
             {
                 ClientId = "admin",
@@ -21,7 +21,7 @@ namespace DSJTournaments.Id
             }
         };
 
-        public static ApiResource[] ApiResources = {
+        public static readonly ApiResource[] ApiResources = {
             new ApiResource("dsjt", "DSJT API")
         };
     }
