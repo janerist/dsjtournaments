@@ -85,8 +85,8 @@ namespace DSJTournaments.Upload.Controllers.Upload.Services
                 using (var trans = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     await _processor.Process(statFile, fileNumber);
-                    
-                    var path = Path.Combine($"{statFile.Date:yyyy-MM-dd} {statFile.Type}", fileName);
+
+                    var path = Path.Combine($"{statFile.Date:yyyy-MM-dd} {statFile.Type}{(statFile.SubType != null ? " " + statFile.SubType : string.Empty)}", fileName);
 
                     await _db.Insert(new DSJTournaments.Data.Schema.Upload
                     {

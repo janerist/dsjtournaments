@@ -384,6 +384,7 @@ namespace DSJTournaments.Upload.Services.Processor
             return await _db.Query<Tournament>()
                 .Filter("date = @Date", new {Date = stats.Date})
                 .Filter("tournament_type_id = @TournamentTypeId", new {TournamentTypeId = tournamentType.Id})
+                .Filter("sub_type = @SubType", new { SubType = stats.SubType}, onlyIf: stats.SubType != null)
                 .FirstOrDefaultAsync();
         }
 
