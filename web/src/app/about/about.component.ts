@@ -13,5 +13,5 @@ import {Component} from '@angular/core';
   `
 })
 export class AboutComponent {
-  email = 'jan.erik.strom@gmail.com';
+  email = 'janerik@janerist.net';
 }
