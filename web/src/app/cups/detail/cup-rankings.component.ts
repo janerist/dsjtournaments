@@ -35,9 +35,9 @@ export class CupRankingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rankingPages$ = combineLatest(this.route.parent.params, this.route.queryParams)
+    this.rankingPages$ = combineLatest([this.route.parent.paramMap, this.route.queryParamMap])
       .pipe(
-        map(([params, qparams]) => ({id: params['id'], page: qparams['page']})),
+        map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
         switchMap(({id, page}) =>
           this.httpClient.get<PagedResponse<CupRankingsResponseModel>>(`${environment.apiUrl}/cups/${id}/rankings?page=${page || '1'}`))
       );

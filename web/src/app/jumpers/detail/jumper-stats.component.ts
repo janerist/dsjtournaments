@@ -49,10 +49,10 @@ export class JumperStatsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stats$ = this.route.parent.params
+    this.stats$ = this.route.parent.paramMap
       .pipe(
         switchMap(params => this.httpClient
-          .get<JumperAllStatsResponseModel>(`${environment.apiUrl}/jumpers/${params['id']}/stats`))
+          .get<JumperAllStatsResponseModel>(`${environment.apiUrl}/jumpers/${params.get('id')}/stats`))
       );
   }
 }

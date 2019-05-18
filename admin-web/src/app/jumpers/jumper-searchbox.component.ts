@@ -23,7 +23,7 @@ export class JumperSearchboxComponent implements OnInit {
   @Input() ignore: JumperResponseModel[] = [];
   @Input() placeholder = 'Search for jumper';
 
-  @Output() select = new EventEmitter<any>();
+  @Output() selectJumper = new EventEmitter<any>();
 
   constructor(
     private el: ElementRef,
@@ -43,28 +43,27 @@ export class JumperSearchboxComponent implements OnInit {
         dataType: 'json',
         delay: this.delay,
         cache: true,
-        transport: <any>((params: JQueryAjaxSettings, success, failure) => {
+        transport: ((params: JQueryAjaxSettings, success, failure) => {
+          const data = params.data as any;
           this.jumperService
-            .getJumpers(params.data['q'], params.data['page'], params.data['pageSize'])
+            .getJumpers(data.q, data.page, data.pageSize)
             .subscribe(
               jumpers => success(jumpers),
-              err => failure(err)
+              () => failure()
             );
         }),
-        data: (params: QueryOptions) => {
-          return {
-            q: params.term,
-            page: params.page || 1,
-            pageSize: this.pageSize
-          };
-        },
+        data: (params: QueryOptions) => ({
+          q: params.term,
+          page: params.page || 1,
+          pageSize: this.pageSize
+        }),
         processResults: (data: PagedResponse<JumperResponseModel>, params: QueryOptions) => {
           params.page = params.page || 1;
           return {
             results: data.data
               .filter(jumper => !this.ignore.find(j => j && j.id === jumper.id))
               .map(jumper => {
-                return {id: jumper.id, text: jumper.name, jumper: jumper};
+                return {id: jumper.id, text: jumper.name, jumper};
               }),
             pagination: {
               more: (params.page * this.pageSize) < data.totalCount
@@ -75,9 +74,11 @@ export class JumperSearchboxComponent implements OnInit {
     });
 
     $selectEl.on('select2:select', e => {
-      this.select.emit(e['params'].data['jumper']);
+      const data = e.params.data as any;
+      this.selectJumper.emit(data.jumper);
       $selectEl.val(null).trigger('change');
     });
+
     if (this.autoOpen) {
       $selectEl.select2('open');
     }

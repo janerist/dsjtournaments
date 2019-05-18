@@ -5,8 +5,8 @@ export class CustomValidators {
     return (fa: FormArray) => {
       const length = fa.controls.filter(c => !c.get('destroy').value).length;
       return length < minLength
-        ? {'minlength': {'requiredLength': minLength, 'actualLength': length} }
+        ? {minlength: {requiredLength: minLength, actualLength: length} }
         : null;
-    }
+    };
   }
 }

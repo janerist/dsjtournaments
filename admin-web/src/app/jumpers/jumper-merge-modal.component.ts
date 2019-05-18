@@ -6,19 +6,19 @@ import {JumperResponseModel, JumperMergeRequestModel} from './jumper-models';
   templateUrl: './jumper-merge-modal.component.html'
 })
 export class JumperMergeModalComponent implements OnInit {
-  _show = false;
+  pShow = false;
 
   get show() {
-    return this._show;
+    return this.pShow;
   }
   @Input('show')
   set show(value) {
-    this._show = value;
+    this.pShow = value;
     if (this.modalEl) {
       if (value) {
-        this.modalEl.modal('show');
+        (this.modalEl as any).modal('show');
       } else {
-        this.modalEl.modal('hide');
+        (this.modalEl as any).modal('hide');
         this.destinationJumper = null;
         this.isMerging = false;
       }
@@ -40,15 +40,15 @@ export class JumperMergeModalComponent implements OnInit {
 
   ngOnInit() {
     this.modalEl = $('.modal', this.el.nativeElement);
-    this.modalEl.modal({
-      show: this._show,
+    (this.modalEl as any).modal({
+      show: this.pShow,
       backdrop: 'static',
       keyboard: true
     });
   }
 
   onMergeClicked() {
-    const message = `Are you ABSOLUTELY sure you want to merge 
+    const message = `Are you ABSOLUTELY sure you want to merge
 the results of ${this.sourceJumpers.map(j => j.name).join(', ')}
 into ${this.destinationJumper.name}? This operation cannot be undone.`;
 

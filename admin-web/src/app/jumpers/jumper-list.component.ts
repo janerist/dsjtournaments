@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {JumperService} from './jumper.service';
 import {JumperResponseModel, JumperMergeRequestModel} from './jumper-models';
-import {ActivatedRoute, Router, Params} from '@angular/router';
+import {ActivatedRoute, Router, ParamMap, convertToParamMap} from '@angular/router';
 import {ToastService} from '../common/services/toast.service';
 import {Subject, Observable} from 'rxjs';
 import {merge} from 'rxjs';
@@ -12,7 +12,7 @@ import {map, switchMap, tap} from 'rxjs/operators';
   templateUrl: './jumper-list.component.html'
 })
 export class JumperListComponent implements OnInit {
-  paramsSource = new Subject<Params>();
+  paramsSource = new Subject<ParamMap>();
   jumpers$: Observable<JumperResponseModel[]>;
 
   q: string;
@@ -35,14 +35,14 @@ export class JumperListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jumpers$ = merge(this.route.queryParams, this.paramsSource.asObservable())
+    this.jumpers$ = merge(this.route.queryParamMap, this.paramsSource.asObservable())
       .pipe(
         switchMap(params => {
-          this.q = params['q'];
-          this.page = +params['page'] || 1;
-          this.pageSize = +params['pageSize'] || 20;
-          this.sortBy = params['sortBy'] || 'participations';
-          this.sortOrder = +params['sortOrder'] || -1;
+          this.q = params.get('q');
+          this.page = +params.get('page') || 1;
+          this.pageSize = +params.get('pageSize') || 20;
+          this.sortBy = params.get('sortBy') || 'participations';
+          this.sortOrder = +params.get('sortOrder') || -1;
 
           return this.jumperService
             .getJumpers(this.q, this.page, this.pageSize, `${this.sortBy}${this.sortOrder === 1 ? 'asc' : 'desc'}`)
@@ -72,11 +72,11 @@ export class JumperListComponent implements OnInit {
 
   search() {
     const queryParams = this.assignQueryParams({page: 1});
-    this.router.navigate(['/jumpers'], {queryParams: queryParams});
+    this.router.navigate(['/jumpers'], {queryParams});
   }
 
   createGetQueryParams() {
-    return (page: number) => this.assignQueryParams({page: page});
+    return (page: number) => this.assignQueryParams({page});
   }
 
   openJumperMergeModal(jumper: JumperResponseModel) {
@@ -91,7 +91,7 @@ export class JumperListComponent implements OnInit {
         () => {
           this.toastService.success('Jumpers merged successfully.');
           this.showJumperMergeModal = false;
-          this.paramsSource.next(this.assignQueryParams({}));
+          this.paramsSource.next(convertToParamMap(this.assignQueryParams({})));
         },
         err => this.toastService.error('Something went wrong. Try again later or contact the administrator!')
       );

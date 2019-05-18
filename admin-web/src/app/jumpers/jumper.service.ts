@@ -24,7 +24,7 @@ export class JumperService {
     }
 
     return this.httpClient
-      .get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, { params: params });
+      .get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, { params });
   }
 
   updateJumper(id: number, model: JumperUpdateModel): Observable<JumperResponseModel> {

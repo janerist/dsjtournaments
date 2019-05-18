@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import {RouterModule} from '@angular/router';
 import {CupListComponent} from './cups/cup-list.component';
 import {CupCreateComponent} from './cups/cup-create.component';
 import {CupEditComponent} from './cups/cup-edit.component';
@@ -33,6 +32,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptor} from './common/http/auth-interceptor';
 import {DataInterceptor} from './common/http/data-interceptor';
 import {TokenExpirationInterceptor} from './common/http/token-expiration-interceptor';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -74,26 +74,10 @@ import {TokenExpirationInterceptor} from './common/http/token-expiration-interce
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule.forRoot([
-      { path: '', redirectTo: 'cups', pathMatch: 'full', canActivate: [AuthGuard]},
-
-      // Login
-      { path: 'login', component: LoginComponent},
-
-      // Cups
-      { path: 'cups', component: CupListComponent, canActivate: [AuthGuard]},
-      { path: 'cups/create', component: CupCreateComponent, canActivate: [AuthGuard]},
-      { path: 'cups/:id', component: CupEditComponent, canActivate: [AuthGuard]},
-
-      // Jumpers
-      { path: 'jumpers', component: JumperListComponent, canActivate: [AuthGuard]},
-
-      // Tournaments
-      { path: 'tournaments', component: TournamentListComponent, canActivate: [AuthGuard]}
-    ])
+    HttpClientModule
   ],
   providers: [
     // HTTP interceptors

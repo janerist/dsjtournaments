@@ -42,9 +42,9 @@ export class CupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cup$ = this.route.params
+    this.cup$ = this.route.paramMap
       .pipe(
-        switchMap(params => this.httpClient.get<CupResponseModel>(`${environment.apiUrl}/cups/${params['id']}`)),
+        switchMap(params => this.httpClient.get<CupResponseModel>(`${environment.apiUrl}/cups/${params.get('id')}`)),
         tap(cup => this.cupService.cup = cup)
       );
   }

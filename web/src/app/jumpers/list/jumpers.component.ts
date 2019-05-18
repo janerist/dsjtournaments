@@ -38,14 +38,14 @@ export class JumpersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jumperPages$ = this.route.queryParams
+    this.jumperPages$ = this.route.queryParamMap
       .pipe(
         switchMap(params =>
           this.httpClient.get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, {
             params: new HttpParams()
-              .set('q', params['q'] || '')
-              .set('sort', params['sort'] || '')
-              .set('page', params['page'] || '1')
+              .set('q', params.get('q') || '')
+              .set('sort', params.get('sort') || '')
+              .set('page', params.get('page') || '1')
           }))
       );
   }

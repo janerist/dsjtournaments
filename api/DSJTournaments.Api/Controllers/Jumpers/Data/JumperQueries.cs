@@ -24,7 +24,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Data
                 .GroupBy("j.id");
         }
 
-        public QueryBuilder<JumperStatsResponseModel> StatsQuery()
+        public QueryBuilder<JumperStatsResponseModel> StatsQuery(int jumperId)
         {
             return _database.Query<JumperStatsResponseModel>()
                 .Select(
@@ -41,10 +41,10 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Data
                 .From("tournament_types tt")
                 .Join("tournaments t ON t.tournament_type_id = tt.id")
                 .Join("jumper_results jr ON jr.tournament_id = t.id")
-                .Where("jr.jumper_id = @JumperId");
+                .Where("jr.jumper_id = @JumperId", new { JumperId = jumperId});
         }
 
-        public QueryBuilder<JumperActivityResponseModel> ActivityQuery()
+        public QueryBuilder<JumperActivityResponseModel> ActivityQuery(int jumperId)
         {
             return _database.Query<JumperActivityResponseModel>()
                 .Select(
@@ -58,7 +58,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Data
                 .From("tournaments t")
                 .Join("tournament_types tt ON tt.id = t.tournament_type_id")
                 .Join("jumper_results jr ON jr.tournament_id = t.id")
-                .Where("jr.jumper_id = @JumperId")
+                .Where("jr.jumper_id = @JumperId", new { JumperId = jumperId})
                 .OrderBy("t.date DESC");
         }
     }

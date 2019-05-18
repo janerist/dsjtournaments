@@ -44,9 +44,9 @@ export class CupStandingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.standingPages$ = combineLatest(this.route.parent.params, this.route.queryParamMap)
+    this.standingPages$ = combineLatest([this.route.parent.paramMap, this.route.queryParamMap])
       .pipe(
-        map(([params, qparams]) => ({id: params['id'], page: qparams.get('page')})),
+        map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
         switchMap(({id, page}) =>
           this.httpClient.get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${id}/standings?page=${page || '1'}`))
       );

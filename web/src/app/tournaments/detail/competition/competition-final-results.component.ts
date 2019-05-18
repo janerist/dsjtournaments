@@ -24,10 +24,10 @@ export class CompetitionFinalResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$finalResults = this.route.parent.params
+    this.$finalResults = this.route.parent.paramMap
       .pipe(
         switchMap(params => this.httpClient
-          .get<FinalResultResponseModel[]>(`${environment.apiUrl}/competitions/${params['cid']}/final`))
+          .get<FinalResultResponseModel[]>(`${environment.apiUrl}/competitions/${params.get('cid')}/final`))
       );
   }
 }

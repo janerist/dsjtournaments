@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router,} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CupService} from './cup.service';
 import {CupResponseModel, CupRequestModel} from './cup-models';
 import {TournamentService} from '../tournaments/tournament.service';
@@ -25,8 +25,8 @@ export class CupEditComponent implements OnInit {
   ngOnInit() {
     this.loadTypes();
 
-    this.route.params.subscribe(params => {
-      this.loadCup(params['id']);
+    this.route.paramMap.subscribe(params => {
+      this.loadCup(+params.get('id'));
     });
   }
 

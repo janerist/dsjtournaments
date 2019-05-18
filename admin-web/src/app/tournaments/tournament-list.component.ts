@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {TournamentResponseModel} from './tournament-models';
 import {TournamentService} from './tournament.service';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, convertToParamMap, ParamMap, Params} from '@angular/router';
 import {ToastService} from '../common/services/toast.service';
 import {merge} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
@@ -12,7 +12,7 @@ import {map, switchMap, tap} from 'rxjs/operators';
   templateUrl: './tournament-list.component.html'
 })
 export class TournamentListComponent implements OnInit {
-  paramsSource = new Subject<Params>();
+  paramsSource = new Subject<ParamMap>();
   tournaments$: Observable<TournamentResponseModel[]>;
 
   q: string;
@@ -31,13 +31,13 @@ export class TournamentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tournaments$ = merge(this.route.queryParams, this.paramsSource.asObservable())
+    this.tournaments$ = merge(this.route.queryParamMap, this.paramsSource.asObservable())
       .pipe(
         switchMap(params => {
-          this.page = +params['page'] || 1;
-          this.pageSize = +params['pageSize'] || 20;
-          this.sortBy = params['sortBy'] || 'date';
-          this.sortOrder = +params['sortOrder'] || -1;
+          this.page = +params.get('page') || 1;
+          this.pageSize = +params.get('pageSize') || 20;
+          this.sortBy = params.get('sortBy') || 'date';
+          this.sortOrder = +params.get('sortOrder') || -1;
 
           return this.tournamentService
             .getTournaments(this.page, this.pageSize, `${this.sortBy}${this.sortOrder === 1 ? 'asc' : 'desc'}`)
@@ -59,7 +59,7 @@ export class TournamentListComponent implements OnInit {
   }
 
   createGetQueryParams() {
-    return (page: number) => this.assignQueryParams({page: page});
+    return (page: number) => this.assignQueryParams({page});
   }
 
   deleteTournament(tournament: TournamentResponseModel) {
@@ -68,8 +68,8 @@ export class TournamentListComponent implements OnInit {
         .deleteTournament(tournament.id)
         .subscribe(() => {
           this.toastService.success('Tournament was deleted');
-          this.paramsSource.next(this.assignQueryParams({}));
-        }, err => {
+          this.paramsSource.next(convertToParamMap(this.assignQueryParams({})));
+        }, () => {
           alert('Failed to delete tournament, try again later.');
         });
     }

@@ -32,7 +32,7 @@
               <dsjt-jumper-searchbox
                 [placeholder]="'Add source jumper'"
                 [ignore]="sourceJumpers.concat(destinationJumper)"
-                (select)="sourceJumpers.push($event)">
+                (selectJumper)="sourceJumpers.push($event)">
               </dsjt-jumper-searchbox>
             </div>
 
@@ -40,7 +40,7 @@
               <dsjt-jumper-searchbox
                 [placeholder]="'Select destination jumper'"
                 [ignore]="sourceJumpers.concat(destinationJumper)"
-                (select)="destinationJumper = $event">
+                (selectJumper)="destinationJumper = $event">
               </dsjt-jumper-searchbox>
             </div>
           </div>

@@ -22,10 +22,10 @@ export class FinalStandingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$finalStandings = this.route.parent.params
+    this.$finalStandings = this.route.parent.paramMap
       .pipe(
         switchMap(params => this.httpClient
-          .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params['id']}/finalstandings`))
+          .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/finalstandings`))
       );
   }
 }

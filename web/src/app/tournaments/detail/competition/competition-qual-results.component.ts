@@ -25,10 +25,10 @@ export class CompetitionQualResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$qualResults = this.route.parent.params
+    this.$qualResults = this.route.parent.paramMap
       .pipe(
         switchMap(params =>
-          this.httpClient.get<QualificationResultResponseModel[]>(`${environment.apiUrl}/competitions/${params['cid']}/qual`)
+          this.httpClient.get<QualificationResultResponseModel[]>(`${environment.apiUrl}/competitions/${params.get('cid')}/qual`)
         )
       );
   }

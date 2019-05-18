@@ -22,7 +22,7 @@ export class TournamentService {
       .set('sort', sort);
 
     return this.http
-      .get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {params: params});
+      .get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {params});
   }
 
   deleteTournament(id: number) {

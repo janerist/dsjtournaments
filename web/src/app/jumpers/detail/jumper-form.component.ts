@@ -23,7 +23,8 @@ export class JumperFormComponent implements OnChanges {
   handleClick(event) {
     const activePoints = this.chart ? this.chart.getElementsAtEvent(event) : [];
     if (activePoints.length === 1) {
-      const index = activePoints[0]._index;
+      // tslint:disable-next-line:no-string-literal
+      const index = activePoints[0]['_index'];
       this.router.navigate(['/tournaments', this.rankings[index].tournamentId]);
     }
   }
@@ -39,7 +40,8 @@ export class JumperFormComponent implements OnChanges {
   }
 
   private buildChart() {
-    this.chart = new Chart(document.getElementById('jumper-form'), {
+    const canvas = document.getElementById('jumper-form') as HTMLCanvasElement;
+    this.chart = new Chart(canvas, {
       type: 'line',
       data: {
         labels: this.rankings.map(r => moment(r.date).format('D MMM YYYY')),

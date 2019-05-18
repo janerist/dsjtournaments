@@ -28,7 +28,7 @@ export class CupStandingsTextComponent implements OnInit {
       .pipe(
         switchMap(params =>
           this.httpClient
-            .get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params['id']}/standings?pageSize=10000`)),
+            .get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params.id}/standings?pageSize=10000`)),
         map(pagedResponse => pagedResponse.data)
       );
   }

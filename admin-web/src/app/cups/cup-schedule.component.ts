@@ -16,7 +16,7 @@ export class CupScheduleComponent implements OnInit, AfterViewInit {
   @Input() types: TournamentTypeResponseModel[];
   @Input() gameVersion: FormControl;
 
-  _rawDates = {};
+  rawDates = {};
   dates: FormArray;
   monthGroups: Array<any>;
   moment = moment;
@@ -53,7 +53,7 @@ export class CupScheduleComponent implements OnInit, AfterViewInit {
         .map(cd => moment(cd.date).format('YYYY-MM-DD'));
 
       if (datesToSet.length) {
-        this._rawDates[i] = datesToSet;
+        this.rawDates[i] = datesToSet;
         datepicker.datepicker('setDates', datesToSet);
       }
 
@@ -72,20 +72,20 @@ export class CupScheduleComponent implements OnInit, AfterViewInit {
   }
 
   private addOrRemoveDates(index: number, dates: string[]) {
-    const dateWasRemoved = this._rawDates[index] && this._rawDates[index].length > dates.length;
+    const dateWasRemoved = this.rawDates[index] && this.rawDates[index].length > dates.length;
 
     if (dateWasRemoved) {
-      const removedDate = this._rawDates[index].find(d => dates.indexOf(d) === -1);
+      const removedDate = this.rawDates[index].find(d => dates.indexOf(d) === -1);
       this.removeCupDate(removedDate);
     } else {
       const addedDate = dates.length === 1
         ? dates[0]
-        : dates.find(d => this._rawDates[index].indexOf(d) === -1);
+        : dates.find(d => this.rawDates[index].indexOf(d) === -1);
 
       this.addCupDate({date: addedDate + ' ' + this.getHours(addedDate)});
     }
 
-    this._rawDates[index] = dates;
+    this.rawDates[index] = dates;
     this.monthGroups = this.groupDatesByMonth();
     this.dates.markAsTouched();
   }
@@ -124,7 +124,7 @@ export class CupScheduleComponent implements OnInit, AfterViewInit {
         const month = moment(cupDate.get('date').value).startOf('month');
         let group = groups.find(g => g.month.unix() === month.unix());
         if (!group) {
-          group = {month: month, dates: []};
+          group = {month, dates: []};
           groups.push(group);
           groups.sort((a, b) => {
             if (a.month < b.month) {

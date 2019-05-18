@@ -63,8 +63,8 @@
   </thead>
   <tbody>
     <tr
-      *ngFor="let jumper of jumpers$ | async"
       dsjt-jumper-list-row
+      *ngFor="let jumper of jumpers$ | async"
       [model]="jumper"
       (mergeButtonClicked)="openJumperMergeModal($event)">
     </tr>

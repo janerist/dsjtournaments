@@ -13,7 +13,7 @@ export class CupService {
 
   getCups(): Observable<PagedResponse<CupResponseModel>> {
     return this.httpClient
-      .get<PagedResponse<CupResponseModel>>(`${environment.apiUrl}/cups?pageSize=1000`)
+      .get<PagedResponse<CupResponseModel>>(`${environment.apiUrl}/cups?pageSize=1000`);
   }
 
   getCup(id: number): Observable<CupResponseModel> {

@@ -20,9 +20,9 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     this.httpClient.post(`${environment.apiUrl}/logs/error`, {
       clientId: 'web',
-      path: path,
-      message: message,
-      stackTrace: stackTrace
+      path,
+      message,
+      stackTrace
     }).subscribe(
       () => console.log('Error was logged to server'),
       err => console.log('Failed to log error to server: ', err));

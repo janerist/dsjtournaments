@@ -27,10 +27,10 @@ export class TournamentRankingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$rankings = this.route.parent.params
+    this.$rankings = this.route.parent.paramMap
       .pipe(
         switchMap(params => this.httpClient
-          .get<TournamentRankingsResponseModel[]>(`${environment.apiUrl}/tournaments/${params['id']}/rankings`))
+          .get<TournamentRankingsResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/rankings`))
       );
   }
 

@@ -22,8 +22,8 @@ export class TournamentService {
         })
       )
       .subscribe(route => {
-        setTimeout(() => this.hideCompetitions = !!route.data['hideCompetitions']);
-        setTimeout(() => this.competitionId = +route.parent.params['cid']);
+        setTimeout(() => this.hideCompetitions = !!route.data.hideCompetitions);
+        setTimeout(() => this.competitionId = +route.parent.params.cid);
       });
   }
 }

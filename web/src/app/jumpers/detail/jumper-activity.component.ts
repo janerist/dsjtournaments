@@ -54,9 +54,9 @@ export class JumperActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activityPages$ = combineLatest(this.route.parent.params, this.route.queryParamMap)
+    this.activityPages$ = combineLatest([this.route.parent.paramMap, this.route.queryParamMap])
       .pipe(
-        map(([params, qparams]) => ({id: params['id'], page: qparams.get('page')})),
+        map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
         switchMap(({id, page}) => this.httpClient
           .get<PagedResponse<JumperActivityResponseModel>>(`${environment.apiUrl}/jumpers/${id}/activity?page=${page || 1}`)),
         tap(pagedResponse => this.formRankings = pagedResponse.data.filter(a => a.rank).reverse())

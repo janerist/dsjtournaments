@@ -120,11 +120,11 @@ export class ResultsFilterComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'gameVersion': new FormControl(''),
-      'type': new FormControl(''),
-      'dateFrom': new FormControl(''),
-      'dateTo': new FormControl(''),
-      'rankMethod': new FormControl('jump_points')
+      gameVersion: new FormControl(''),
+      type: new FormControl(''),
+      dateFrom: new FormControl(''),
+      dateTo: new FormControl(''),
+      rankMethod: new FormControl('jump_points')
     });
 
     this.dateSelection.valueChanges.subscribe(value => {

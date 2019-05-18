@@ -45,16 +45,16 @@ export class TournamentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tournamentPages$ = this.route.queryParams
+    this.tournamentPages$ = this.route.queryParamMap
       .pipe(
         switchMap(params =>
           this.httpClient.get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {
             params: new HttpParams()
-              .set('type', params['type'] || '')
-              .set('startDate', params['startDate'] || '')
-              .set('endDate', params['endDate'] || '')
-              .set('sort', params['sort'] || '')
-              .set('page', params['page'] || '1')
+              .set('type', params.get('type') || '')
+              .set('startDate', params.get('startDate') || '')
+              .set('endDate', params.get('endDate') || '')
+              .set('sort', params.get('sort') || '')
+              .set('page', params.get('page') || '1')
           }))
       );
 

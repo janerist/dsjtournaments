@@ -40,7 +40,7 @@ export class TournamentMonthSelectComponent implements OnInit {
 
         acc[year].push(current);
         return acc;
-      }, <any>{});
+      }, {});
   }
 
   selectMonth(startDate: string) {

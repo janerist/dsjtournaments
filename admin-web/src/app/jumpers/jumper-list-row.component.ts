@@ -5,6 +5,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {debounceTime, filter} from 'rxjs/operators';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: '[dsjt-jumper-list-row]',
   templateUrl: './jumper-list-row.component.html'
 })
@@ -21,12 +22,12 @@ export class JumperListRowComponent implements OnInit {
   ngOnInit() {
     const emailOrEmpty = (control: AbstractControl) => control.value ? Validators.email(control) : null;
     this.form = this.fb.group({
-      'nation': [this.model.nation, Validators.compose([
+      nation: [this.model.nation, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(3)])],
 
-      'gravatarEmail': [this.model.gravatarEmail, emailOrEmpty]
+      gravatarEmail: [this.model.gravatarEmail, emailOrEmpty]
     });
 
     this.form
@@ -35,12 +36,12 @@ export class JumperListRowComponent implements OnInit {
         debounceTime(500),
         filter(() => this.form.valid)
       )
-      .subscribe(newValue => this.save(this.form.value));
+      .subscribe(() => this.save(this.form.value));
   }
 
   save({nation, gravatarEmail}: {nation: string, gravatarEmail: string}) {
     this.jumperService
-      .updateJumper(this.model.id, { nation: nation, gravatarEmail: gravatarEmail || null})
+      .updateJumper(this.model.id, { nation, gravatarEmail: gravatarEmail || null})
       .subscribe((jumper: JumperResponseModel) => {
         this.model = jumper;
       });

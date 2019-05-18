@@ -41,7 +41,7 @@ export class JumperStatsTableComponent implements AfterViewInit {
   @Input() stats: JumperStatsResponseModel[];
 
   ngAfterViewInit() {
-    (<any>$('.stats.table')).tablesort({
+    ($('.stats.table') as any).tablesort({
       compare: (a, b) => {
         const aNumber = +a;
         const bNumber = +b;
