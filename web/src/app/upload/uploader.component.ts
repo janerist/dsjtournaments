@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {EventEmitter} from '@angular/core';
 import {UploadOutput, UploadInput, UploadFile, humanizeBytes} from 'ngx-uploader';
-import {environment} from 'environments/environment';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-uploader',

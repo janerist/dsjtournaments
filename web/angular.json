@@ -7,18 +7,19 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/dsjtournaments.web",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "main": "src/main.ts",            
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/assets",
-              "src/favicon.ico"
+            "tsConfig": "src/tsconfig.app.json",
+            "assets": [              
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "node_modules/semantic-ui-css/semantic.css",
@@ -29,10 +30,17 @@
               "node_modules/semantic-ui-css/semantic.js",
               "node_modules/chart.js/dist/Chart.js",
               "src/tablesort.js"
-            ]
+            ],
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -42,12 +50,13 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 }
-              ]
+              ]         
             }
           }
         },
@@ -131,14 +140,5 @@
       }
     }
   },
-  "defaultProject": "dsjtournaments.web",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "css"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
-    }
-  }
+  "defaultProject": "dsjtournaments.web" 
 }

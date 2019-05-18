@@ -42,16 +42,14 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
 
         public async Task<JumperAllStatsResponseModel> GetTotalStats(int id)
         {
-            var totalStats = await _queries.StatsQuery()
+            var totalStats = await _queries.StatsQuery(id)
                 .GroupBy("jr.jumper_id")
-                .Params(new { JumperId = id })
                 .FirstOrDefaultAsync();
 
-            var statsPerType = await _queries.StatsQuery()
+            var statsPerType = await _queries.StatsQuery(id)
                 .Select("tt.name AS type, tt.game_version")
                 .GroupBy("tt.name, tt.game_version")
                 .OrderBy("participations DESC")
-                .Params(new { JumperId = id })
                 .AllAsync();
 
             return new JumperAllStatsResponseModel
@@ -63,8 +61,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
         
         public async Task<PagedResponse<JumperActivityResponseModel>> GetActivity(int id, int page, int pageSize)
         {
-            var (data, count) = await _queries.ActivityQuery()
-                .Params(new {JumperId = id})
+            var (data, count) = await _queries.ActivityQuery(id)
                 .PageAndCountAsync(page, pageSize);
 
             return new PagedResponse<JumperActivityResponseModel>(data, page, pageSize, count);
