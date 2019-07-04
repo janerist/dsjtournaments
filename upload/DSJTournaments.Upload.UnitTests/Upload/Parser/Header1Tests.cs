@@ -132,5 +132,15 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
             Assert.Equal("National Cup", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
+        
+        [Fact]
+        public async Task DSJ4_20thAnniversary()
+        {
+            var stats = await _parser.Parse("20th Anniversary Tournament 2019-07-04".AsHeader1().Build());
+            
+            Assert.Equal(DateTime.Parse("2019-07-04 20:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("20th Anniversary Tournament", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
     }
 }

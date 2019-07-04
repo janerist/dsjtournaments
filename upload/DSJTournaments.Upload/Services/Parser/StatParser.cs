@@ -216,6 +216,12 @@ namespace DSJTournaments.Upload.Services.Parser
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[9], elems[7]);
             }
+            else if (elems.Length == 4 && elems[0] == "20th")
+            {
+                stats.Type = "20th Anniversary Tournament";
+                stats.GameVersion = 4;
+                stats.Date = new DateTime(2019, 7, 4, 20, 0, 0);
+            }
             else
             {
                 throw new StatParserException("Can't determine the type of tournament");
