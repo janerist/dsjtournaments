@@ -219,3 +219,9 @@ ALTER TABLE tournaments ADD COLUMN sub_type VARCHAR (50);
 ALTER TABLE final_standings ADD CONSTRAINT uq_final_standings_tournament_id_jumper_id UNIQUE(tournament_id, jumper_id);
 ALTER TABLE final_results ADD CONSTRAINT uq_final_results_competition_id_jumper_id UNIQUE(competition_id, jumper_id);
 ALTER TABLE qualification_results ADD CONSTRAINT uq_qualification_results_competition_id_jumper_id UNIQUE(competition_id, jumper_id);
+CREATE TABLE deleted_tournaments (
+    id serial primary key,
+    date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    tournament_type_id INTEGER NOT NULL REFERENCES tournament_types (id),
+    sub_type VARCHAR (50)   
+);

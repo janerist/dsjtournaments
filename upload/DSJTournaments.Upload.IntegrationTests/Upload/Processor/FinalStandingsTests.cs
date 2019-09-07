@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DSJTournaments.Data.Schema;
 using DSJTournaments.Upload.IntegrationTests.Util;
+using DSJTournaments.Upload.Services.Parser;
 using Xunit;
 
 namespace DSJTournaments.Upload.IntegrationTests.Upload.Processor
@@ -32,6 +33,35 @@ Final Results After 40/40 Hills
             Assert.Equal(3, tournament.GameVersion);
             Assert.Equal("2015-11-08T20:00:00", tournament.Date.ToString("s"));
             Assert.Equal(40, tournament.HillCount);
+        }
+
+        [Fact]
+        public async Task DeletedTournamentsAreRejected()
+        {
+            var stats = @"
+WC - Sunday 20.00 CE(S)T 2015-11-08
+Final Results After 40/40 Hills
+
+--- Ignored ---";
+            
+            var response = await Client.UploadStatsAsync(stats);
+            
+            await ResponseAssert.Ok(response);
+            var tournament = await Database.Query<Tournament>().FirstAsync();
+
+            await Database.Insert(new DeletedTournament
+            {
+                Date = tournament.Date,
+                TournamentTypeId = tournament.TournamentTypeId,
+                SubType = tournament.SubType
+            });
+
+            await Database.Delete<Tournament>(tournament.Id);
+
+            response = await Client.UploadStatsAsync(stats);
+            var error = await ResponseAssert.BadRequest(response);
+            
+            Assert.Equal("Rejected", error.Message);
         }
 
         [Fact]

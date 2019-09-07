@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Transactions;
 using DSJTournaments.AdminApi.Controllers.Tournaments.RequestModels;
 using DSJTournaments.AdminApi.Controllers.Tournaments.ResponseModels;
 using DSJTournaments.Data;
@@ -52,7 +53,20 @@ namespace DSJTournaments.AdminApi.Controllers.Tournaments.Services
         public async Task<TournamentResponseModel> DeleteTournament(int id)
         {
             var tournament = await GetTournament(id);
-            await _database.Delete<Tournament>(tournament.Id);
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                await _database.Insert(new DeletedTournament
+                {
+                    Date = tournament.Date,
+                    TournamentTypeId = tournament.TournamentTypeId,
+                    SubType = tournament.SubType
+                });
+                
+                await _database.Delete<Tournament>(tournament.Id);
+                
+                transaction.Complete();
+            }
+            
             return tournament;
         }
 
@@ -60,7 +74,7 @@ namespace DSJTournaments.AdminApi.Controllers.Tournaments.Services
         {
             return _database.Query<TournamentResponseModel>()
                 .Select(
-                    "t.id, t.date, t.hill_count, t.game_version, t.tournament_type_id",
+                    "t.id, t.date, t.hill_count, t.game_version, t.tournament_type_id, t.sub_type",
                     "tt.name AS type",
                     "(SELECT COUNT(*) FROM final_standings fs WHERE fs.tournament_id = t.id) AS participant_count")
                 .From("tournaments t")

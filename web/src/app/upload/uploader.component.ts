@@ -21,7 +21,8 @@ export class UploaderComponent {
     /allowed/,
     /already exist/,
     /unknown/,
-    /not supported/
+    /not supported/,
+    /Rejected/
   ];
 
   onUploadOutput(output: UploadOutput) {

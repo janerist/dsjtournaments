@@ -47,7 +47,7 @@ namespace DSJTournaments.Upload.Controllers.Upload.Services
                     await _fileArchive.ArchiveFile(stream, Path.Combine("FailedToParse", file.FileName));
                     throw new BadRequestException(e.Message);
                 }
-                catch (StatProcessorException e) when (e.Message.Contains("already exist"))
+                catch (StatProcessorException e) when (e.Message.Contains("already exist") || e.Message.Contains("Rejected"))
                 {
                     throw new BadRequestException(e.Message);
                 }

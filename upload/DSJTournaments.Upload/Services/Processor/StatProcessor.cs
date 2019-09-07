@@ -297,8 +297,22 @@ namespace DSJTournaments.Upload.Services.Processor
         private async Task<Tournament> GetOrCreateTournament(Stats stats)
         {
             var tournamentType = await GetTournamentType(stats);
-            return await GetTournament(stats, tournamentType) ??
-                   await CreateTournament(stats, tournamentType);
+            var tournament = await GetTournament(stats, tournamentType);
+
+            if (tournament != null)
+            {
+                return tournament;
+            }
+            
+            // Check against deleted tournaments
+            var deletedTournament = await GetDeletedTournament(stats, tournamentType);
+            if (deletedTournament != null)
+            {
+                // Tournament has been deleted and it should not be possible to re-upload it.
+                throw new StatProcessorException("Rejected");
+            }
+            
+            return await CreateTournament(stats, tournamentType);
         }
 
         private async Task<Competition> GetOrCreateCompetition(Tournament tournament, int fileNumber, string hillName,
@@ -385,6 +399,15 @@ namespace DSJTournaments.Upload.Services.Processor
                 .Filter("date = @Date", new {Date = stats.Date})
                 .Filter("tournament_type_id = @TournamentTypeId", new {TournamentTypeId = tournamentType.Id})
                 .Filter("sub_type = @SubType", new { SubType = stats.SubType}, onlyIf: stats.SubType != null)
+                .FirstOrDefaultAsync();
+        }
+        
+        private async Task<DeletedTournament> GetDeletedTournament(Stats stats, TournamentType tournamentType)
+        {
+            return await _db.Query<DeletedTournament>()
+                .Filter("date = @Date", new {Date = stats.Date})
+                .Filter("tournament_type_id = @TournamentTypeId", new {TournamentTypeId = tournamentType.Id})
+                .Filter("sub_type = @SubType", new {SubType = stats.SubType}, onlyIf: stats.SubType != null)
                 .FirstOrDefaultAsync();
         }
 
