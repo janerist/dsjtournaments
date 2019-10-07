@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace DSJTournaments.Upload
 {
@@ -47,17 +48,20 @@ namespace DSJTournaments.Upload
             // Framework services
             services.AddCors();
 
-            services.AddMvc(opts =>
-                {
-                    opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                    opts.Filters.Add(new WrapResultInDataPropertyAttribute());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers(opts =>
+            {
+                opts.Filters.Add(new ExceptionHandlerFilterAttribute());
+                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
+            app.UseSerilogRequestLogging();
+            
+            app.UseRouting();
+            
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()
@@ -70,7 +74,7 @@ namespace DSJTournaments.Upload
                                    ForwardedHeaders.XForwardedProto
             });
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

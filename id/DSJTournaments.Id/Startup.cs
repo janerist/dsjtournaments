@@ -3,21 +3,20 @@ using System.Security.Cryptography.X509Certificates;
 using DSJTournaments.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog.Context;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace DSJTournaments.Id
 {
     public class Startup
     {
         private readonly IConfiguration _configuration;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
             _environment = environment;
@@ -30,7 +29,6 @@ namespace DSJTournaments.Id
             // Identity Server
             var idsrvBuilder = services.AddIdentityServer(options =>
                 {
-                    
                     options.Endpoints.EnableAuthorizeEndpoint = false;
                     options.Endpoints.EnableIntrospectionEndpoint = false;
                     options.Endpoints.EnableEndSessionEndpoint = false;
@@ -64,8 +62,10 @@ namespace DSJTournaments.Id
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
+            app.UseSerilogRequestLogging();
+            
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()

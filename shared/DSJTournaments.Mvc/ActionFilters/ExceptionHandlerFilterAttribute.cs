@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace DSJTournaments.Mvc.ActionFilters
@@ -49,7 +50,7 @@ namespace DSJTournaments.Mvc.ActionFilters
                     break;
             }
                 
-            var env = context.HttpContext.RequestServices.GetRequiredService<IHostingEnvironment>();
+            var env = context.HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>();
             if (env.IsDevelopment() || env.IsEnvironment("Test"))
             {
                 errorModel.ExceptionMessage = exception.Message;
