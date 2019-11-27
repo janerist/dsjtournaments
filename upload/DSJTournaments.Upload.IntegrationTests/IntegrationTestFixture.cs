@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using DSJTournaments.Data;
 using DSJTournaments.Upload.Services.FileArchive;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,27 +15,34 @@ using Xunit;
 
 namespace DSJTournaments.Upload.IntegrationTests
 {
-    public class IntegrationTestFixture : IDisposable
+    public class IntegrationTestFixture : ICollectionFixture<WebApplicationFactory<Startup>>
     {
-        public TestServer Server { get; }
+        public TestServer Server => _factory.Server;
+        
         public HttpClient Client { get; }
         public Database Database { get; }
         public FileArchive FileArchive { get; }
 
+        private readonly WebApplicationFactory<Startup> _factory;
+
         public IntegrationTestFixture()
         {
-            var webHostBuilder = new WebHostBuilder()
-                .ConfigureAppConfiguration((_, builder) => 
-                    builder
-                        .AddJsonFile("appsettings.json")
-                        .AddEnvironmentVariables())
-                .UseEnvironment("Test")
-                .UseStartup<Startup>();
-            
-            Server = new TestServer(webHostBuilder);
-            Client = Server.CreateClient();
-            Client.DefaultRequestHeaders.Add("X-Forwarded-For", "127.0.0.1");
+            _factory = new WebApplicationFactory<Startup>().WithWebHostBuilder(b => b
+                .ConfigureAppConfiguration((_, config) => config
+                    .AddInMemoryCollection(new Dictionary<string, string>
+                    {
+                        {
+                            "FileArchive:BasePath", 
+                            @"C:\stats\test"
+                        },
+                        {
+                            "ConnectionStrings:DSJTournamentsDB",
+                            "Server=localhost;Port=5432;Database=dsjtournaments_test;Username=postgres"
+                        }
+                    }))
+                .UseEnvironment("Test"));
 
+            Client = _factory.CreateClient();
             Database = Server.Host.Services.GetService<Database>();
             FileArchive = Server.Host.Services.GetService<FileArchive>();
 
@@ -125,14 +134,10 @@ namespace DSJTournaments.Upload.IntegrationTests
                 throw new Exception(standardOutput + standardError);
             }
         }
-
-        public void Dispose()
-        {
-        }
     }
 
     [CollectionDefinition("Integration test collection")]
-    public class DatabaseCollection : ICollectionFixture<IntegrationTestFixture>
+    public class IntegrationTestsCollection : ICollectionFixture<IntegrationTestFixture>
     {
     }
 }
