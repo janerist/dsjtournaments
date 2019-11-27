@@ -39,7 +39,7 @@ namespace DSJTournaments.Api.Controllers.Cups.Data
                 .Select(
                     @"CASE WHEN c.rank_method = 'jump_points'
                         THEN (RANK() OVER (ORDER BY SUM(fs.points) DESC))
-                        ELSE (RANK() OVER (ORDER BY SUM(fs.cup_points) DESC, SUM(fs.points) DESC))
+                        ELSE (RANK() OVER (ORDER BY SUM(fs.cup_points) DESC))
                       END AS rank",
                     "j.id AS jumper_id",
                     "j.name",
