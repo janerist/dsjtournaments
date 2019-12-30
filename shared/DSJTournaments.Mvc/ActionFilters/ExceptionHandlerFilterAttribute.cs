@@ -31,11 +31,6 @@ namespace DSJTournaments.Mvc.ActionFilters
                         : new ErrorResponse(bre.Message);
                     break;
                     
-                case InvalidDataException ide when ide.Message.StartsWith("Multipart body length limit"):
-                    context.HttpContext.Response.StatusCode = 400;
-                    errorModel = new ErrorResponse("File too big (max 1MB)");
-                    break;
-                    
                 case NotFoundException _:
                     context.HttpContext.Response.StatusCode = 404;
                     errorModel = new ErrorResponse("Resource not found");

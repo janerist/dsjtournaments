@@ -5,14 +5,12 @@ using System.Transactions;
 using DSJTournaments.Data;
 using DSJTournaments.Upload.Services.FileArchive;
 using DSJTournaments.Upload.Services.Processor;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DSJTournaments.Upload.IntegrationTests
 {
     public abstract class IntegrationTestBase : IDisposable
     {
-        protected TestServer Server { get; }
         protected HttpClient Client { get; }
         protected Database Database { get; }
         protected FileArchive FileArchive { get; }
@@ -21,7 +19,6 @@ namespace DSJTournaments.Upload.IntegrationTests
 
         protected IntegrationTestBase(IntegrationTestFixture fixture)
         {
-            Server = fixture.Server;
             Client = fixture.Client;
             Database = fixture.Database;
             FileArchive = fixture.FileArchive;
@@ -32,7 +29,7 @@ namespace DSJTournaments.Upload.IntegrationTests
             }
             
             _transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-            Server.Host.Services.GetService<StatProcessor>().ClearCache();
+            fixture.Services.GetService<StatProcessor>().ClearCache();
         }
 
         public void Dispose()

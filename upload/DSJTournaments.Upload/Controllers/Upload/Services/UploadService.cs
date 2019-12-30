@@ -61,6 +61,11 @@ namespace DSJTournaments.Upload.Controllers.Upload.Services
 
         private void ValidateFile(IFormFile file)
         {
+            if (file.Length >= 1000000)
+            {
+                throw new BadRequestException("File too big (max 1MB)");                
+            }
+            
             if (!file.FileName.EndsWith(".txt"))
             {
                 throw new BadRequestException("Only text files (.txt) are allowed");

@@ -19,12 +19,12 @@ namespace DSJTournaments.Upload
                 .ConfigureWebHostDefaults(webBuilder => webBuilder
                     .UseStartup<Startup>()
                     .UseSerilog(ConfigureLogging));
-
+        
         private static void ConfigureLogging(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
         {
             var basePath = context.Configuration["Logging:BasePath"];
             var minimumLevel = context.Configuration["Logging:MinimumLevel"];
-
+        
             const string outputTemplate =
                 "[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}{Exception}";
             

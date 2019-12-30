@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
 using DSJTournaments.Data.Schema;
 using DSJTournaments.Upload.IntegrationTests.Util;
-using DSJTournaments.Upload.Services.Parser;
 using Xunit;
 
 namespace DSJTournaments.Upload.IntegrationTests.Upload.Processor
 {
-    [Collection("Integration test collection")]
+    [Collection("Integration Tests")]
     public class FinalStandingsTests : IntegrationTestBase
     {
         public FinalStandingsTests(IntegrationTestFixture fixture) : base(fixture)
@@ -162,7 +161,7 @@ Poz.  Gracz                        Kraj         I    II   III     N     Punkty
             Assert.Equal(8650, pol1.Points);
             Assert.Equal(100, pol1.CupPoints);
         }
-        
+
         [Fact]
         public async Task CreatesNationalCupSubType()
         {
@@ -180,7 +179,7 @@ Poz.  Gracz                    Kraj        Ocena     I    II   III     N     Pun
             var tournament = await Database.Query<Tournament>().FirstAsync();
             Assert.Equal("POL", tournament.SubType);
         }
-        
+
         [Fact]
         public async Task CanCreateMultipleNationalCupOnSameDate()
         {

@@ -1,17 +1,19 @@
 ﻿using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using DSJTournaments.Upload.IntegrationTests.Util;
+using DSJTournaments.Upload.Services.FileArchive;
 using Xunit;
 
 namespace DSJTournaments.Upload.IntegrationTests.Upload
 {
-    [Collection("Integration test collection")]
+    [Collection("Integration Tests")]
     public class UploadTests : IntegrationTestBase
     {
         public UploadTests(IntegrationTestFixture fixture) : base(fixture)
         {
         }
-
+        
         [Fact]
         public async Task ValidatesFileSize()
         {
@@ -44,7 +46,7 @@ namespace DSJTournaments.Upload.IntegrationTests.Upload
         {
             var response = await Client.UploadStatsAsync("not going to be able to parse this");
             await ResponseAssert.BadRequest(response);
-
+        
             var fileOnDisk = Path.Combine(FileArchive.BasePath, "FailedToParse", "test.txt");
             Assert.Equal("not going to be able to parse this", File.ReadAllText(fileOnDisk));
         }
