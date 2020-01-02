@@ -50,17 +50,18 @@ namespace DSJTournaments.AdminApi
                 });
 
             services.AddControllers(opts =>
-            {
-                var authorizationPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .RequireScope("dsjt")
-                    .Build();
+                {
+                    var authorizationPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .RequireScope("dsjt")
+                        .Build();
 
-                opts.Filters.Add(new AuthorizeFilter(authorizationPolicy));
-                opts.Filters.Add(new ModelStateValidationFilterAttribute());
-                opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
-            });
+                    opts.Filters.Add(new AuthorizeFilter(authorizationPolicy));
+                    opts.Filters.Add(new ModelStateValidationFilterAttribute());
+                    opts.Filters.Add(new ExceptionHandlerFilterAttribute());
+                    opts.Filters.Add(new WrapResultInDataPropertyAttribute());
+                })
+                .AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

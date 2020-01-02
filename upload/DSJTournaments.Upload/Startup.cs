@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using DSJTournaments.Data;
 using DSJTournaments.Mvc.ActionFilters;
 using DSJTournaments.Upload.Controllers.Upload.Services;
@@ -7,15 +6,9 @@ using DSJTournaments.Upload.Services.FileArchive;
 using DSJTournaments.Upload.Services.Parser;
 using DSJTournaments.Upload.Services.Processor;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace DSJTournaments.Upload

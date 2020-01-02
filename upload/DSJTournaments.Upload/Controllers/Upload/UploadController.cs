@@ -19,7 +19,7 @@ namespace DSJTournaments.Upload.Controllers.Upload
         {
             var remoteIp = Request.HttpContext.Connection.RemoteIpAddress;
             await _uploadService.ProcessFile(file, remoteIp);
-            return Ok(new { Message = "Success"});
+            return Ok(new { message = "Success"});
         }
     }
 }
