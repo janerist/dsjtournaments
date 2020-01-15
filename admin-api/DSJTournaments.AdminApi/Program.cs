@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -11,15 +11,15 @@ namespace DSJTournaments.AdminApi
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateHostBuilder(args).Build().Run();
         }
-        
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseSerilog(ConfigureLogging)
-                .Build();
 
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => webBuilder
+                    .UseStartup<Startup>()
+                    .UseSerilog(ConfigureLogging));
+        
         private static void ConfigureLogging(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
         {
             var basePath = context.Configuration["Logging:BasePath"];
@@ -31,7 +31,7 @@ namespace DSJTournaments.AdminApi
             loggerConfiguration
                 .MinimumLevel.Is(Enum.Parse<LogEventLevel>(minimumLevel))
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .MinimumLevel.Override("System", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .WriteTo.Console(outputTemplate: outputTemplate, theme: AnsiConsoleTheme.Literate)
                 .WriteTo.RollingFile(
                     pathFormat: $"{basePath}/admin-{{Date}}.log",

@@ -6,24 +6,21 @@ using DSJTournaments.Data;
 using DSJTournaments.Mvc.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace DSJTournaments.AdminApi
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _environment;
         private readonly IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -52,7 +49,7 @@ namespace DSJTournaments.AdminApi
                     opts.ApiName = "dsjt";
                 });
 
-            services.AddMvc(opts =>
+            services.AddControllers(opts =>
                 {
                     var authorizationPolicy = new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
@@ -64,12 +61,16 @@ namespace DSJTournaments.AdminApi
                     opts.Filters.Add(new ExceptionHandlerFilterAttribute());
                     opts.Filters.Add(new WrapResultInDataPropertyAttribute());
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
+            app.UseSerilogRequestLogging();
+            
+            app.UseRouting();
+            
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()
@@ -83,7 +84,7 @@ namespace DSJTournaments.AdminApi
             });
 
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

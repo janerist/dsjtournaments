@@ -6,12 +6,10 @@ using DSJTournaments.Upload.Services.FileArchive;
 using DSJTournaments.Upload.Services.Parser;
 using DSJTournaments.Upload.Services.Processor;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace DSJTournaments.Upload
 {
@@ -31,7 +29,6 @@ namespace DSJTournaments.Upload
             // Options
             services.AddOptions();
             services.Configure<FileArchiveOptions>(_configuration.GetSection("FileArchive"));
-            services.Configure<FormOptions>(opts => { opts.MultipartBodyLengthLimit = 1000000; });
 
             // Database
             services.AddSingleton(_ => new Database(_configuration.GetConnectionString("DSJTournamentsDB")));
@@ -47,17 +44,19 @@ namespace DSJTournaments.Upload
             // Framework services
             services.AddCors();
 
-            services.AddMvc(opts =>
-                {
-                    opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                    opts.Filters.Add(new WrapResultInDataPropertyAttribute());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers(opts =>
+            {
+                opts.Filters.Add(new ExceptionHandlerFilterAttribute());
+                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
+            app.UseSerilogRequestLogging();
+            app.UseRouting();
+            
             app.UseCors(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()
@@ -70,7 +69,7 @@ namespace DSJTournaments.Upload
                                    ForwardedHeaders.XForwardedProto
             });
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

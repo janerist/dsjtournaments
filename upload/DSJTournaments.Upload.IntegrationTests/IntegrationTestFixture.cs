@@ -5,45 +5,51 @@ using System.Net.Http;
 using DSJTournaments.Data;
 using DSJTournaments.Upload.Services.FileArchive;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Npgsql;
+using Serilog;
 using Xunit;
 
 namespace DSJTournaments.Upload.IntegrationTests
 {
-    public class IntegrationTestFixture : IDisposable
+    public class IntegrationTestFixture : WebApplicationFactory<Startup>
     {
-        public TestServer Server { get; }
         public HttpClient Client { get; }
         public Database Database { get; }
         public FileArchive FileArchive { get; }
 
         public IntegrationTestFixture()
         {
-            var webHostBuilder = new WebHostBuilder()
-                .ConfigureAppConfiguration((_, builder) => 
-                    builder
-                        .AddJsonFile("appsettings.json")
-                        .AddEnvironmentVariables())
-                .UseEnvironment("Test")
-                .UseStartup<Startup>();
+            Server.PreserveExecutionContext = true;
             
-            Server = new TestServer(webHostBuilder);
-            Client = Server.CreateClient();
+            Client = CreateClient();
             Client.DefaultRequestHeaders.Add("X-Forwarded-For", "127.0.0.1");
-
-            Database = Server.Host.Services.GetService<Database>();
-            FileArchive = Server.Host.Services.GetService<FileArchive>();
+            
+            Database = Services.GetService<Database>();
+            FileArchive = Services.GetService<FileArchive>();
 
             CreateAndSeedDatabase(Database.ConnectionString);
+        }
+
+        protected override IHostBuilder CreateHostBuilder()
+        {
+            var currentDir = Directory.GetCurrentDirectory();
+            return Host.CreateDefaultBuilder(new string[0])
+                .ConfigureWebHostDefaults(builder => builder
+                    .UseStartup<Startup>()
+                    .UseSerilog()
+                    .ConfigureAppConfiguration((_, config) => config
+                        .AddJsonFile(Path.Combine(currentDir, "appsettings.json")))
+                    .UseEnvironment("Test"));
         }
 
         private void CreateAndSeedDatabase(string connectionString)
         {
             var cnnStringBuilder = new NpgsqlConnectionStringBuilder(connectionString);
-            
+
             DropAndCreateTestDatabase(cnnStringBuilder);
             CreateSchemaAndSeedData(cnnStringBuilder);
         }
@@ -51,16 +57,16 @@ namespace DSJTournaments.Upload.IntegrationTests
         private void CreateSchemaAndSeedData(NpgsqlConnectionStringBuilder cnnStringBuilder)
         {
             var currentDir = Directory.GetCurrentDirectory();
-            var schemaPath = Path.Combine(currentDir, 
+            var schemaPath = Path.Combine(currentDir,
                 "..", "..", "..", "..", "..", "shared", "DSJTournaments.Data", "Scripts", "schema.sql");
-            var seedPath = Path.Combine(currentDir, 
+            var seedPath = Path.Combine(currentDir,
                 "..", "..", "..", "..", "..", "shared", "DSJTournaments.Data", "Scripts", "seed.sql");
-            
+
             ExecutePsql(
                 host: cnnStringBuilder.Host,
                 database: cnnStringBuilder.Database,
                 file: schemaPath);
-            
+
             ExecutePsql(
                 host: cnnStringBuilder.Host,
                 database: cnnStringBuilder.Database,
@@ -79,19 +85,20 @@ namespace DSJTournaments.Upload.IntegrationTests
                             WHERE 
                                 pid <> pg_backend_pid()
                                 AND datname = '{cnnStringBuilder.Database}'");
-            
+
             ExecutePsql(
                 host: cnnStringBuilder.Host,
                 database: "postgres",
                 command: $"DROP DATABASE IF EXISTS {cnnStringBuilder.Database}");
-            
+
             ExecutePsql(
                 host: cnnStringBuilder.Host,
                 database: "postgres",
                 command: $"CREATE DATABASE {cnnStringBuilder.Database}");
         }
 
-        private void ExecutePsql(string host, string database, string userName = "postgres", string command = null, string file = null)
+        private void ExecutePsql(string host, string database, string userName = "postgres", string command = null,
+            string file = null)
         {
             var psi = new ProcessStartInfo
             {
@@ -100,7 +107,7 @@ namespace DSJTournaments.Upload.IntegrationTests
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            
+
             if (command != null)
             {
                 psi.Arguments += $" -c \"{command}\"";
@@ -117,22 +124,18 @@ namespace DSJTournaments.Upload.IntegrationTests
             var process = Process.Start(psi);
             var standardOutput = process.StandardOutput.ReadToEnd();
             var standardError = process.StandardError.ReadToEnd();
-            
+
             process.WaitForExit();
-            
+
             if (process.ExitCode != 0)
             {
                 throw new Exception(standardOutput + standardError);
             }
         }
-
-        public void Dispose()
-        {
-        }
     }
 
-    [CollectionDefinition("Integration test collection")]
-    public class DatabaseCollection : ICollectionFixture<IntegrationTestFixture>
+    [CollectionDefinition("Integration Tests")]
+    public class IntegrationCollection : ICollectionFixture<IntegrationTestFixture>
     {
     }
 }

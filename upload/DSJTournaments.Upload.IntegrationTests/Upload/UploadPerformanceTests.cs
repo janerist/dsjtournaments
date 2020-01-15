@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 
 namespace DSJTournaments.Upload.IntegrationTests.Upload
 {
-    [Collection("Integration test collection")]
+    [Collection("Integration Tests")]
     public class UploadPerformanceTests : IntegrationTestBase
     {
         private readonly ITestOutputHelper _output;

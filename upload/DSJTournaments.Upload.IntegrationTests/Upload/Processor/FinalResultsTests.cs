@@ -6,7 +6,7 @@ using Xunit;
 
 namespace DSJTournaments.Upload.IntegrationTests.Upload.Processor
 {
-    [Collection("Integration test collection")]
+    [Collection("Integration Tests")]
     public class FinalResultsTests : IntegrationTestBase
     {
         public FinalResultsTests(IntegrationTestFixture fixture) : base(fixture)

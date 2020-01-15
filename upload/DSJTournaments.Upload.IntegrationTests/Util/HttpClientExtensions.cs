@@ -8,10 +8,10 @@ namespace DSJTournaments.Upload.IntegrationTests.Util
 {
     public static class HttpClientExtensions
     {
-        public static Task<HttpResponseMessage> UploadStatsAsync(this HttpClient client, 
+        public static async Task<HttpResponseMessage> UploadStatsAsync(this HttpClient client, 
             string stats, string fileName = "test.txt", string contentType = "text/plain")
         {
-            var content = new MultipartFormDataContent($"Upload----{DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
+            var content = new MultipartFormDataContent();
 
             var streamContent = new StreamContent(stats.Trim().ToStream());
             if (contentType != null)
@@ -21,7 +21,7 @@ namespace DSJTournaments.Upload.IntegrationTests.Util
             
             content.Add(streamContent, "file", fileName);
 
-            return client.PostAsync("upload", content);
+            return await client.PostAsync("upload", content);
         }
 
         public static async Task<T> ReadAsJsonAsync<T>(this HttpContent content)
