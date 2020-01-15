@@ -4,7 +4,7 @@ function DeployDotNetCoreApp(
     [string] $csprojPath,
     [string] $remotePath,
     [string] $serviceName,
-    [string] $framework = "netcoreapp2.2",
+    [string] $framework = "netcoreapp3.1",
     [string] $runtime = "ubuntu.16.04-x64",
     [string] $configuration = "Release") 
 {
