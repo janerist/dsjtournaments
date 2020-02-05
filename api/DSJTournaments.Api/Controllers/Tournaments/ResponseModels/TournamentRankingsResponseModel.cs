@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace DSJTournaments.Api.Controllers.Tournaments.ResponseModels
 {
@@ -15,8 +14,6 @@ namespace DSJTournaments.Api.Controllers.Tournaments.ResponseModels
         public string TeamNation { get; set; }
         public string TeamRank { get; set; }
 
-        [JsonIgnore]
-        public string CompetitionRanksJson { get; set; }
-        public Dictionary<int, int> CompetitionRanks { get; set; }
+        public Dictionary<string, int> CompetitionRanks { get; set; }
     }
 }

@@ -9,9 +9,7 @@ using DSJTournaments.Api.Controllers.Tournaments.Services;
 using DSJTournaments.Data;
 using DSJTournaments.Mvc.ActionFilters;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -52,12 +50,11 @@ namespace DSJTournaments.Api
             services.AddCors();
 
             services.AddControllers(opts =>
-                {
-                    opts.Filters.Add(new ModelStateValidationFilterAttribute());
-                    opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                    opts.Filters.Add(new WrapResultInDataPropertyAttribute());
-                })
-                .AddNewtonsoftJson();
+            {
+                opts.Filters.Add(new ModelStateValidationFilterAttribute());
+                opts.Filters.Add(new ExceptionHandlerFilterAttribute());
+                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

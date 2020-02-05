@@ -77,7 +77,7 @@ namespace DSJTournaments.Api.Controllers.Cups.Data
                     "j.id AS jumper_id",
                     "j.name",
                     "j.nation",
-                    "jsonb_agg((select row_to_json(_) from (select fs.tournament_id, fs.rank) as _)) as tournament_ranks_json")
+                    "jsonb_object_agg(fs.tournament_id, fs.rank) as tournament_ranks")
                 .From("jumpers j")
                 .Join("final_standings fs ON fs.jumper_id = j.id")
                 .Join("tournaments t ON fs.tournament_id = t.id")

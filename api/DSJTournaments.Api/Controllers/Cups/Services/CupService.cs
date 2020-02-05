@@ -70,17 +70,9 @@ namespace DSJTournaments.Api.Controllers.Cups.Services
 
         public async Task<PagedResponse<CupRankingsResponseModel>> GetRankings(int id, int page, int pageSize)
         {
-            var(data, count) = await _cupQueries.RankingsQuery()
+            var (data, count) = await _cupQueries.RankingsQuery()
                 .Params(new {CupId = id})
                 .PageAndCountAsync(page, pageSize);
-
-            foreach (var rankings in data)
-            {
-                rankings.TournamentRanks = JsonConvert
-                    .DeserializeObject<dynamic[]>(rankings.TournamentRanksJson)
-                    .Where(tr => tr != null)
-                    .ToDictionary(tr => (int) tr.tournament_id, tr => (int) tr.rank);
-            }
 
             return new PagedResponse<CupRankingsResponseModel>(data, page, pageSize, count);
         }

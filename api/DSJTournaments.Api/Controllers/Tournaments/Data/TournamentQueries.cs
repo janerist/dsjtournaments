@@ -94,7 +94,10 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                     "t.id AS team_id",
                     "t.nation AS team_nation",
                     "t.rank AS team_rank",
-                    "jsonb_agg(COALESCE(ranks.*, team_ranks.*)) AS competition_ranks_json"
+                    @"jsonb_object_agg(
+                        COALESCE(ranks.competition_id, team_ranks.competition_id), 
+                        COALESCE(ranks.rank, team_ranks.rank)
+                      ) FILTER (WHERE COALESCE(ranks.*, team_ranks.*) IS NOT NULL) as competition_ranks"
                 )
                 .From("final_standings fs")
                 .OuterJoin("jumpers j ON j.id = fs.jumper_id")

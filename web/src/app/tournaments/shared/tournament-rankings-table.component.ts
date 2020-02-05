@@ -33,7 +33,7 @@ import {iso3toiso2} from '../../shared/country-codes';
             <span *ngIf="fr.teamNation">{{fr.teamNation + ' ' + fr.teamRank}}</span>
           </td>
           <td *ngFor="let comp of competitions" class="center aligned">
-            {{fr.competitionRanks[comp.id.toString()] && fr.competitionRanks[comp.id.toString()] + '.' || '-'}}
+            {{fr.competitionRanks && fr.competitionRanks[comp.id.toString()] ? fr.competitionRanks[comp.id.toString()] + '.' : '-'}}
           </td>
         </tr>
         </tbody>

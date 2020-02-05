@@ -122,19 +122,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Services
 
         public async Task<TournamentRankingsResponseModel[]> GetRankings(int id)
         {
-            var data = await _queries.RankingsQuery()
+            return await _queries.RankingsQuery()
                 .Params(new {TournamentId = id})
                 .AllAsync();
-
-            foreach (var rankings in data)
-            {
-                rankings.CompetitionRanks = JsonConvert
-                    .DeserializeObject<dynamic[]>(rankings.CompetitionRanksJson)
-                    .Where(tr => tr != null)
-                    .ToDictionary(tr => (int) tr.competition_id, tr => (int) tr.rank);
-            }
-
-            return data;
         }
     }
 }

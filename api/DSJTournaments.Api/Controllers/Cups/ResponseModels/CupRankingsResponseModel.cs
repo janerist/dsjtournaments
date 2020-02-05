@@ -9,9 +9,6 @@ namespace DSJTournaments.Api.Controllers.Cups.ResponseModels
         public int JumperId { get; set; }
         public string Name { get; set; }
         public string Nation { get; set; }
-
-        [JsonIgnore]
-        public string TournamentRanksJson { get; set; }
-        public Dictionary<int, int> TournamentRanks { get; set; }
+        public Dictionary<string, int> TournamentRanks { get; set; }
     }
 }

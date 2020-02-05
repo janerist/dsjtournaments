@@ -20,6 +20,8 @@ namespace DSJTournaments.Data
         {
             DefaultTypeMap.MatchNamesWithUnderscores = true;
             SqlMapper.AddTypeHandler(new PassThroughHandler<IPAddress>(NpgsqlDbType.Inet));
+            SqlMapper.AddTypeHandler(new JsonbHandler<Dictionary<string, int>>());
+            
         }
 
         public Database(string cnnString)
