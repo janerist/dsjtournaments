@@ -28,7 +28,7 @@ import {map, switchMap, tap} from 'rxjs/operators';
                 <div class="user">
                   Participated in <a [routerLink]="['/tournaments', event.tournamentId]">{{event.tournamentType}}</a>
                 </div>
-                <div class="date" [title]="event.date | date">
+                <div class="date" [title]="event.date | momentDate">
                   {{moment(event.date).fromNow()}}
                 </div>
               </div>

@@ -15,7 +15,7 @@ import * as moment from 'moment';
               class="center aligned hill"
               style="width: 60px; cursor: help; white-space: nowrap; text-overflow: ellipsis"
               [title]="moment(date.date).format('ddd DD MMM YYYY HH:mm')">
-            {{date.date | date: 'DD MMM'}}
+            {{date.date | momentDate: 'DD MMM'}}
           </th>
         </tr>
         </thead>

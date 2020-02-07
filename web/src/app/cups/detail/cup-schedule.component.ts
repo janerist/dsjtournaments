@@ -13,10 +13,10 @@ import * as moment from 'moment';
             <i class="calendar icon"></i>
             <div class="content">
               <a *ngIf="date.tournamentId" [routerLink]="['/tournaments', date.tournamentId]">
-                {{date.date | date: 'ddd DD MMM YYYY HH:mm'}}
+                {{date.date | momentDate: 'ddd DD MMM YYYY HH:mm'}}
               </a>
               <span *ngIf="!date.tournamentId">
-                    {{date.date | date: 'ddd DD MMM YYYY HH:mm'}}
+                    {{date.date | momentDate: 'ddd DD MMM YYYY HH:mm'}}
                   </span>
             </div>
           </div>
