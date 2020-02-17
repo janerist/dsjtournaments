@@ -6,19 +6,19 @@
     "dsjtournaments.web": {
       "projectType": "application",
       "root": "",
-      "sourceRoot": "src",      
+      "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/dsjtournaments.web",
+            "outputPath": "dist",
             "index": "src/index.html",
-            "main": "src/main.ts",            
+            "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [              
+            "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
@@ -60,7 +60,7 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-              ]         
+              ]
             }
           }
         },

@@ -16,7 +16,7 @@ import {iso3toiso2} from '../../shared/country-codes';
               style="width: 50px; cursor: help; white-space: nowrap; text-overflow: ellipsis"
               [attr.data-html]="getPopupContent(comp)">
             <i [appFlag]="comp.hillNation"></i><br/>
-            <a [routerLink]="['competitions', comp.id]">{{comp.hillName}}</a>
+            <a [routerLink]="['../competitions', comp.id]">{{comp.hillName}}</a>
             <span *ngIf="comp.fileNumber > 1">[{{comp.fileNumber}}]</span>
             <span *ngIf="comp.ko">(KO)</span>
           </th>
