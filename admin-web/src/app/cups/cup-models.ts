@@ -1,7 +1,7 @@
 export interface CupResponseModel {
   id: number;
   name: string;
-  gameVersion: string;
+  gameVersion: number;
   rankMethod: string;
   startDate: string;
   endDate: string;
@@ -14,7 +14,7 @@ export interface CupResponseModel {
 export interface CupRequestModel {
   name: string;
   rankMethod: string;
-  gameVersion: string;
+  gameVersion: number;
 
   cupDates: CupDateRequestModel[];
 }

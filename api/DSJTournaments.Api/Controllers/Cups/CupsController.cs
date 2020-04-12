@@ -2,7 +2,7 @@
 using DSJTournaments.Api.Controllers.Cups.RequestModels;
 using DSJTournaments.Api.Controllers.Cups.ResponseModels;
 using DSJTournaments.Api.Controllers.Cups.Services;
-using DSJTournaments.Mvc.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DSJTournaments.Api.Controllers.Cups
@@ -17,7 +17,7 @@ namespace DSJTournaments.Api.Controllers.Cups
         }
 
         [HttpGet("/cups")]
-        public Task<PagedResponse<CupResponseModel>> GetCups(GetCupsRequestModel model)
+        public Task<Responses.PagedResponse<CupResponseModel>> GetCups(GetCupsRequestModel model)
         {
             return _cupService.GetCups(model);
         }
@@ -29,15 +29,36 @@ namespace DSJTournaments.Api.Controllers.Cups
         }
 
         [HttpGet("/cups/{id}/standings")]
-        public Task<PagedResponse<CupStandingResponseModel>> GetStandings(int id, int page = 1, int pageSize = 100)
+        public Task<Responses.PagedResponse<CupStandingResponseModel>> GetStandings(int id, int page = 1, int pageSize = 100)
         {
             return _cupService.GetStandings(id, page, pageSize);
         }
 
         [HttpGet("/cups/{id}/rankings")]
-        public Task<PagedResponse<CupRankingsResponseModel>> GetRankings(int id, int page = 1, int pageSize = 100)
+        public Task<Responses.PagedResponse<CupRankingsResponseModel>> GetRankings(int id, int page = 1, int pageSize = 100)
         {
             return _cupService.GetRankings(id, page, pageSize);
+        }
+        
+        [Authorize("admin")]
+        [HttpPost("/cups")]
+        public Task<CupResponseModel> CreateCup([FromBody] CupRequestModel model)
+        {
+            return _cupService.CreateCup(model);
+        }
+
+        [Authorize("admin")]
+        [HttpPut("/cups/{id}")]
+        public Task<CupResponseModel> UpdateCup(int id, [FromBody] CupRequestModel model)
+        {
+            return _cupService.UpdateCup(id, model);
+        }
+
+        [Authorize("admin")]
+        [HttpDelete("/cups/{id}")]
+        public Task<CupResponseModel> DeleteCup(int id)
+        {
+            return _cupService.DeleteCup(id);
         }
     }
 }

@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CupService} from './cup.service';
 import {CupResponseModel, CupRequestModel} from './cup-models';
 import {TournamentService} from '../tournaments/tournament.service';
-import {TournamentTypeResponseModel} from '../tournaments/tournament-models';
+import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-models';
 import {ToastService} from '../common/services/toast.service';
 
 @Component({
@@ -11,7 +11,7 @@ import {ToastService} from '../common/services/toast.service';
 })
 export class CupEditComponent implements OnInit {
   cup: CupResponseModel;
-  types: TournamentTypeResponseModel[];
+  types: TournamentTypeWithCountResponseModel[];
 
   constructor(
     private route: ActivatedRoute,

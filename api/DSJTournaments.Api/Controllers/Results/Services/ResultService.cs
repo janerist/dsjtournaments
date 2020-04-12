@@ -4,7 +4,6 @@ using DSJTournaments.Api.Controllers.Results.RequestModels;
 using DSJTournaments.Api.Controllers.Results.ResponseModels;
 using DSJTournaments.Api.Controllers.Tournaments.Data;
 using DSJTournaments.Data;
-using DSJTournaments.Mvc.Responses;
 
 namespace DSJTournaments.Api.Controllers.Results.Services
 {
@@ -19,7 +18,7 @@ namespace DSJTournaments.Api.Controllers.Results.Services
             _tournamentQueries = tournamentQueries;
         }
 
-        public async Task<PagedResponse<ResultResponseModel>> GetResults(GetResultsRequestModel model)
+        public async Task<Responses.PagedResponse<ResultResponseModel>> GetResults(GetResultsRequestModel model)
         {
             var tournaments = await _tournamentQueries.TournamentQuery()
                 .Filter("t.game_version = @GameVersion", 
@@ -69,7 +68,7 @@ namespace DSJTournaments.Api.Controllers.Results.Services
                 .Params(new {RankMethod = model.RankMethod})
                 .PageAndCountAsync(model.Page, model.PageSize);
 
-            return new PagedResponse<ResultResponseModel>(data, model.Page, model.PageSize, count);
+            return new Responses.PagedResponse<ResultResponseModel>(data, model.Page, model.PageSize, count);
         }
     }
 }

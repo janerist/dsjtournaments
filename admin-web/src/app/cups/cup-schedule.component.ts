@@ -2,7 +2,7 @@ import {Component, OnInit, Input, AfterViewInit} from '@angular/core';
 import * as moment from 'moment';
 import {FormArray, FormGroup, FormControl, Validators} from '@angular/forms';
 import {CupDateResponseModel} from './cup-models';
-import {TournamentTypeResponseModel} from '../tournaments/tournament-models';
+import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-models';
 import {CustomValidators} from '../common/custom-validators';
 
 @Component({
@@ -13,7 +13,7 @@ export class CupScheduleComponent implements OnInit, AfterViewInit {
   @Input() form: FormGroup;
   @Input() numMonths = 6;
   @Input() cupDates: CupDateResponseModel[];
-  @Input() types: TournamentTypeResponseModel[];
+  @Input() types: TournamentTypeWithCountResponseModel[];
   @Input() gameVersion: FormControl;
 
   rawDates = {};

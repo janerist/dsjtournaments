@@ -26,6 +26,12 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Data
 
                 case JumperSort.ParticipationsDesc:
                     return query.OrderBy("participations DESC");
+                    
+                case JumperSort.LastActiveAsc:
+                    return query.OrderBy("last_active ASC");
+
+                case JumperSort.LastActiveDesc:
+                    return query.OrderBy("last_active DESC NULLS LAST");
 
                 default:
                     return query.OrderBy("participations DESC");

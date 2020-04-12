@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using DSJTournaments.Api.Controllers.Cups.Data;
 using DSJTournaments.Api.Controllers.Tournaments.Data;
 using DSJTournaments.Api.Controllers.Tournaments.RequestModels;
 using DSJTournaments.Api.Controllers.Tournaments.ResponseModels;
+using DSJTournaments.Api.Exceptions;
 using DSJTournaments.Data;
-using DSJTournaments.Mvc.Exceptions;
-using DSJTournaments.Mvc.Responses;
-using Newtonsoft.Json;
+using DSJTournaments.Data.Schema;
 
 namespace DSJTournaments.Api.Controllers.Tournaments.Services
 {
@@ -24,7 +24,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Services
             _cupQueries = cupQueries;
         }
 
-        public async Task<PagedResponse<TournamentResponseModel>> GetPageOfTournaments(GetTournamentsRequestModel model)
+        public async Task<Responses.PagedResponse<TournamentResponseModel>> GetPageOfTournaments(GetTournamentsRequestModel model)
         {
             var (data, count) = await _queries.TournamentQuery()
                 .Filter("t.tournament_type_id = @TypeId", new {TypeId = model.Type}, onlyIf: model.Type.HasValue)
@@ -45,7 +45,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Services
                     : new FinalStandingResponseModel[0];
             }
 
-            return new PagedResponse<TournamentResponseModel>(data, model.Page, model.PageSize, count);
+            return new Responses.PagedResponse<TournamentResponseModel>(data, model.Page, model.PageSize, count);
         }
 
         public async Task<TournamentTypeWithCountResponseModel[]> GetTournamentTypesWithCount()
@@ -125,6 +125,26 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Services
             return await _queries.RankingsQuery()
                 .Params(new {TournamentId = id})
                 .AllAsync();
+        }
+        
+        public async Task<TournamentResponseModel> DeleteTournament(int id)
+        {
+            var tournament = await GetTournament(id);
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                await _database.Insert(new DeletedTournament
+                {
+                    Date = tournament.Date,
+                    TournamentTypeId = tournament.TournamentTypeId,
+                    SubType = tournament.SubType
+                });
+                
+                await _database.Delete<Tournament>(tournament.Id);
+                
+                transaction.Complete();
+            }
+            
+            return tournament;
         }
     }
 }

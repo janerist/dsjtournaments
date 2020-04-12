@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using DSJTournaments.Mvc.Validation;
+using DSJTournaments.Api.Validation;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using static DSJTournaments.Data.Schema.RankMethod;
 

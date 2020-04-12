@@ -26,6 +26,12 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
 
                 case TournamentSort.ParticipantsDesc:
                     return query.OrderBy("participant_count DESC NULLS LAST");
+                    
+                case TournamentSort.TypeAsc:
+                    return query.OrderBy("tt.name ASC");
+
+                case TournamentSort.TypeDesc:
+                    return query.OrderBy("tt.name DESC");
 
                 default:
                     return query.OrderBy("t.date DESC");

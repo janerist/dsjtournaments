@@ -2,7 +2,7 @@
 using DSJTournaments.Api.Controllers.Tournaments.RequestModels;
 using DSJTournaments.Api.Controllers.Tournaments.ResponseModels;
 using DSJTournaments.Api.Controllers.Tournaments.Services;
-using DSJTournaments.Mvc.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DSJTournaments.Api.Controllers.Tournaments
@@ -17,7 +17,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments
         }
 
         [HttpGet("/tournaments")]
-        public Task<PagedResponse<TournamentResponseModel>> GetTournaments(GetTournamentsRequestModel model)
+        public Task<Responses.PagedResponse<TournamentResponseModel>> GetTournaments(GetTournamentsRequestModel model)
         {
             return _tournamentService.GetPageOfTournaments(model);
         }
@@ -56,6 +56,13 @@ namespace DSJTournaments.Api.Controllers.Tournaments
         public Task<QualificationResultResponseModel[]> GetQualificationResults(int competitionId)
         {
             return _tournamentService.GetQualificationResults(competitionId);
+        }
+        
+        [Authorize("admin")]
+        [HttpDelete("/tournaments/{id}")]
+        public Task<TournamentResponseModel> DeleteTournament(int id)
+        {
+            return _tournamentService.DeleteTournament(id);
         }
     }
 }

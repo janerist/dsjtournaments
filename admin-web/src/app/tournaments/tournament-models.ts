@@ -1,7 +1,8 @@
-export interface TournamentTypeResponseModel {
+export interface TournamentTypeWithCountResponseModel {
   id: number;
   name: string;
   gameVersion: number;
+  count: number;
 }
 
 export interface TournamentResponseModel {

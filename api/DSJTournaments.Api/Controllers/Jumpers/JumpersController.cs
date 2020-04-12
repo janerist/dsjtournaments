@@ -2,7 +2,7 @@
 using DSJTournaments.Api.Controllers.Jumpers.RequestModels;
 using DSJTournaments.Api.Controllers.Jumpers.ResponseModels;
 using DSJTournaments.Api.Controllers.Jumpers.Services;
-using DSJTournaments.Mvc.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DSJTournaments.Api.Controllers.Jumpers
@@ -17,7 +17,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers
         }
 
         [HttpGet("/jumpers")]
-        public Task<PagedResponse<JumperResponseModel>> GetJumpers(GetJumpersRequestModel model)
+        public Task<Responses.PagedResponse<JumperResponseModel>> GetJumpers(GetJumpersRequestModel model)
         {
             return _jumperService.GetPagedJumpers(model);
         }
@@ -29,7 +29,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers
         }
 
         [HttpGet("/jumpers/{id}/activity")]
-        public Task<PagedResponse<JumperActivityResponseModel>> GetJumperActivity(int id, int page = 1)
+        public Task<Responses.PagedResponse<JumperActivityResponseModel>> GetJumperActivity(int id, int page = 1)
         {
             return _jumperService.GetActivity(id, page, 20);
         }
@@ -38,6 +38,20 @@ namespace DSJTournaments.Api.Controllers.Jumpers
         public Task<JumperAllStatsResponseModel> GetJumperStats(int id)
         {
             return _jumperService.GetTotalStats(id);
+        }
+        
+        [Authorize("admin")]
+        [HttpPut("/jumpers/{id}")]
+        public Task<JumperResponseModel> UpdateJumper(int id, [FromBody] JumperUpdateRequestModel model)
+        {
+            return _jumperService.UpdateJumper(id, model);
+        }
+
+        [Authorize("admin")]
+        [HttpPost("/jumpers/merge")]
+        public Task<JumperResponseModel> MergeJumpers([FromBody] JumperMergeRequestModel model)
+        {
+            return _jumperService.MergeJumpers(model);
         }
     }
 }

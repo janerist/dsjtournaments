@@ -70,7 +70,7 @@ export class UploaderComponent {
   private startUpload() {
     this.uploadInput.emit({
       type: 'uploadAll',
-      url: `${environment.uploadUrl}/upload`,
+      url: `${environment.apiUrl}/upload`,
       method: 'POST'
     });
   }
