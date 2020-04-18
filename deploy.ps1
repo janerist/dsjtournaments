@@ -58,15 +58,6 @@ function DeployApi()
     DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
 }
 
-function DeployUpload()
-{
-    $csProjPath = ".\upload/DSJTournaments.Upload/DSJTournaments.Upload.csproj"
-    $remotePath = "/opt/dsjtournaments/upload"
-    $serviceName = "dsjtournaments-upload"
-    
-    DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
-}
-
 function DeployWeb()
 {
     $projectPath = ".\web"
@@ -84,15 +75,6 @@ function DeployId()
     DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
 }
 
-function DeployAdminApi()
-{
-    $csProjPath = ".\admin-api/DSJTournaments.AdminApi/DSJTournaments.AdminApi.csproj"
-    $remotePath = "/opt/dsjtournaments/admin-api"
-    $serviceName = "dsjtournaments-admin-api"
-    
-    DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
-}
-
 function DeployAdmin()
 {
     $projectPath = ".\admin-web"
@@ -102,8 +84,6 @@ function DeployAdmin()
 }
 
 DeployApi
-DeployUpload
 DeployWeb
 DeployId
-DeployAdminApi
 DeployAdmin
