@@ -71,14 +71,14 @@ namespace DSJTournaments.Id
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
-
-            app.UseIdentityServer();
             
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
-                                   ForwardedHeaders.XForwardedProto
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                RequireHeaderSymmetry = false
             });
+
+            app.UseIdentityServer();
         }
     }
 }
