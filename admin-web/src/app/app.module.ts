@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -25,14 +25,13 @@ import {JumperDetailsComponent} from './jumpers/jumper-details.component';
 import {JumperSearchboxComponent} from './jumpers/jumper-searchbox.component';
 import {AuthGuard} from './common/services/auth-guard.service';
 import {AuthService} from './common/services/auth.service';
-import {LoginComponent} from './login/login.component';
-import {StorageService} from './common/services/storage.service';
 import {LoginWidgetComponent} from './navbar/login-widget.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptor} from './common/http/auth-interceptor';
 import {DataInterceptor} from './common/http/data-interceptor';
-import {TokenExpirationInterceptor} from './common/http/token-expiration-interceptor';
 import {AppRoutingModule} from './app-routing.module';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { ShellComponent } from './shell/shell.component';
 
 @NgModule({
   declarations: [
@@ -48,9 +47,6 @@ import {AppRoutingModule} from './app-routing.module';
     // Navbar
     NavbarComponent,
     LoginWidgetComponent,
-
-    // Login
-    LoginComponent,
 
     // Cups
     CupListComponent,
@@ -71,6 +67,10 @@ import {AppRoutingModule} from './app-routing.module';
 
     // Pipes
     RankMethodPipe,
+
+    AuthCallbackComponent,
+
+    ShellComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,15 +80,21 @@ import {AppRoutingModule} from './app-routing.module';
     HttpClientModule
   ],
   providers: [
+    // APP_INIT
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (authService: AuthService) => async () => await authService.loadUser(),
+      deps: [AuthService],
+      multi: true
+    },
+
     // HTTP interceptors
-    { provide: HTTP_INTERCEPTORS, useClass: TokenExpirationInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: DataInterceptor, multi: true},
 
     // Cross-feature services
     ToastService,
     FormService,
-    StorageService,
     AuthService,
     AuthGuard,
 

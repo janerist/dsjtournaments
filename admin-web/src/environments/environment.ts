@@ -5,6 +5,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000',
-  idUrl: 'http://localhost:4000'
+  apiUrl: 'https://localhost:5000',
+  idUrl: 'https://localhost:4000',
+  redirectUri: 'http://localhost:4201/auth-callback',
+  postLogoutRedirectUri: 'http://localhost:4201',
+  silentRedirectUri: 'http://localhost:4201/silent-refresh.html'
 };

@@ -72,7 +72,7 @@ export class JumperListComponent implements OnInit {
 
   search() {
     const queryParams = this.assignQueryParams({page: 1});
-    this.router.navigate(['/jumpers'], {queryParams});
+    this.router.navigate(['./'], {queryParams, relativeTo: this.route});
   }
 
   createGetQueryParams() {

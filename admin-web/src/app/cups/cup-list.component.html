@@ -1,7 +1,7 @@
 <div>
   <p class="float-sm-right">
     <i class="fa fa-plus"></i>
-    <a [routerLink]="['/cups/create']" href="#">
+    <a routerLink="create" href="#">
       New cup
     </a>
   </p>
@@ -18,7 +18,7 @@
   <tr *ngFor="let cup of cups$ | async">
     <td>
       <span class="badge badge-secondary badge-dsj{{cup.gameVersion}}">DSJ{{cup.gameVersion}}</span>&nbsp;
-      <a [routerLink]="['/cups', cup.id]">{{cup.name}}</a>&nbsp;
+      <a [routerLink]="cup.id">{{cup.name}}</a>&nbsp;
       <span class="badge badge-secondary">{{cup.tournamentCount}}</span>
     </td>
     <td>

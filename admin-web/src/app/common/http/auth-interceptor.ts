@@ -1,16 +1,22 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const acessToken =  this.authService.accessToken;
+    if (!this.authService.isAccessTokenValid) {
+      this.authService.login(this.router.url);
+      return of();
+    }
+
+    const acessToken = this.authService.accessToken;
     const authReq = req.clone({
       headers: req.headers.set('Authorization', 'Bearer ' + acessToken)
     });

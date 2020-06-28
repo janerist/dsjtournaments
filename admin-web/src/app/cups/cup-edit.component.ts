@@ -47,7 +47,7 @@ export class CupEditComponent implements OnInit {
         .deleteCup(this.cup.id)
         .subscribe(() => {
           this.toastService.success('Cup deleted');
-          this.router.navigate(['/cups']);
+          this.router.navigate(['../']);
         });
     }
   }

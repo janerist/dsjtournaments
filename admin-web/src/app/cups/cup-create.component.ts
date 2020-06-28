@@ -31,7 +31,7 @@ export class CupCreateComponent implements OnInit {
       .createCup(cup)
       .subscribe(() => {
         this.toastService.success('Cup created');
-        this.router.navigate(['/cups']);
+        this.router.navigate(['../']);
       });
   }
 }

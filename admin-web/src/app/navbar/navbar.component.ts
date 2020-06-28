@@ -18,19 +18,19 @@ import {Component, OnInit} from '@angular/core';
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link" routerLink="/tournaments">
+              <a class="nav-link" routerLink="tournaments">
                 <i class="fa fa-list"></i>
                 Tournaments
               </a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link" routerLink="/jumpers">
+              <a class="nav-link" routerLink="jumpers">
                 <i class="fa fa-user"></i>
                 Jumpers
               </a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link" routerLink="/cups">
+              <a class="nav-link" routerLink="cups">
                 <i class="fa fa-calendar"></i>
                 Cups & Tours
               </a>

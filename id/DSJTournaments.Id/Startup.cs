@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using DSJTournaments.Data;
+using DSJTournaments.Id.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -26,20 +27,25 @@ namespace DSJTournaments.Id
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Framework services
+            services.AddCors(opts => opts.AddDefaultPolicy(builder => builder
+                .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetPreflightMaxAge(TimeSpan.FromMinutes(10))));
+            
             // Identity Server
             var idsrvBuilder = services.AddIdentityServer(options =>
                 {
-                    options.Endpoints.EnableAuthorizeEndpoint = false;
                     options.Endpoints.EnableIntrospectionEndpoint = false;
-                    options.Endpoints.EnableEndSessionEndpoint = false;
-                    options.Endpoints.EnableUserInfoEndpoint = false;
                     options.Endpoints.EnableCheckSessionEndpoint = false;
                     options.Endpoints.EnableTokenRevocationEndpoint = false;
                     options.Endpoints.EnableDeviceAuthorizationEndpoint = false;
+                    options.Authentication.CookieLifetime = TimeSpan.FromDays(14);
                 })
-                .AddResourceOwnerValidator<ResourceOwnerValidator>()
+                .AddInMemoryApiScopes(IdentityConfig.ApiScopes)
                 .AddInMemoryApiResources(IdentityConfig.ApiResources)
-                .AddInMemoryClients(IdentityConfig.Clients);
+                .AddInMemoryClients(IdentityConfig.GetClients(_configuration));
 
             if (_environment.IsProduction())
             {
@@ -56,29 +62,36 @@ namespace DSJTournaments.Id
             
             // Services
             services.AddSingleton<PasswordHasher>();
+            services.AddSingleton<IUserService, UserService>();
             
-            // Framework services
-            services.AddCors();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostEnvironment environment)
         {
             app.UseSerilogRequestLogging();
-            
-            app.UseCors(builder => builder
-                .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
+
+            if (environment.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
+
+            app.UseCors();
+
+            app.UseStaticFiles();
+            app.UseRouting();
             
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
                 RequireHeaderSymmetry = false
             });
-
+	    
             app.UseIdentityServer();
+
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
         }
     }
 }
