@@ -5,7 +5,7 @@ function DeployDotNetCoreApp(
     [string] $remotePath,
     [string] $serviceName,
     [string] $framework = "netcoreapp3.1",
-    [string] $runtime = "ubuntu.16.04-x64",
+    [string] $runtime = "linux-x64",
     [string] $configuration = "Release") 
 {
     $projectPath = Split-Path $csprojPath
@@ -17,10 +17,11 @@ function DeployDotNetCoreApp(
     dotnet publish $csprojPath -f $framework -c $configuration -r $runtime
     tar czf $archiveName --directory $outputPath .
     scp $archiveName $sshHost`:~/
-    ssh $sshHost "mkdir -p $remotePath"
-    ssh $sshHost "rm -r $remotePath/*"
-    ssh $sshHost "tar xzf $archiveName -C $remotePath"
-    ssh $sshHost "chmod +x $remotePath/$executableName"
+    ssh $sshHost "sudo mkdir -p $remotePath"
+    ssh $sshHost "sudo rm -r $remotePath/*"
+    ssh $sshHost "sudo tar xzf $archiveName -C $remotePath"
+    ssh $sshHost "sudo chmod +x $remotePath/$executableName"
+	ssh $sshHost "sudo chown -R dsjtournaments:dsjtournaments $remotePath"
     ssh $sshHost "sudo systemctl restart $serviceName"
     
     # Clean up
@@ -40,9 +41,10 @@ function DeployAngularApp([string] $projectPath, [string] $remotePath)
 
     tar czf $archiveName --directory $outputPath .
     scp $archiveName $sshHost`:~/
-    ssh $sshHost "mkdir -p $remotePath"
-    ssh $sshHost "rm -r $remotePath/*"
-    ssh $sshHost "tar xzf $archiveName -C $remotePath"
+    ssh $sshHost "sudo mkdir -p $remotePath"
+    ssh $sshHost "sudo rm -r $remotePath/*"
+    ssh $sshHost "sudo tar xzf $archiveName -C $remotePath"
+	ssh $sshHost "sudo chown -R dsjtournaments:dsjtournaments $remotePath"
 
     # Clean up
     ssh $sshHost "rm $archiveName"
