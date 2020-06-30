@@ -64,7 +64,11 @@ namespace DSJTournaments.Api
             services.AddSingleton<StatProcessor>();
 
             // Framework services
-            services.AddCors();
+            services.AddCors(opts => opts.AddDefaultPolicy(builder => builder
+                .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetPreflightMaxAge(TimeSpan.FromMinutes(10))));
             
             // Authentication
             services.AddAuthentication("Bearer")
@@ -100,13 +104,8 @@ namespace DSJTournaments.Api
                 app.UseHttpsRedirection();
             }
             
+            app.UseCors();
             app.UseRouting();
-            
-            app.UseCors(builder => builder
-                .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

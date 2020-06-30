@@ -76,10 +76,9 @@ namespace DSJTournaments.Id
             {
                 app.UseHttpsRedirection();
             }
-
-            app.UseCors();
-
+            
             app.UseStaticFiles();
+            app.UseCors();
             app.UseRouting();
             
             app.UseForwardedHeaders(new ForwardedHeadersOptions
