@@ -6,8 +6,8 @@ deployDotNetCoreApp() {
     projectPath=$1
     remotePath=$2
     serviceName=$3
-    framework="netcoreapp3.1"
-    runtime="linux-x64"    
+    framework="net5.0"
+    runtime="linux-x64"
     outputPath=$projectPath/publish
     executableName=$(basename $projectPath)
     archiveName=$executableName.tar.gz

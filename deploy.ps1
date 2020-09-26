@@ -4,10 +4,9 @@ function DeployDotNetCoreApp(
     [string] $csprojPath,
     [string] $remotePath,
     [string] $serviceName,
-    [string] $framework = "netcoreapp3.1",
+    [string] $framework = "net5.0",
     [string] $runtime = "linux-x64",
-    [string] $configuration = "Release") 
-{
+    [string] $configuration = "Release") {
     $projectPath = Split-Path $csprojPath
     $outputPath = "$projectPath\bin\$configuration\$framework\$runtime\publish"
     $csprojFileName = Split-Path $csprojPath -Leaf
@@ -21,7 +20,7 @@ function DeployDotNetCoreApp(
     ssh $sshHost "sudo rm -r $remotePath/*"
     ssh $sshHost "sudo tar xzf $archiveName -C $remotePath"
     ssh $sshHost "sudo chmod +x $remotePath/$executableName"
-	ssh $sshHost "sudo chown -R dsjtournaments:dsjtournaments $remotePath"
+    ssh $sshHost "sudo chown -R dsjtournaments:dsjtournaments $remotePath"
     ssh $sshHost "sudo systemctl restart $serviceName"
     
     # Clean up
@@ -29,8 +28,7 @@ function DeployDotNetCoreApp(
     Remove-Item $archiveName
 }
 
-function DeployAngularApp([string] $projectPath, [string] $remotePath)
-{
+function DeployAngularApp([string] $projectPath, [string] $remotePath) {
     $outputPath = "$projectPath/dist"
     $folderName = Split-Path $projectPath -Leaf
     $archiveName = "$folderName.tar.gz"
@@ -44,15 +42,14 @@ function DeployAngularApp([string] $projectPath, [string] $remotePath)
     ssh $sshHost "sudo mkdir -p $remotePath"
     ssh $sshHost "sudo rm -r $remotePath/*"
     ssh $sshHost "sudo tar xzf $archiveName -C $remotePath"
-	ssh $sshHost "sudo chown -R dsjtournaments:dsjtournaments $remotePath"
+    ssh $sshHost "sudo chown -R dsjtournaments:dsjtournaments $remotePath"
 
     # Clean up
     ssh $sshHost "rm $archiveName"
     Remove-Item $archiveName
 }
 
-function DeployApi()
-{
+function DeployApi() {
     $csProjPath = ".\api/DSJTournaments.Api/DSJTournaments.Api.csproj"
     $remotePath = "/opt/dsjtournaments/api"
     $serviceName = "dsjtournaments-api"
@@ -60,16 +57,14 @@ function DeployApi()
     DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
 }
 
-function DeployWeb()
-{
+function DeployWeb() {
     $projectPath = ".\web"
     $remotePath = "/opt/dsjtournaments/web"
 
     DeployAngularApp $projectPath $remotePath
 }
 
-function DeployId()
-{
+function DeployId() {
     $csProjPath = ".\id/DSJTournaments.Id/DSJTournaments.Id.csproj"
     $remotePath = "/opt/dsjtournaments/id"
     $serviceName = "dsjtournaments-id"
@@ -77,8 +72,7 @@ function DeployId()
     DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
 }
 
-function DeployAdmin()
-{
+function DeployAdmin() {
     $projectPath = ".\admin-web"
     $remotePath = "/opt/dsjtournaments/admin"
 
