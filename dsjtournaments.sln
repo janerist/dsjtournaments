@@ -15,6 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api.Integrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api.UnitTests", "api\DSJTournaments.Api.UnitTests\DSJTournaments.Api.UnitTests.csproj", "{1E5F7156-1070-4BEF-BDA9-1B8F22AB478B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{0D35D78A-40ED-48F2-B067-66D34E7F98CA}"
+ProjectSection(SolutionItems) = preProject
+	docker-compose.dev.yml = docker-compose.dev.yml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
