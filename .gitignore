@@ -5,3 +5,4 @@ logs/
 stats/
 /web.DotSettings.user
 /admin-web.DotSettings.user
+tempkey.rsa

@@ -102,8 +102,8 @@ namespace DSJTournaments.Api.IntegrationTests
         {
             var psi = new ProcessStartInfo
             {
-                FileName = "psql",
-                Arguments = $"-h {host} -d {database} -U {userName}",
+                FileName = "docker",
+                Arguments = $"exec dsjtournaments_db_1 psql -h {host} -d {database} -U {userName}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
@@ -114,7 +114,7 @@ namespace DSJTournaments.Api.IntegrationTests
             }
             else if (file != null)
             {
-                psi.Arguments += $" -f \"{file}\"";
+                psi.Arguments += $" -c \"{File.ReadAllText(file)}\"";
             }
             else
             {
