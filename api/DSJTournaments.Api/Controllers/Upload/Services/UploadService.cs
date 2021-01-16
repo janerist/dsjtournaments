@@ -50,10 +50,10 @@ namespace DSJTournaments.Api.Controllers.Upload.Services
                 {
                     throw new BadRequestException(e.Message);
                 }
-                catch (StatProcessorException e)
+                catch (Exception)
                 {
                     await _fileArchive.ArchiveFile(stream, Path.Combine("FailedToProcess", file.FileName));
-                    throw new BadRequestException(e.Message);
+                    throw new BadRequestException("An unexpected error occurred. Contact the adminstrator.");
                 }
             }
         }

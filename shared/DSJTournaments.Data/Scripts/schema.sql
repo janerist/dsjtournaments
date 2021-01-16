@@ -65,7 +65,7 @@ FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
 CREATE TABLE teams(
   id SERIAL PRIMARY KEY,
   nation CHAR(3) NOT NULL,
-  rank VARCHAR(5) NOT NULL,
+  rank VARCHAR(10) NOT NULL,
   UNIQUE (nation, rank)
 );
 
