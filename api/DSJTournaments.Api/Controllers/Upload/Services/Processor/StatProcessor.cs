@@ -35,21 +35,21 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
         public async Task Process(Stats stats, int fileNumber)
         {
             var tournament = await GetOrCreateTournament(stats);
-         
+
             switch (stats)
             {
                 case StandingStats results:
                     await ProcessFinalStandings(tournament, results);
                     break;
-                    
+
                 case TeamFinalResultStats results:
                     await ProcessTeamFinalResults(tournament, fileNumber, results);
                     break;
-                    
+
                 case FinalResultStats results:
                     await ProcessFinalResults(tournament, fileNumber, results);
                     break;
-                    
+
                 case QualificationStats results:
                     await ProcessQualificationResults(tournament, fileNumber, results);
                     break;
@@ -62,7 +62,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
             {
                 throw new StatProcessorException("Intermediary standings not supported");
             }
-            
+
             if (await TournamentHasFinalStandings(tournament))
             {
                 throw new StatProcessorException("Final standings for this tournament already exist");
@@ -95,7 +95,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                     TeamId = isTeamCup ? (await GetOrCreateTeam(standing.Name, standing.Nation)).Id : (int?) null,
                     TournamentId = tournament.Id
                 });
-                
+
                 if (standing.Rank.HasValue)
                 {
                     previousRank = standing.Rank.Value;
@@ -216,7 +216,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
             var team = await _db.Query<Team>()
                 .Where("nation = @Nation AND rank = @Rank", new
                 {
-                    Nation = nationAndRank[0], 
+                    Nation = nationAndRank[0],
                     Rank = nationAndRank[1]
                 })
                 .FirstOrDefaultAsync();
@@ -243,7 +243,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
             {
                 await _db.Update(jumper, j => j.Nation = nation);
             }
-            
+
             return jumper;
         }
 
@@ -272,7 +272,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                 .Where("tournament_id = @TournamentId", new { TournamentId = tournament.Id})
                 .ExistsAsync();
         }
-        
+
         private async Task<bool> CompetitionHasQualificationResults(Competition comp)
         {
             return await _db.Query<QualificationResult>()
@@ -303,7 +303,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
             {
                 return tournament;
             }
-            
+
             // Check against deleted tournaments
             var deletedTournament = await GetDeletedTournament(stats, tournamentType);
             if (deletedTournament != null)
@@ -311,14 +311,14 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                 // Tournament has been deleted and it should not be possible to re-upload it.
                 throw new StatProcessorException("Rejected");
             }
-            
+
             return await CreateTournament(stats, tournamentType);
         }
 
         private async Task<Competition> GetOrCreateCompetition(Tournament tournament, int fileNumber, string hillName,
             int gameVersion, bool ko)
         {
-            var hill = await GetHill(hillName, gameVersion);
+            var hill = await GetOrCreateHill(hillName, gameVersion);
             return await GetCompetition(tournament, fileNumber, hill) ??
                    await CreateCompetition(tournament, fileNumber, hill, ko);
         }
@@ -343,7 +343,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                 .FirstOrDefaultAsync();
         }
 
-        private async Task<Hill> GetHill(string name, int gameVersion)
+        private async Task<Hill> GetOrCreateHill(string name, int gameVersion)
         {
             Hill hill = null;
             if (gameVersion == 3)
@@ -366,7 +366,12 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
 
             if (hill == null)
             {
-                throw new StatProcessorException($"The hill \"{name}\" is unknown for DSJ{gameVersion}");
+                hill = await _db.Insert(new Hill
+                {
+                    Name = name,
+                    GameVersion = gameVersion,
+                    Nation = "N/A"
+                });
             }
 
             return hill;
@@ -401,7 +406,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                 .Filter("sub_type = @SubType", new { SubType = stats.SubType}, onlyIf: stats.SubType != null)
                 .FirstOrDefaultAsync();
         }
-        
+
         private async Task<DeletedTournament> GetDeletedTournament(Stats stats, TournamentType tournamentType)
         {
             return await _db.Query<DeletedTournament>()
@@ -421,7 +426,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                 SubType = stats.SubType,
                 HillCount = stats is StandingStats s ? s.TotalHills : (int?) null
             });
-            
+
             // Connect to cups
             await _db.ExecuteAsync(@"
                 UPDATE 
@@ -433,8 +438,8 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                     (SELECT COALESCE(game_version, @GameVersion) FROM cups c WHERE c.id = cup_id) = @GameVersion",
                 new
                 {
-                    Date = tournament.Date, 
-                    GameVersion = tournament.GameVersion, 
+                    Date = tournament.Date,
+                    GameVersion = tournament.GameVersion,
                     TournamentId = tournament.Id
                 });
 

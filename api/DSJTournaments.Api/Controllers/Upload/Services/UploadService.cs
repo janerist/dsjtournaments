@@ -11,6 +11,7 @@ using DSJTournaments.Api.Controllers.Upload.Services.Processor;
 using DSJTournaments.Api.Exceptions;
 using DSJTournaments.Data;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 namespace DSJTournaments.Api.Controllers.Upload.Services
 {
@@ -32,7 +33,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services
         public async Task ProcessFile(IFormFile file, IPAddress remoteIp)
         {
             ValidateFile(file);
-            
+
             using (var stream = file.OpenReadStream())
             using (var reader = new StreamReader(stream))
             {
@@ -46,12 +47,13 @@ namespace DSJTournaments.Api.Controllers.Upload.Services
                     await _fileArchive.ArchiveFile(stream, Path.Combine("FailedToParse", file.FileName));
                     throw new BadRequestException(e.Message);
                 }
-                catch (StatProcessorException e) when (e.Message.Contains("already exist") || e.Message.Contains("Rejected"))
+                catch (StatProcessorException e)
                 {
                     throw new BadRequestException(e.Message);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Log.Error(ex, "Processing failed");
                     await _fileArchive.ArchiveFile(stream, Path.Combine("FailedToProcess", file.FileName));
                     throw new BadRequestException("An unexpected error occurred. Contact the adminstrator.");
                 }
@@ -62,9 +64,9 @@ namespace DSJTournaments.Api.Controllers.Upload.Services
         {
             if (file.Length >= 1000000)
             {
-                throw new BadRequestException("File too big (max 1MB)");                
+                throw new BadRequestException("File too big (max 1MB)");
             }
-            
+
             if (!file.FileName.EndsWith(".txt"))
             {
                 throw new BadRequestException("Only text files (.txt) are allowed");
@@ -99,7 +101,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services
                         UploadedAt = DateTime.Now
                     });
                     await _fileArchive.ArchiveFile(stream, path);
-                    
+
                     if (statFile is StandingStats || statFile is TeamFinalResultStats)
                     {
                         await _db.ExecuteAsync("REFRESH MATERIALIZED VIEW jumper_results");

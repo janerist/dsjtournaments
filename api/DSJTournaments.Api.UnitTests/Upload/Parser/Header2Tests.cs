@@ -46,6 +46,7 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
         [InlineData("Romania HS228 Konkurranse Endelig Resultatliste", "Romania HS228", false)]
         [InlineData("Romania HS228 Wyniki konkursu", "Romania HS228", false)]
         [InlineData("Romania HS228 Končni rezultati tekmovanja", "Romania HS228", false)]
+        [InlineData("Hollywood HS213 (1842-v3) Competition Final Results", "Hollywood HS213 (1842-v3)", false)]
         public async Task HandlesFinalResults(string header2, string expectedHill, bool expectedKnockout)
         {
             var stats = await _parser.Parse(header2.AsHeader2().Build()) as FinalResultStats;

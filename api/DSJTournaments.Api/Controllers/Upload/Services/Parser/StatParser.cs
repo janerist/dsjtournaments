@@ -12,12 +12,12 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
 {
     public class StatParser
     {
-        private static string StandingRegex = 
+        private static string StandingRegex =
             @"(?<completed_hills>\d{1,3})\/(?<total_hills>\d{1,3})";
         private static string FinalResultRegex =
-            @"(?<hill>.+HS\d{2,3}) (Competition Final Results|Kilpailun lopputulokset|Wettkampf Endergebnisse|Konkurranse Endelig Resultatliste|Wyniki konkursu|Končni rezultati tekmovanja)";
+            @"(?<hill>.+) (Competition Final Results|Kilpailun lopputulokset|Wettkampf Endergebnisse|Konkurranse Endelig Resultatliste|Wyniki konkursu|Končni rezultati tekmovanja)";
         private static string QualRegex =
-            @"(?<hill>.+HS\d{2,3}) (Qualification Results|Karsinnan tulokset|Qualifikation Ergebnisse|Kvalifisering Resultater|Wyniki kwalifikacji|Rezultati kvalifikacij)";
+            @"(?<hill>.+) (Qualification Results|Karsinnan tulokset|Qualifikation Ergebnisse|Kvalifisering Resultater|Wyniki kwalifikacji|Rezultati kvalifikacij)";
 
         public async Task<Stats> Parse(string contents)
         {
@@ -84,7 +84,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
 
                         skip += jumperResults.Length;
                     }
-                    
+
                     break;
 
                 case FinalResultStats s when s.GameVersion == 3:
@@ -149,7 +149,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
         {
             var stats = ParseHeader1(header1);
             stats = ParseHeader2(stats, header2);
-            
+
             return stats;
         }
 
@@ -159,7 +159,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
 
             // WTB pattern matching
             var elems = header1.Split(' ');
-            
+
             if (elems.Length == 6 && elems[0] == "WC" && elems[1] == "-")
             {
                 // DSJ3 (1.7) World Cup

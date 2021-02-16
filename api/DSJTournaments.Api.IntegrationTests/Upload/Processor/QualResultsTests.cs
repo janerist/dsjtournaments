@@ -90,5 +90,28 @@ Poz.  Nr    Zawodnik                 Kraj        Ocena      Długość       Pun
             Assert.Equal("IV", rubaszTeam.Rank);
             Assert.Equal("POL", rubaszTeam.Nation);
         }
+
+        [Fact]
+        public async Task HandlesCustomHills()
+        {
+            var response = await Client.UploadStatsAsync(@"
+WC Wednesday A - 19.00 CE(S)T 2016-03-02
+A custom hill HS134 Wyniki kwalifikacji (KO)
+
+Poz.  Nr    Zawodnik                 Kraj        Ocena      Długość       Punkty Zakwalifik.
+1.    32    SoBo                     POL          1660     127.65 m        131.5           Q
+2.    28    Łukasz Bester            POL          1517     127.35 m        129.6            ");
+
+            await ResponseAssert.Ok(response);
+
+            var hill = await Database.Query<Hill>().Where("name = 'A custom hill HS134'").FirstAsync();
+            Assert.NotNull(hill);
+
+            var competitions = await Database.Query<Competition>().AllAsync();
+            Assert.Single(competitions);
+
+            Assert.Equal(hill.Id, competitions[0].HillId);
+            Assert.Equal("N/A", hill.Nation);
+        }
     }
 }
