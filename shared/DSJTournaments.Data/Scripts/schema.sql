@@ -223,5 +223,37 @@ CREATE TABLE deleted_tournaments (
     id serial primary key,
     date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     tournament_type_id INTEGER NOT NULL REFERENCES tournament_types (id),
-    sub_type VARCHAR (50)   
+    sub_type VARCHAR (50)
 );
+DROP MATERIALIZED VIEW  jumper_results;
+ALTER TABLE final_standings ALTER COLUMN points TYPE NUMERIC(5, 1);
+CREATE MATERIALIZED VIEW jumper_results AS (
+                                           SELECT
+                                               r.jumper_id,
+                                               r.tournament_id,
+                                               t.date,
+                                               r.rank,
+                                               r.rating,
+                                               r.points
+                                           FROM
+                                               (SELECT
+                                                    fs.jumper_id,
+                                                    fs.tournament_id,
+                                                    fs.rank,
+                                                    fs.rating,
+                                                    fs.points
+                                                FROM final_standings fs
+                                                UNION
+                                                SELECT
+                                                    fr.jumper_id,
+                                                    c.tournament_id,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL
+                                                FROM final_results fr
+                                                         JOIN competitions c ON c.id = fr.competition_id
+                                                WHERE fr.team_result_id IS NOT NULL) r
+                                                   JOIN tournaments t ON t.id = r.tournament_id
+                                               );
+create index ix_jumper_results_jumper_id ON jumper_results (jumper_id);
+create index ix_jumper_results_tournament_id ON jumper_results (tournament_id);

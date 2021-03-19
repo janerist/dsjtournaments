@@ -10,6 +10,6 @@
         public int II { get; set; }
         public int III { get; set; }
         public int N { get; set; }
-        public int Points { get; set; }
+        public decimal Points { get; set; }
     }
 }

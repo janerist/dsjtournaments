@@ -42,7 +42,7 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
             Assert.Equal("Marathon", stats.Type);
             Assert.Equal(3, stats.GameVersion);
         }
-        
+
         [Fact]
         public async Task DSJ4_WorldCupA()
         {
@@ -127,19 +127,69 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
         public async Task DSJ4_NationalCup()
         {
             var stats = await _parser.Parse("National Cup - Sun 19.00 CE(S)T 2017-12-31".AsHeader1().Build());
-            
+
             Assert.Equal(DateTime.Parse("2017-12-31 19:00", CultureInfo.InvariantCulture), stats.Date);
             Assert.Equal("National Cup", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
-        
+
         [Fact]
         public async Task DSJ4_20thAnniversary()
         {
             var stats = await _parser.Parse("20th Anniversary Tournament 2019-07-04".AsHeader1().Build());
-            
+
             Assert.Equal(DateTime.Parse("2019-07-04 20:00", CultureInfo.InvariantCulture), stats.Date);
             Assert.Equal("20th Anniversary Tournament", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
+
+        [Fact]
+        public async Task DSJ4_CentralEuropeanFour()
+        {
+            var stats = await _parser.Parse("Central European Four - 1st Mon 20.00 CE(S)T 2021-03-01".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2021-03-01 20:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("Central European Four", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
+
+        [Fact]
+        public async Task DSJ4_NationalCupOddWeeks()
+        {
+            var stats = await _parser.Parse("National Cup - Thu 20.00 CE(S)T (Odd weeks) 2021-03-04".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2021-03-04 20:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("National Cup", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
+
+        [Fact]
+        public async Task DSJ4_SundaySpecialA()
+        {
+            var stats = await _parser.Parse("Sunday Special A - 19.00 CE(S)T (DSJ2) 2021-03-07".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2021-03-07 19:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("Sunday Special A", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
+
+        [Fact]
+        public async Task DSJ4_SundaySpecialB()
+        {
+            var stats = await _parser.Parse("Sunday Special B - 19.00 CE(S)T (DSJ2) 2021-03-07".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2021-03-07 19:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("Sunday Special B", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
+
+        [Fact]
+        public async Task DSJ4_TeamCupEvenWeeks()
+        {
+            var stats = await _parser.Parse("Team Cup - Thu 20.00 CE(S)T (Even weeks) 2021-03-16".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2021-03-16 20:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("Team Cup", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
     }

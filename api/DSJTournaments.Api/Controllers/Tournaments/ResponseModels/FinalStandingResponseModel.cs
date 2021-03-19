@@ -10,7 +10,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.ResponseModels
         public int II { get; set; }
         public int III { get; set; }
         public int? N { get; set; }
-        public int Points { get; set; }
+        public double Points { get; set; }
         public double? Avg => N.HasValue ? (double)Points / N : null;
 
         public int? JumperId { get; set; }

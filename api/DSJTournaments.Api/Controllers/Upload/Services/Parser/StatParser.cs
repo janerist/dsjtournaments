@@ -162,56 +162,63 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
 
             if (elems.Length == 6 && elems[0] == "WC" && elems[1] == "-")
             {
-                // DSJ3 (1.7) World Cup
+                // DSJ3 World Cup
                 stats.Type = "World Cup";
                 stats.GameVersion = 3;
                 stats.Date = ParseDate(elems[5], elems[3]);
             }
             else if (elems.Length == 7 && elems[0] == "WCx3")
             {
-                // DSJ3 (1.7) Marathon
+                // DSJ3 Marathon
                 stats.Type = "Marathon";
                 stats.GameVersion = 3;
                 stats.Date = ParseDate(elems[6], elems[4]);
             }
             else if (elems.Length == 7 && elems[0] == "WC")
             {
-                // DSJ4 (1.6) World Cup A / World Cup B
+                // DSJ4 World Cup A / World Cup B
                 stats.Type = "World Cup " + elems[2];
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[6], elems[4]);
             }
             else if (elems.Length == 8 && elems[0] == "Marathon")
             {
-                // DSJ4 (1.6) Marathon A / Marathon B
+                // DSJ4 Marathon A / Marathon B
                 stats.Type = "Marathon " + elems[1];
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[7], elems[5]);
             }
             else if (elems.Length == 9 && elems[0] == "Ski")
             {
-                // DSJ4 (1.6) Ski Flying A / Ski Flying B
+                // DSJ4 Ski Flying A / Ski Flying B
                 stats.Type = "Ski Flying " + elems[2];
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[8], elems[6]);
             }
             else if (elems.Length == 7 && elems[0] == "Team")
             {
-                // DSJ4 (1.6) Team Cup
+                // DSJ4 Team Cup
                 stats.Type = "Team Cup";
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[6], elems[4]);
             }
             else if (elems.Length == 7 && elems[0] == "National")
             {
-                // DSJ4 (1.6) National Cup
+                // DSJ4 National Cup
                 stats.Type = "National Cup";
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[6], elems[4]);
             }
+            else if (elems.Length == 9 && elems[0] == "National")
+            {
+                // DSJ4 National Cup (Odd weeks)
+                stats.Type = "National Cup";
+                stats.GameVersion = 4;
+                stats.Date = ParseDate(elems[8], elems[4]);
+            }
             else if (elems.Length == 10 && elems[0] == "Tour")
             {
-                // DSJ4 (1.6) Tour de DSJ
+                // DSJ4 Tour de DSJ
                 stats.Type = "Tour de DSJ " + elems[3];
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[9], elems[7]);
@@ -221,6 +228,25 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
                 stats.Type = "20th Anniversary Tournament";
                 stats.GameVersion = 4;
                 stats.Date = new DateTime(2019, 7, 4, 20, 0, 0);
+            }
+            else if (elems.Length == 9 && elems[0] == "Central")
+            {
+                stats.Type = "Central European Four";
+                stats.GameVersion = 4;
+                stats.Date = ParseDate(elems[8], elems[6]);
+            }
+            else if (elems.Length == 8 && elems[0] == "Sunday")
+            {
+                stats.Type = "Sunday Special " + elems[2];
+                stats.GameVersion = 4;
+                stats.Date = ParseDate(elems[7], elems[4]);
+            }
+            else if (elems.Length == 9 && elems[0] == "Team")
+            {
+                // DSJ4 Team Cup
+                stats.Type = "Team Cup";
+                stats.GameVersion = 4;
+                stats.Date = ParseDate(elems[8], elems[4]);
             }
             else
             {

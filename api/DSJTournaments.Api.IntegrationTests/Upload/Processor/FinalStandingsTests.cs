@@ -20,14 +20,14 @@ WC - Sunday 20.00 CE(S)T 2015-11-08
 Final Results After 40/40 Hills
 
 --- Ignored ---");
-            
+
             await ResponseAssert.Ok(response);
 
             var tournament = await Database.Query<Tournament>().FirstAsync();
             var tournamentType = await Database.Query<TournamentType>()
                 .Where("id = @Id", new {Id = tournament.TournamentTypeId})
                 .FirstAsync();
-            
+
             Assert.Equal("World Cup", tournamentType.Name);
             Assert.Equal(3, tournament.GameVersion);
             Assert.Equal("2015-11-08T20:00:00", tournament.Date.ToString("s"));
@@ -42,9 +42,9 @@ WC - Sunday 20.00 CE(S)T 2015-11-08
 Final Results After 40/40 Hills
 
 --- Ignored ---";
-            
+
             var response = await Client.UploadStatsAsync(stats);
-            
+
             await ResponseAssert.Ok(response);
             var tournament = await Database.Query<Tournament>().FirstAsync();
 
@@ -59,7 +59,7 @@ Final Results After 40/40 Hills
 
             response = await Client.UploadStatsAsync(stats);
             var error = await ResponseAssert.BadRequest(response);
-            
+
             Assert.Equal("Rejected", error.Message);
         }
 
@@ -193,7 +193,7 @@ Rank  Name                     Nation     Rating     I    II   III     N     Poi
 3.    Slawomir Gwizdak         CZE           749     -     1     8    15        860");
 
             await ResponseAssert.Ok(czeRespone);
-            
+
             var polResponse = await Client.UploadStatsAsync(@"
 National Cup - Sun 19.00 CE(S)T 2018-12-23
 Klasyfikacja końcowa po 24/24 konkursach
@@ -204,10 +204,53 @@ Poz.  Gracz                    Kraj        Ocena     I    II   III     N     Pun
 3.    Maciej Sylwestrzuk       POL          1731     8     1     1    16       1170");
 
             await ResponseAssert.Ok(polResponse);
-            
+
             var tournaments = await Database.Query<Tournament>().OrderBy("id").AllAsync();
             Assert.Equal("CZE", tournaments[0].SubType);
             Assert.Equal("POL", tournaments[1].SubType);
+        }
+
+        [Fact]
+        public async Task HandlesJumpPoints()
+        {
+            var czeRespone = await Client.UploadStatsAsync(@"
+Central European Four - 1st Mon 20.00 CE(S)T 2021-03-01
+Resultater Etter 4/4 Renn
+
+Plass Navn                     Nasjon   Rangeri.     I    II   III     N      Poeng
+1.    Bartek Winczaszek        POL          1810     1     1     -     4     1137.6
+2.    Dawid Milewski           POL          1581     -     1     -     4     1134.4
+3.    Jacek Sterna             POL          1768     -     -     2     4     1134.1");
+
+            await ResponseAssert.Ok(czeRespone);
+
+            var tournaments = await Database.Query<Tournament>().AllAsync();
+            var jumpers = await Database.Query<Jumper>().AllAsync();
+            var finalStandings = await Database.Query<FinalStanding>().AllAsync();
+
+            Assert.Single(tournaments);
+            Assert.Equal(3, jumpers.Length);
+            Assert.Equal(3, finalStandings.Length);
+
+            Assert.Collection(finalStandings,
+                bartek =>
+                {
+                    Assert.Equal(1137.6m, bartek.Points);
+                    Assert.Equal(100, bartek.CupPoints);
+                },
+
+                dawid =>
+                {
+                    Assert.Equal(1134.4m, dawid.Points);
+                    Assert.Equal(80, dawid.CupPoints);
+                },
+
+                jacek =>
+                {
+                    Assert.Equal(1134.1m, jacek.Points);
+                    Assert.Equal(60, jacek.CupPoints);
+                });
+
         }
     }
 }

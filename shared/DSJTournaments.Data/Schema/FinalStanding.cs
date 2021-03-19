@@ -10,7 +10,7 @@
         public int II { get; set; }
         public int III { get; set; }
         public int? N { get; set; }
-        public int Points { get; set; }
+        public decimal Points { get; set; }
         public int CupPoints { get; set; }
         public int TournamentId { get; set; }
         public int? JumperId { get; set; }

@@ -15,7 +15,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser.ColumnDefs
             ColumnFor(x => x.II, (54, 6), CellValueParsers.ParsePodium);
             ColumnFor(x => x.III, (60, 6), CellValueParsers.ParsePodium);
             ColumnFor(x => x.N, (66, 6), Convert.ToInt32);
-            ColumnFor(x => x.Points, (72, 11), Convert.ToInt32);
+            ColumnFor(x => x.Points, (72, 11), CellValueParsers.ConvertToDecimalInvariantCulture);
         }
     }
 
@@ -30,7 +30,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser.ColumnDefs
             ColumnFor(x => x.II, (49, 6), CellValueParsers.ParsePodium);
             ColumnFor(x => x.III, (55, 6), CellValueParsers.ParsePodium);
             ColumnFor(x => x.N, (61, 6), Convert.ToInt32);
-            ColumnFor(x => x.Points, (67, 11), Convert.ToInt32);
+            ColumnFor(x => x.Points, (67, 11), CellValueParsers.ConvertToDecimalInvariantCulture);
         }
     }
 
