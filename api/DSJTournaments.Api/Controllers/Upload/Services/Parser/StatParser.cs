@@ -235,11 +235,11 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[8], elems[6]);
             }
-            else if (elems.Length == 8 && elems[0] == "Sunday")
+            else if (elems[0] == "Sunday" && elems[1] == "Special")
             {
                 stats.Type = "Sunday Special " + elems[2];
                 stats.GameVersion = 4;
-                stats.Date = ParseDate(elems[7], elems[4]);
+                stats.Date = ParseDate(elems.Last(), elems[4]);
             }
             else if (elems.Length == 9 && elems[0] == "Team")
             {

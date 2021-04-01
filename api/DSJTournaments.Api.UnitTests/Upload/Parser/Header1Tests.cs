@@ -166,9 +166,9 @@ namespace DSJTournaments.Upload.UnitTests.Upload.Parser
         [Fact]
         public async Task DSJ4_SundaySpecialA()
         {
-            var stats = await _parser.Parse("Sunday Special A - 19.00 CE(S)T (DSJ2) 2021-03-07".AsHeader1().Build());
+            var stats = await _parser.Parse("Sunday Special A - 19.00 CE(S)T (Retro + Fict.) 2021-03-28".AsHeader1().Build());
 
-            Assert.Equal(DateTime.Parse("2021-03-07 19:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal(DateTime.Parse("2021-03-28 19:00", CultureInfo.InvariantCulture), stats.Date);
             Assert.Equal("Sunday Special A", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
