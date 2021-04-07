@@ -22,7 +22,7 @@
     "chart.js": "~3.0.2",
     "moment": "~2.24.0",
     "moment-range": "~4.0.2",
-    "ngx-drag-scroll": "^1.8.2",
+    "ngx-drag-scroll": "^11.0.0-beta.1",
     "ngx-uploader": "^4.3.0",
     "rxjs": "~6.6.0",
     "semantic-ui-css": "~2.4.1",

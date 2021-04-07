@@ -5,7 +5,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-cup-rankings-table',
   template: `
-    <div dragScroll [style.cursor]="'move'">
+    <drag-scroll [style.cursor]="'move'">
       <table *ngIf="rankings.length" class="ui small striped fixed result table">
         <thead>
         <tr>
@@ -35,7 +35,7 @@ import * as moment from 'moment';
         </tbody>
 
       </table>
-    </div>
+    </drag-scroll>
     <p *ngIf="!rankings.length">There is no data available.</p>
   `
 })

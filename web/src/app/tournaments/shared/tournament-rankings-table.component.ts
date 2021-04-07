@@ -5,7 +5,7 @@ import {iso3toiso2} from '../../shared/country-codes';
 @Component({
   selector: 'app-tournament-rankings-table',
   template: `
-    <div dragScroll [style.cursor]="'move'">
+    <drag-scroll [style.cursor]="'move'">
       <table *ngIf="rankings.length" class="ui small striped fixed result table">
         <thead>
         <tr>
@@ -39,7 +39,7 @@ import {iso3toiso2} from '../../shared/country-codes';
         </tbody>
 
       </table>
-    </div>
+    </drag-scroll>
     <p *ngIf="!rankings.length">There is no data available.</p>
   `
 })
