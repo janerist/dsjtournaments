@@ -3,8 +3,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Npgsql" Version="4.1.5" />
+    <PackageReference Include="Npgsql" Version="5.0.4" />
   </ItemGroup>
 </Project>
