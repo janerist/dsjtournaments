@@ -1,19 +1,26 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import * as moment from 'moment';
+import {format, formatDistanceToNow, isDate} from 'date-fns';
 
-const dateFormat = 'DD MMM YYYY';
-const timeFormat = 'HH:mm';
+const defaultDateFormat = 'dd MMM y';
+const defaultTimeFormat = 'HH:mm';
 
-@Pipe({name: 'momentDate'})
+@Pipe({name: 'dsjtDate'})
 export class DatePipe implements PipeTransform {
-  transform(value: string, customFormat?: string): string {
-    return value ? moment(value).format(customFormat || dateFormat) : value;
+  transform(value: string | Date, customFormat?: string): string {
+    return value ? format(isDate(value) ? value as Date : new Date(value), customFormat || defaultDateFormat) : '';
   }
 }
 
-@Pipe({name: 'momentDateTime'})
+@Pipe({name: 'dsjtDateTime'})
 export class DatetimePipe implements PipeTransform {
-  transform(value: string): string {
-    return value ? moment(value).format(dateFormat + ' ' + timeFormat) : value;
+  transform(value: string | Date): string {
+    return value ? format(isDate(value) ? value as Date : new Date(value), defaultDateFormat + ' ' + defaultTimeFormat) : '';
+  }
+}
+
+@Pipe({name: 'dsjtDateDistanceToNow'})
+export class DateDistanceToNowPipe implements PipeTransform {
+  transform(value: string | Date): string {
+    return value ? formatDistanceToNow(isDate(value) ? value as Date : new Date(value), {addSuffix: true}) : '';
   }
 }

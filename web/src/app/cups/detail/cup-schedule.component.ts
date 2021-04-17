@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {CupDateResponseModel} from '../../shared/api-responses';
-import * as moment from 'moment';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'app-cup-schedule',
@@ -13,11 +13,11 @@ import * as moment from 'moment';
             <i class="calendar icon"></i>
             <div class="content">
               <a *ngIf="date.tournamentId" [routerLink]="['/tournaments', date.tournamentId]">
-                {{date.date | momentDate: 'ddd DD MMM YYYY HH:mm'}}
+                {{date.date | dsjtDate: 'EEE dd MMM y HH:mm'}}
               </a>
               <span *ngIf="!date.tournamentId">
-                    {{date.date | momentDate: 'ddd DD MMM YYYY HH:mm'}}
-                  </span>
+                {{date.date | dsjtDate: 'EEE dd MMM y HH:mm'}}
+              </span>
             </div>
           </div>
         </div>
@@ -30,9 +30,9 @@ export class CupScheduleComponent {
 
   keys = Object.keys;
 
-  getCupDateGroups(dates: CupDateResponseModel[]) {
+  getCupDateGroups(dates: CupDateResponseModel[]): {[key: string]: CupDateResponseModel[]} {
     return dates.reduce((agg, date) => {
-      const month = moment(date.date).format('MMMM YYYY');
+      const month = format(new Date(date.date), 'MMMM y');
       if (!agg[month]) {
         agg[month] = [];
       }

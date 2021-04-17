@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import * as Moment from 'moment';
-import {extendMoment} from 'moment-range';
 import {Router} from '@angular/router';
-
-const moment = extendMoment(Moment);
+import {eachMonthOfInterval, endOfMonth, format} from 'date-fns';
 
 @Component({
   selector: 'app-tournament-month-select',
@@ -14,8 +11,8 @@ const moment = extendMoment(Moment);
         <select (change)="selectMonth($event.target.value)">
           <option value="">-- Select year/month --</option>
           <optgroup *ngFor="let year of keys(yearmonths).reverse()" [label]="year">
-            <option *ngFor="let date of yearmonths[year]" [value]="date.format('YYYY-MM-DD')">
-              {{date.format('MMMM')}}
+            <option *ngFor="let date of yearmonths[year]" [value]="date | dsjtDate: 'y-MM-dd'">
+              {{date | dsjtDate: 'MMMM'}}
             </option>
           </optgroup>
         </select>
@@ -24,16 +21,17 @@ const moment = extendMoment(Moment);
   `
 })
 export class TournamentMonthSelectComponent implements OnInit {
-  yearmonths: { [key: string]: Moment.Moment[] };
+  yearmonths: { [key: string]: Date[] };
   keys = Object.keys;
 
   constructor(private router: Router) {
   }
 
   ngOnInit() {
-    this.yearmonths = Array.from(moment.range(new Date(2007, 10, 1), new Date()).by('month'))
-      .reduceRight((acc, current: Moment.Moment) => {
-        const year = current.year();
+    const range = eachMonthOfInterval({start: new Date(2007, 10, 1), end: new Date()});
+    this.yearmonths = Array.from(range)
+      .reduceRight((acc, current: Date) => {
+        const year = current.getFullYear();
         if (!acc[year]) {
           acc[year] = [];
         }
@@ -48,7 +46,7 @@ export class TournamentMonthSelectComponent implements OnInit {
       queryParams: {
         page: 1,
         startDate: startDate || '',
-        endDate: startDate ? moment(startDate).endOf('month').format('YYYY-MM-DD') : ''
+        endDate: startDate ? format(endOfMonth(new Date(startDate)), 'y-MM-dd') : ''
       },
       queryParamsHandling: 'merge'
     });

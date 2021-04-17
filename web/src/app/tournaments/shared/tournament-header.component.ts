@@ -12,7 +12,7 @@ import {TournamentResponseModel} from '../../shared/api-responses';
       <div class="meta">
         <span class="ui labels">
           <span class="ui basic label">
-            {{tournament.date | momentDateTime}}
+            {{tournament.date | dsjtDateTime}}
           </span>
           <span class="ui basic label">
             {{tournament.hillCount}}

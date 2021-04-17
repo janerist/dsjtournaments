@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TournamentTypeWithCount} from '../shared/api-responses';
 import {FormControl, FormGroup} from '@angular/forms';
-import * as moment from 'moment';
+import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns';
 
 @Component({
   selector: 'app-results-filter',
@@ -131,15 +131,15 @@ export class ResultsFilterComponent implements OnInit, AfterViewInit {
       switch (value) {
         case 'month':
           this.form.patchValue({
-            dateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-            dateTo: moment().endOf('month').format('YYYY-MM-DD')
+            dateFrom: format(startOfMonth(new Date()), 'y-MM-dd'),
+            dateTo: format(endOfMonth(new Date()), 'y-MM-dd')
           });
           break;
 
         case 'year':
           this.form.patchValue({
-            dateFrom: moment().startOf('year').format('YYYY-MM-DD'),
-            dateTo: moment().endOf('year').format('YYYY-MM-DD')
+            dateFrom: format(startOfYear(new Date()), 'y-MM-dd'),
+            dateTo: format(endOfYear(new Date()), 'y-MM-dd')
           });
           break;
 

@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {JumperActivityResponseModel} from '../../shared/api-responses';
-import * as moment from 'moment';
 
 import {
   Chart,
@@ -13,6 +12,7 @@ import {
   Title,
   Tooltip
 } from 'chart.js';
+import {format} from 'date-fns';
 
 Chart.register(
   LineElement,
@@ -66,7 +66,7 @@ export class JumperFormComponent implements OnChanges {
     this.chart = new Chart(canvas, {
       type: 'line',
       data: {
-        labels: this.rankings.map(r => moment(r.date).format('D MMM YYYY')),
+        labels: this.rankings.map(r => format(new Date(r.date), 'dd MMM y')),
         datasets: [{
           label: 'Rank',
           backgroundColor: 'rgb(54, 162, 235)',

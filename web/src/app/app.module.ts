@@ -36,7 +36,7 @@ import {JumperStatsComponent} from './jumpers/detail/jumper-stats.component';
 import {JumperStatsTableComponent} from './jumpers/detail/jumper-stats-table.component';
 import {CupsComponent} from './cups/list/cups.component';
 import {RankMethodPipe} from './shared/pipes/rank-method.pipe';
-import {DatePipe, DatetimePipe} from './shared/pipes/date.pipe';
+import {DateDistanceToNowPipe, DatePipe, DatetimePipe} from './shared/pipes/date.pipe';
 import {CupSeasonsComponent} from './cups/list/cup-seasons.component';
 import {CupComponent} from './cups/detail/cup.component';
 import {CupHeaderComponent} from './cups/detail/cup-header.component';
@@ -73,6 +73,7 @@ import { AppRoutingModule } from './app-routing.module';
     RankMethodPipe,
     DatePipe,
     DatetimePipe,
+    DateDistanceToNowPipe,
 
     // Common
     PaginationComponent,

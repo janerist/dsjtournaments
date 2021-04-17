@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import * as moment from 'moment';
 import {combineLatest} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
 
@@ -28,8 +27,8 @@ import {map, switchMap, tap} from 'rxjs/operators';
                 <div class="user">
                   Participated in <a [routerLink]="['/tournaments', event.tournamentId]">{{event.tournamentType}}</a>
                 </div>
-                <div class="date" [title]="event.date | momentDate">
-                  {{moment(event.date).fromNow()}}
+                <div class="date" [title]="event.date | dsjtDate">
+                  {{event.date | dsjtDateDistanceToNow}}
                 </div>
               </div>
               <div class="meta">
@@ -46,7 +45,6 @@ import {map, switchMap, tap} from 'rxjs/operators';
   `
 })
 export class JumperActivityComponent implements OnInit {
-  moment = moment;
   activityPages$: Observable<PagedResponse<JumperActivityResponseModel>>;
   formRankings: JumperActivityResponseModel[];
 

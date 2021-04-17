@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {CupDateResponseModel, CupRankingsResponseModel} from '../../shared/api-responses';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-cup-rankings-table',
@@ -14,8 +13,8 @@ import * as moment from 'moment';
           <th *ngFor="let date of dates"
               class="center aligned hill"
               style="width: 60px; cursor: help; white-space: nowrap; text-overflow: ellipsis"
-              [title]="moment(date.date).format('ddd DD MMM YYYY HH:mm')">
-            {{date.date | momentDate: 'DD MMM'}}
+              [title]="date.date | dsjtDate: 'EEE dd MMM y HH:mm'">
+            {{date.date | dsjtDate: 'dd MMM'}}
           </th>
         </tr>
         </thead>
@@ -40,8 +39,6 @@ import * as moment from 'moment';
   `
 })
 export class CupRankingsTableComponent {
-  moment = moment;
-
   @Input() rankings: CupRankingsResponseModel[];
   @Input() dates: CupDateResponseModel[];
 }

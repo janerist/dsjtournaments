@@ -24,10 +24,10 @@ import {CupResponseModel} from '../../shared/api-responses';
           {{cup.rankMethod | rankMethod}}
         </td>
         <td>
-          {{cup.startDate | momentDate}}
+          {{cup.startDate | dsjtDate}}
         </td>
         <td>
-          {{cup.endDate | momentDate}}
+          {{cup.endDate | dsjtDate}}
         </td>
         <td class="right aligned">
           {{cup.completedCount}} / {{cup.tournamentCount}}
