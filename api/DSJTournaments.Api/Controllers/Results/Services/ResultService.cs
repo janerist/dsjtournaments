@@ -10,18 +10,16 @@ namespace DSJTournaments.Api.Controllers.Results.Services
     public class ResultService
     {
         private readonly Database _database;
-        private readonly TournamentQueries _tournamentQueries;
 
-        public ResultService(Database database, TournamentQueries tournamentQueries)
+        public ResultService(Database database)
         {
             _database = database;
-            _tournamentQueries = tournamentQueries;
         }
 
         public async Task<Responses.PagedResponse<ResultResponseModel>> GetResults(GetResultsRequestModel model)
         {
-            var tournaments = await _tournamentQueries.TournamentQuery()
-                .Filter("t.game_version = @GameVersion", 
+            var tournaments = await _database.TournamentQuery()
+                .Filter("t.game_version = @GameVersion",
                     new { GameVersion = model.GameVersion},
                     onlyIf: model.GameVersion.HasValue)
                 .Filter("tt.id = @Type",

@@ -3,18 +3,11 @@ using DSJTournaments.Data;
 
 namespace DSJTournaments.Api.Controllers.Jumpers.Data
 {
-    public class JumperQueries
+    public static class JumperQueries
     {
-        private readonly Database _database;
-
-        public JumperQueries(Database database)
+        public static QueryBuilder<JumperResponseModel> JumperQuery(this Database database)
         {
-            _database = database;
-        }
-
-        public QueryBuilder<JumperResponseModel> JumperQuery()
-        {
-            return _database.Query<JumperResponseModel>()
+            return database.Query<JumperResponseModel>()
                 .Select(
                     "j.id, j.name, j.nation, md5(j.gravatar_email) as gravatar_hash",
                     "COUNT(jr.*) AS participations",
@@ -24,9 +17,9 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Data
                 .GroupBy("j.id");
         }
 
-        public QueryBuilder<JumperStatsResponseModel> StatsQuery(int jumperId)
+        public static QueryBuilder<JumperStatsResponseModel> StatsQuery(this Database database, int jumperId)
         {
-            return _database.Query<JumperStatsResponseModel>()
+            return database.Query<JumperStatsResponseModel>()
                 .Select(
                     "COUNT(jr.*) AS participations",
                     "MIN(jr.rank) AS best_rank",
@@ -44,9 +37,9 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Data
                 .Where("jr.jumper_id = @JumperId", new { JumperId = jumperId});
         }
 
-        public QueryBuilder<JumperActivityResponseModel> ActivityQuery(int jumperId)
+        public static QueryBuilder<JumperActivityResponseModel> ActivityQuery(this Database database, int jumperId)
         {
-            return _database.Query<JumperActivityResponseModel>()
+            return database.Query<JumperActivityResponseModel>()
                 .Select(
                     "t.id AS tournament_id",
                     "t.date",

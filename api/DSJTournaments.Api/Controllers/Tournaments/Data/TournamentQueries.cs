@@ -3,18 +3,11 @@ using DSJTournaments.Data;
 
 namespace DSJTournaments.Api.Controllers.Tournaments.Data
 {
-    public class TournamentQueries
+    public static class TournamentQueries
     {
-        private readonly Database _database;
-
-        public TournamentQueries(Database database)
+        public static QueryBuilder<TournamentResponseModel> TournamentQuery(this Database database)
         {
-            _database = database;
-        }
-
-        public QueryBuilder<TournamentResponseModel> TournamentQuery()
-        {
-            return _database.Query<TournamentResponseModel>()
+            return database.Query<TournamentResponseModel>()
                 .Select(
                     "t.id, t.date, t.hill_count, t.game_version, t.tournament_type_id, t.sub_type",
                     "tt.name AS type",
@@ -23,9 +16,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .Join("tournament_types tt ON tt.id = t.tournament_type_id");
         }
 
-        public QueryBuilder<FinalStandingResponseModel> Top3Query()
+        public static QueryBuilder<FinalStandingResponseModel> Top3Query(this Database database)
         {
-            return _database.Query<FinalStandingResponseModel>()
+            return database.Query<FinalStandingResponseModel>()
                 .SelectDistinct(
                     "top3.*",
                     "j.id AS jumper_id",
@@ -45,18 +38,18 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .OuterJoin("teams t ON t.id = top3.team_id");
         }
 
-        public QueryBuilder<TournamentTypeWithCountResponseModel> TypesWithCountQuery()
+        public static QueryBuilder<TournamentTypeWithCountResponseModel> TypesWithCountQuery(this Database database)
         {
-            return _database.Query<TournamentTypeWithCountResponseModel>()
+            return database.Query<TournamentTypeWithCountResponseModel>()
                 .Select(
                     "tt.id, tt.name, tt.game_version",
                     "(SELECT COUNT(t.id) FROM tournaments t WHERE t.tournament_type_id = tt.id) AS count")
                 .From("tournament_types tt");
         }
 
-        public QueryBuilder<CompetitionResponseModel> CompetitionQuery()
+        public static QueryBuilder<CompetitionResponseModel> CompetitionQuery(this Database database)
         {
-            return _database.Query<CompetitionResponseModel>()
+            return database.Query<CompetitionResponseModel>()
                 .Select(
                     "c.id, c.file_number, c.ko",
                     "h.name AS hill_name, h.nation AS hill_nation")
@@ -64,9 +57,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .Join("hills h ON h.id = c.hill_id");
         }
 
-        public QueryBuilder<FinalStandingResponseModel> FinalStandingsQuery()
+        public static QueryBuilder<FinalStandingResponseModel> FinalStandingsQuery(this Database database)
         {
-            return _database.Query<FinalStandingResponseModel>()
+            return database.Query<FinalStandingResponseModel>()
                 .Select(
                     "fs.*",
                     "j.id AS jumper_id",
@@ -83,9 +76,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .OrderBy("fs.rank");
         }
 
-        public QueryBuilder<TournamentRankingsResponseModel> RankingsQuery()
+        public static QueryBuilder<TournamentRankingsResponseModel> TournamentRankingsQuery(this Database database)
         {
-            return _database.Query<TournamentRankingsResponseModel>()
+            return database.Query<TournamentRankingsResponseModel>()
                 .Select(
                     "fs.rank",
                     "j.id AS jumper_id",
@@ -122,9 +115,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .OrderBy("fs.rank");
         }
 
-        public QueryBuilder<FinalResultResponseModel> TeamFinalResultsQuery()
+        public static QueryBuilder<FinalResultResponseModel> TeamFinalResultsQuery(this Database database)
         {
-            return _database.Query<FinalResultResponseModel>()
+            return database.Query<FinalResultResponseModel>()
                 .Select(
                     "tfr.*",
                     "t.nation AS team_nation",
@@ -133,9 +126,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .Join("teams t ON t.id = tfr.team_id");
         }
 
-        public QueryBuilder<FinalResultResponseModel> FinalResultsQuery()
+        public static QueryBuilder<FinalResultResponseModel> FinalResultsQuery(this Database database)
         {
-            return _database.Query<FinalResultResponseModel>()
+            return database.Query<FinalResultResponseModel>()
                 .Select(
                     "fr.*",
                     "j.name AS jumper_name",
@@ -144,9 +137,9 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Data
                 .Join("jumpers j ON j.id = fr.jumper_id");
         }
 
-        public QueryBuilder<QualificationResultResponseModel> QualificationResultsQuery()
+        public static QueryBuilder<QualificationResultResponseModel> QualificationResultsQuery(this Database database)
         {
-            return _database.Query<QualificationResultResponseModel>()
+            return database.Query<QualificationResultResponseModel>()
                 .Select(
                     "qr.*",
                     "j.name AS jumper_name",

@@ -11,18 +11,16 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
 {
     public class JumperService
     {
-        private readonly JumperQueries _queries;
         private readonly Database _database;
 
-        public JumperService(JumperQueries queries, Database database)
+        public JumperService(Database database)
         {
-            _queries = queries;
             _database = database;
         }
 
         public async Task<Responses.PagedResponse<JumperResponseModel>> GetPagedJumpers(GetJumpersRequestModel model)
         {
-            var (data, count) = await _queries.JumperQuery()
+            var (data, count) = await _database.JumperQuery()
                 .Where("j.name ILIKE @Query", new {Query = $"%{model.Q}%"}, onlyIf: !string.IsNullOrWhiteSpace(model.Q))
                 .OrderBy(model.Sort)
                 .PageAndCountAsync(model.Page, model.PageSize);
@@ -32,7 +30,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
 
         public async Task<JumperResponseModel> GetJumper(int id)
         {
-            var jumper = await _queries.JumperQuery()
+            var jumper = await _database.JumperQuery()
                 .Where("j.id = @Id", new {Id = id})
                 .FirstOrDefaultAsync();
 
@@ -46,11 +44,11 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
 
         public async Task<JumperAllStatsResponseModel> GetTotalStats(int id)
         {
-            var totalStats = await _queries.StatsQuery(id)
+            var totalStats = await _database.StatsQuery(id)
                 .GroupBy("jr.jumper_id")
                 .FirstOrDefaultAsync();
 
-            var statsPerType = await _queries.StatsQuery(id)
+            var statsPerType = await _database.StatsQuery(id)
                 .Select("tt.name AS type, tt.game_version")
                 .GroupBy("tt.name, tt.game_version")
                 .OrderBy("participations DESC")
@@ -62,15 +60,15 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
                 PerType = statsPerType
             };
         }
-        
+
         public async Task<Responses.PagedResponse<JumperActivityResponseModel>> GetActivity(int id, int page, int pageSize)
         {
-            var (data, count) = await _queries.ActivityQuery(id)
+            var (data, count) = await _database.ActivityQuery(id)
                 .PageAndCountAsync(page, pageSize);
 
             return new Responses.PagedResponse<JumperActivityResponseModel>(data, page, pageSize, count);
         }
-        
+
         public async Task<JumperResponseModel> UpdateJumper(int id, JumperUpdateRequestModel model)
         {
             await _database.Update<Jumper>(id, new {model.Nation, model.GravatarEmail});
@@ -90,7 +88,7 @@ namespace DSJTournaments.Api.Controllers.Jumpers.Services
                         ", new {DestinationJumperId = model.DestinationJumperId, SourceJumperId = sourceJumperId});
                     await _database.Delete<Jumper>(sourceJumperId);
                 }
-                
+
                 await _database.ExecuteAsync("REFRESH MATERIALIZED VIEW jumper_results");
 
                 trans.Complete();

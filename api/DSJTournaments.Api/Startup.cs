@@ -38,25 +38,22 @@ namespace DSJTournaments.Api
             // Options
             services.AddOptions();
             services.Configure<FileArchiveOptions>(_configuration.GetSection("FileArchive"));
-            
+
             // Database
             services.AddSingleton(_ => new Database(_configuration.GetConnectionString("DSJTournamentsDB")));
 
             // Tournaments
             services.AddSingleton<TournamentService>();
-            services.AddSingleton<TournamentQueries>();
 
             // Jumpers
             services.AddSingleton<JumperService>();
-            services.AddSingleton<JumperQueries>();
 
             // Cups
             services.AddSingleton<CupService>();
-            services.AddSingleton<CupQueries>();
-            
+
             // Results
             services.AddSingleton<ResultService>();
-            
+
             // Upload
             services.AddSingleton<UploadService>();
             services.AddSingleton<FileArchive>();
@@ -69,7 +66,7 @@ namespace DSJTournaments.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetPreflightMaxAge(TimeSpan.FromMinutes(10))));
-            
+
             // Authentication
             services.AddAuthentication("Bearer")
                 .AddJwtBearer(opts =>
@@ -77,7 +74,7 @@ namespace DSJTournaments.Api
                     opts.Authority = _configuration["IdentityServer:Origin"];
                     opts.Audience = "dsjt";
                 });
-            
+
             // Authorization
             var adminPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
@@ -98,12 +95,12 @@ namespace DSJTournaments.Api
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
         {
             app.UseSerilogRequestLogging();
-            
+
             if (environment.IsDevelopment())
             {
                 app.UseHttpsRedirection();
             }
-            
+
             app.UseCors();
             app.UseRouting();
 
@@ -115,7 +112,7 @@ namespace DSJTournaments.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
-           
+
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }

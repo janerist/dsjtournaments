@@ -3,18 +3,11 @@ using DSJTournaments.Data;
 
 namespace DSJTournaments.Api.Controllers.Cups.Data
 {
-    public class CupQueries
+    public static class CupQueries
     {
-        private readonly Database _database;
-
-        public CupQueries(Database database)
+        public static QueryBuilder<CupResponseModel> CupsQuery(this Database database)
         {
-            _database = database;
-        }
-
-        public QueryBuilder<CupResponseModel> CupsQuery()
-        {
-            return _database.Query<CupResponseModel>()
+            return database.Query<CupResponseModel>()
                 .Select(
                     "c.id, c.name, c.game_version, c.rank_method",
                     "COUNT(cd.id) AS tournament_count",
@@ -26,16 +19,16 @@ namespace DSJTournaments.Api.Controllers.Cups.Data
                 .GroupBy("c.id");
         }
 
-        public QueryBuilder<CupDateResponseModel> CupDatesQuery()
+        public static QueryBuilder<CupDateResponseModel> CupDatesQuery(this Database database)
         {
-            return _database.Query<CupDateResponseModel>()
+            return database.Query<CupDateResponseModel>()
                 .Select("cd.*")
                 .From("cup_dates cd");
         }
 
-        public QueryBuilder<CupStandingResponseModel> StandingsQuery()
+        public static QueryBuilder<CupStandingResponseModel> CupStandingsQuery(this Database database)
         {
-            return _database.Query<CupStandingResponseModel>()
+            return database.Query<CupStandingResponseModel>()
                 .Select(
                     @"CASE WHEN c.rank_method = 'jump_points'
                         THEN (RANK() OVER (ORDER BY SUM(fs.points) DESC))
@@ -66,9 +59,9 @@ namespace DSJTournaments.Api.Controllers.Cups.Data
                 .OrderBy("rank");
         }
 
-        public QueryBuilder<CupRankingsResponseModel> RankingsQuery()
+        public static QueryBuilder<CupRankingsResponseModel> CupRankingsQuery(this Database database)
         {
-            return _database.Query<CupRankingsResponseModel>()
+            return database.Query<CupRankingsResponseModel>()
                 .Select(
                     @"CASE WHEN c.rank_method = 'jump_points'
                         THEN (RANK() OVER (ORDER BY SUM(fs.points) DESC))
