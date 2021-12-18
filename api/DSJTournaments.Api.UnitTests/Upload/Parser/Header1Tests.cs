@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser;
 using Xunit;
 
-namespace DSJTournaments.Upload.UnitTests.Upload.Parser
+namespace DSJTournaments.Api.UnitTests.Upload.Parser
 {
     public class Header1Tests
     {

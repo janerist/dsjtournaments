@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DSJTournaments.Upload.UnitTests.Upload.Parser
+namespace DSJTournaments.Api.UnitTests.Upload.Parser
 {
     public class StatFileBuilder
     {

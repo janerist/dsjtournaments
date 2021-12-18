@@ -4,7 +4,7 @@ using DSJTournaments.Api.Controllers.Upload.Services.Parser;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser.Model;
 using Xunit;
 
-namespace DSJTournaments.Upload.UnitTests.Upload.Parser
+namespace DSJTournaments.Api.UnitTests.Upload.Parser
 {
     [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
     public class FinalResultTests

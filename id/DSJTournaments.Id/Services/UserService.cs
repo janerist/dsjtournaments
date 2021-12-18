@@ -25,7 +25,7 @@ namespace DSJTournaments.Id.Services
         public async Task<(bool, User)> ValidatePassword(string userName, string password)
         {
             var user = await _database.Query<User>()
-                .Where("username = @UserName", new {userName})
+                .Where("username = @UserName", new {UserName = userName})
                 .FirstOrDefaultAsync();
 
             if (user == null || !_passwordHasher.VerifyHashedPassword(user.PasswordHash, password))
