@@ -434,12 +434,14 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
                 SET 
                     tournament_id = @TournamentId
                 WHERE 
-                    date = @Date AND 
-                    (SELECT COALESCE(game_version, @GameVersion) FROM cups c WHERE c.id = cup_id) = @GameVersion",
+                    date = @Date AND
+                    (tournament_type_id IS NULL OR tournament_type_id = @TournamentTypeId) AND
+                    (SELECT game_version FROM cups c WHERE c.id = cup_id) = @GameVersion",
                 new
                 {
                     Date = tournament.Date,
                     GameVersion = tournament.GameVersion,
+                    TournamentTypeId = tournament.TournamentTypeId,
                     TournamentId = tournament.Id
                 });
 
