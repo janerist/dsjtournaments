@@ -4,7 +4,7 @@ function DeployDotNetCoreApp(
     [string] $csprojPath,
     [string] $remotePath,
     [string] $serviceName,
-    [string] $framework = "net5.0",
+    [string] $framework = "net6.0",
     [string] $runtime = "linux-x64",
     [string] $configuration = "Release") 
 {
@@ -14,7 +14,7 @@ function DeployDotNetCoreApp(
     $executableName = [io.path]::GetFileNameWithoutExtension($csprojFileName)
     $archiveName = "$executableName.tar.gz"
         
-    dotnet publish $csprojPath -f $framework -c $configuration -r $runtime
+    dotnet publish $csprojPath -f $framework -c $configuration -r $runtime --self-contained
     tar czf $archiveName --directory $outputPath .
     scp $archiveName $sshHost`:~/
     ssh $sshHost "sudo mkdir -p $remotePath"
