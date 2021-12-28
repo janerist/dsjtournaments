@@ -36,7 +36,7 @@ function DeployAngularApp([string] $projectPath, [string] $remotePath)
     $archiveName = "$folderName.tar.gz"
 
     cd $projectPath
-    npm run build -- --prod
+    npm run build -- --configuration production
     cd ..
 
     tar czf $archiveName --directory $outputPath .
