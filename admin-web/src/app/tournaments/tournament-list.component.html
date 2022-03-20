@@ -15,25 +15,25 @@
   <thead class="thead-default" *ngIf="totalCount > 0">
   <tr>
     <th>
-      <a routerLink="/tournaments"
+      <a routerLink="./"
          [queryParams]="assignQueryParams({sortBy: 'type', sortOrder: sortOrder*-1})">
         Type
       </a>
     </th>
     <th>
-      <a routerLink="/tournaments"
+      <a routerLink="./"
          [queryParams]="assignQueryParams({sortBy: 'date', sortOrder: sortOrder*-1})">
         Date
       </a>
     </th>
     <th>
-      <a routerLink="/tournaments"
+      <a routerLink="./"
          [queryParams]="assignQueryParams({sortBy: 'hillCount', sortOrder: sortOrder*-1})">
         Hill count
       </a>
     </th>
     <th>
-      <a routerLink="/tournaments"
+      <a routerLink="./"
          [queryParams]="assignQueryParams({sortBy: 'participants', sortOrder: sortOrder*-1})">
         Participants
       </a>
