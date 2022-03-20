@@ -13,7 +13,7 @@ import {Component, Input} from '@angular/core';
     <li class="page-item" [class.disabled]="page <= 1">
       <a class="page-link"
          *ngIf="page > 1"
-         [routerLink]="routeCommands"
+         routerLink="./"
          [queryParams]="getQueryParams(page - 1)">
         <i class="fa fa-caret-left"></i>&nbsp;
       </a>
@@ -24,7 +24,7 @@ import {Component, Input} from '@angular/core';
     <li class="page-item" [class.disabled]="page >= totalPages">
       <a class="page-link"
          *ngIf="page < totalPages"
-         [routerLink]="routeCommands"
+         routerLink="./"
          [queryParams]="getQueryParams(page + 1)">
         <i class="fa fa-caret-right"></i>&nbsp;
       </a>
@@ -39,7 +39,6 @@ export class PagerComponent {
   @Input() page: number;
   @Input() pageSize: number;
   @Input() totalCount: number;
-  @Input() routeCommands: string;
   @Input() getQueryParams: (page: number) => any;
 
   Math = Math;
