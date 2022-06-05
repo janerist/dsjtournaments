@@ -50,5 +50,5 @@ import {FinalStandingResponseModel} from '../../shared/api-responses';
   `
 })
 export class FinalStandingsTableComponent {
-  @Input() results: FinalStandingResponseModel[];
+  @Input() results!: FinalStandingResponseModel[];
 }

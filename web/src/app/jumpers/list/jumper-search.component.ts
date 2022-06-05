@@ -25,7 +25,6 @@ export class JumperSearchComponent implements OnInit {
     if (q) {
       $('.jumper.search').search('hide results');
       this.router.navigate(['/jumpers'], {queryParams: {q}});
-      return false;
     }
   }
 

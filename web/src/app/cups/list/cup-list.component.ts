@@ -38,5 +38,5 @@ import {CupResponseModel} from '../../shared/api-responses';
   `
 })
 export class CupListComponent {
-  @Input() cups: CupResponseModel[];
+  @Input() cups!: CupResponseModel[];
 }

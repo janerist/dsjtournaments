@@ -5,8 +5,8 @@ import {filter, map} from 'rxjs/operators';
 
 @Injectable()
 export class TournamentService {
-  tournament: TournamentResponseModel;
-  competitionId: number;
+  tournament?: TournamentResponseModel;
+  competitionId?: number;
   hideCompetitions = false;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
@@ -22,8 +22,8 @@ export class TournamentService {
         })
       )
       .subscribe(route => {
-        setTimeout(() => this.hideCompetitions = !!route.data.hideCompetitions);
-        setTimeout(() => this.competitionId = +route.parent.params.cid);
+        setTimeout(() => this.hideCompetitions = !!route.data['hideCompetitions']);
+        setTimeout(() => this.competitionId = +route.parent!.paramMap.get('cid')!);
       });
   }
 }

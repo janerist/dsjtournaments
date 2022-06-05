@@ -33,14 +33,14 @@ Chart.register(
   `
 })
 export class JumperFormComponent implements OnChanges {
-  @Input() rankings: JumperActivityResponseModel[];
+  @Input() rankings!: JumperActivityResponseModel[];
 
-  chart: Chart;
+  chart: Chart | undefined;
 
   constructor(private router: Router) {
   }
 
-  handleClick(event) {
+  handleClick(event: MouseEvent) {
     const activePoints = this.chart
       ? this.chart.getElementsAtEventForMode(event, 'nearest', {intersect: true}, false)
       : [];
@@ -71,7 +71,7 @@ export class JumperFormComponent implements OnChanges {
           label: 'Rank',
           backgroundColor: 'rgb(54, 162, 235)',
           borderColor: 'rgb(54, 162, 235)',
-          data: this.rankings.map(r => r.rank),
+          data: this.rankings.map(r => r.rank || 0),
           fill: false,
           pointHitRadius: 10
         }]
@@ -95,7 +95,7 @@ export class JumperFormComponent implements OnChanges {
         scales: {
           y: {
             min: 1,
-            max: Math.max(50, Math.ceil(this.rankings.reduce((m, r) => Math.max(m, r.rank), 0) / 10) * 10),
+            max: Math.max(50, Math.ceil(this.rankings.reduce((m, r) => Math.max(m, r.rank ?? 0), 0) / 10) * 10),
             reverse: true,
             ticks: {
               stepSize: 10

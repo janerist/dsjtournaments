@@ -35,11 +35,11 @@ import {map, share} from 'rxjs/operators';
   `
 })
 export class TournamentTypesComponent implements OnInit {
-  @Input() types: Observable<TournamentTypeWithCount[]>;
+  @Input() types!: Observable<TournamentTypeWithCount[]>;
 
-  dsj3Types: Observable<TournamentTypeWithCount[]>;
-  dsj4Types: Observable<TournamentTypeWithCount[]>;
-  totalCount: Observable<number>;
+  dsj3Types?: Observable<TournamentTypeWithCount[]>;
+  dsj4Types?: Observable<TournamentTypeWithCount[]>;
+  totalCount?: Observable<number>;
 
   ngOnInit() {
     const shared = this.types.pipe(share());

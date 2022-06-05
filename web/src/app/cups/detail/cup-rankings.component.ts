@@ -29,13 +29,13 @@ import {map, switchMap} from 'rxjs/operators';
   `
 })
 export class CupRankingsComponent implements OnInit {
-  rankingPages$: Observable<PagedResponse<CupRankingsResponseModel>>;
+  rankingPages$?: Observable<PagedResponse<CupRankingsResponseModel>>;
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient, private cupService: CupService) {
   }
 
   ngOnInit() {
-    this.rankingPages$ = combineLatest([this.route.parent.paramMap, this.route.queryParamMap])
+    this.rankingPages$ = combineLatest([this.route.parent!.paramMap, this.route.queryParamMap])
       .pipe(
         map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
         switchMap(({id, page}) =>

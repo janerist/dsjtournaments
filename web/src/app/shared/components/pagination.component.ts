@@ -46,9 +46,9 @@ import {Component, Input} from '@angular/core';
 })
 export class PaginationComponent {
   @Input() compact = false;
-  @Input() page: number;
-  @Input() pageSize: number;
-  @Input() totalCount: number;
+  @Input() page = 1;
+  @Input() pageSize = 1;
+  @Input() totalCount = 0;
 
   min = Math.min;
 

@@ -42,9 +42,9 @@ import {ActivatedRoute, Router} from '@angular/router';
   `
 })
 export class ResultsComponent implements OnInit {
-  types$: Observable<TournamentTypeWithCount[]>;
-  standingPages$: Observable<PagedResponse<ResultResponseModel>>;
-  rankMethod: string;
+  types$?: Observable<TournamentTypeWithCount[]>;
+  standingPages$?: Observable<PagedResponse<ResultResponseModel>>;
+  rankMethod?: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private httpClient: HttpClient) {
   }
@@ -55,12 +55,12 @@ export class ResultsComponent implements OnInit {
 
     this.standingPages$ = this.route.queryParamMap.pipe(
       filter(qparams => !!qparams.get('submitted')),
-      tap(qparams => this.rankMethod = qparams.get('rankMethod')),
+      tap(qparams => this.rankMethod = qparams.get('rankMethod') || 'jump_points'),
       switchMap(qparams =>
         this.httpClient.get<PagedResponse<ResultResponseModel>>(`${environment.apiUrl}/results`, {
           params: new HttpParams()
-            .set('gameVersion', qparams.get('gameVersion'))
-            .set('rankMethod', qparams.get('rankMethod'))
+            .set('gameVersion', qparams.get('gameVersion') || '')
+            .set('rankMethod', qparams.get('rankMethod') || '')
             .set('type', qparams.get('type') || '')
             .set('dateFrom', qparams.get('dateFrom') || '')
             .set('dateTo', qparams.get('dateTo') || '')

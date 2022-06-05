@@ -16,13 +16,13 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class FinalStandingsComponent implements OnInit {
-  $finalStandings: Observable<FinalStandingResponseModel[]>;
+  $finalStandings?: Observable<FinalStandingResponseModel[]>;
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {
   }
 
   ngOnInit() {
-    this.$finalStandings = this.route.parent.paramMap
+    this.$finalStandings = this.route.parent!.paramMap
       .pipe(
         switchMap(params => this.httpClient
           .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/finalstandings`))

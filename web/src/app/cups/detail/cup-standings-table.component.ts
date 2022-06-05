@@ -64,6 +64,6 @@ import {CupStandingResponseModel} from '../../shared/api-responses';
   `
 })
 export class CupStandingsTableComponent {
-  @Input() standings: CupStandingResponseModel[];
-  @Input() rankMethod: string;
+  @Input() standings!: CupStandingResponseModel[];
+  @Input() rankMethod!: string;
 }

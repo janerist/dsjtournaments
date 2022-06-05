@@ -43,13 +43,13 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class JumperStatsComponent implements OnInit {
-  stats$: Observable<JumperAllStatsResponseModel>;
+  stats$?: Observable<JumperAllStatsResponseModel>;
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {
   }
 
   ngOnInit() {
-    this.stats$ = this.route.parent.paramMap
+    this.stats$ = this.route.parent!.paramMap
       .pipe(
         switchMap(params => this.httpClient
           .get<JumperAllStatsResponseModel>(`${environment.apiUrl}/jumpers/${params.get('id')}/stats`))

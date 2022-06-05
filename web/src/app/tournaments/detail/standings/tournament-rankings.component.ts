@@ -18,7 +18,7 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class TournamentRankingsComponent implements OnInit {
-  $rankings: Observable<TournamentRankingsResponseModel[]>;
+  $rankings!: Observable<TournamentRankingsResponseModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +27,7 @@ export class TournamentRankingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$rankings = this.route.parent.paramMap
+    this.$rankings = this.route.parent!.paramMap
       .pipe(
         switchMap(params => this.httpClient
           .get<TournamentRankingsResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/rankings`))
@@ -35,6 +35,6 @@ export class TournamentRankingsComponent implements OnInit {
   }
 
   get competitions() {
-    return this.tournamentService.tournament.competitions;
+    return this.tournamentService.tournament?.competitions;
   }
 }

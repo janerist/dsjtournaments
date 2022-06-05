@@ -30,7 +30,7 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class CupsComponent implements OnInit {
-  cupPages$: Observable<PagedResponse<CupResponseModel>>;
+  cupPages$?: Observable<PagedResponse<CupResponseModel>>;
 
   constructor(
     private route: ActivatedRoute,

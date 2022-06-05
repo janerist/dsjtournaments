@@ -8,7 +8,7 @@ import {eachMonthOfInterval, endOfMonth, format} from 'date-fns';
     <h4>Jump to month:</h4>
     <div class="ui form">
       <div class="field">
-        <select (change)="selectMonth($event.target.value)">
+        <select *ngIf="yearmonths" (change)="selectMonth($event.target.value)">
           <option value="">-- Select year/month --</option>
           <optgroup *ngFor="let year of keys(yearmonths).reverse()" [label]="year">
             <option *ngFor="let date of yearmonths[year]" [value]="date | dsjtDate: 'y-MM-dd'">
@@ -21,7 +21,7 @@ import {eachMonthOfInterval, endOfMonth, format} from 'date-fns';
   `
 })
 export class TournamentMonthSelectComponent implements OnInit {
-  yearmonths: { [key: string]: Date[] };
+  yearmonths?: { [key: string]: Date[] };
   keys = Object.keys;
 
   constructor(private router: Router) {
@@ -30,7 +30,7 @@ export class TournamentMonthSelectComponent implements OnInit {
   ngOnInit() {
     const range = eachMonthOfInterval({start: new Date(2007, 10, 1), end: new Date()});
     this.yearmonths = Array.from(range)
-      .reduceRight((acc, current: Date) => {
+      .reduceRight((acc: {[key: string]: Date[]}, current: Date) => {
         const year = current.getFullYear();
         if (!acc[year]) {
           acc[year] = [];

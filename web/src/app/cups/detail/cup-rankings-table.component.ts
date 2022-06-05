@@ -39,6 +39,6 @@ import {CupDateResponseModel, CupRankingsResponseModel} from '../../shared/api-r
   `
 })
 export class CupRankingsTableComponent {
-  @Input() rankings: CupRankingsResponseModel[];
-  @Input() dates: CupDateResponseModel[];
+  @Input() rankings!: CupRankingsResponseModel[];
+  @Input() dates!: CupDateResponseModel[];
 }

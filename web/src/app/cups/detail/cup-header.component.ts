@@ -15,5 +15,5 @@ import {CupResponseModel} from '../../shared/api-responses';
   `
 })
 export class CupHeaderComponent {
-  @Input() cup: CupResponseModel;
+  @Input() cup!: CupResponseModel;
 }

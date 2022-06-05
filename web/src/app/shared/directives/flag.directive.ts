@@ -5,7 +5,7 @@ import {iso3toiso2} from '../country-codes';
   selector: '[appFlag]'
 })
 export class FlagDirective implements OnChanges {
-  @Input() appFlag: string;
+  @Input() appFlag!: string;
 
   constructor(private el: ElementRef) {
   }

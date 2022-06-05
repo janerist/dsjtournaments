@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
-import {NgUploaderModule} from 'ngx-uploader';
+import {NgxUploaderModule} from 'ngx-uploader';
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {UploadComponent} from './upload/upload.component';
@@ -145,7 +145,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgUploaderModule,
+    NgxUploaderModule,
     HttpClientModule,
     DragScrollModule,
   ],

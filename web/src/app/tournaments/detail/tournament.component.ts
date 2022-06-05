@@ -57,7 +57,7 @@ import {switchMap, tap} from 'rxjs/operators';
   providers: [TournamentService]
 })
 export class TournamentComponent implements OnInit {
-  $tournament: Observable<TournamentResponseModel>;
+  $tournament?: Observable<TournamentResponseModel>;
 
   constructor(
     private route: ActivatedRoute,

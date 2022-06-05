@@ -32,5 +32,5 @@ import {TournamentResponseModel} from '../../shared/api-responses';
   `
 })
 export class TournamentHeaderComponent {
-  @Input() tournament: TournamentResponseModel;
+  @Input() tournament!: TournamentResponseModel;
 }

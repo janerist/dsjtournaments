@@ -35,8 +35,8 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class TournamentsComponent implements OnInit {
-  tournamentPages$: Observable<PagedResponse<TournamentResponseModel>>;
-  typesWithCount$: Observable<TournamentTypeWithCount[]>;
+  tournamentPages$?: Observable<PagedResponse<TournamentResponseModel>>;
+  typesWithCount$?: Observable<TournamentTypeWithCount[]>;
 
   constructor(
     private httpClient: HttpClient,

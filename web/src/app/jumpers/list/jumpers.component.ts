@@ -29,7 +29,7 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class JumpersComponent implements OnInit {
-  jumperPages$: Observable<PagedResponse<JumperResponseModel>>;
+  jumperPages$?: Observable<PagedResponse<JumperResponseModel>>;
 
   constructor(
     private route: ActivatedRoute,

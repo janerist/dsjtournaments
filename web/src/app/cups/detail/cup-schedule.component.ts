@@ -26,12 +26,12 @@ import {format} from 'date-fns';
   `
 })
 export class CupScheduleComponent {
-  @Input() dates: CupDateResponseModel[];
+  @Input() dates!: CupDateResponseModel[];
 
   keys = Object.keys;
 
   getCupDateGroups(dates: CupDateResponseModel[]): {[key: string]: CupDateResponseModel[]} {
-    return dates.reduce((agg, date) => {
+    return dates.reduce((agg: {[key: string]: CupDateResponseModel[]}, date) => {
       const month = format(new Date(date.date), 'MMMM y');
       if (!agg[month]) {
         agg[month] = [];

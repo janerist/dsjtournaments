@@ -16,7 +16,7 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class CompetitionQualResultsComponent implements OnInit {
-  $qualResults: Observable<QualificationResultResponseModel[]>;
+  $qualResults?: Observable<QualificationResultResponseModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,7 +25,7 @@ export class CompetitionQualResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$qualResults = this.route.parent.paramMap
+    this.$qualResults = this.route.parent!.paramMap
       .pipe(
         switchMap(params =>
           this.httpClient.get<QualificationResultResponseModel[]>(`${environment.apiUrl}/competitions/${params.get('cid')}/qual`)

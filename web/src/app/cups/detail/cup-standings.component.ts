@@ -34,7 +34,7 @@ import {combineLatest} from 'rxjs';
   `
 })
 export class CupStandingsComponent implements OnInit {
-  standingPages$: Observable<PagedResponse<CupStandingResponseModel>>;
+  standingPages$?: Observable<PagedResponse<CupStandingResponseModel>>;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,7 +44,7 @@ export class CupStandingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.standingPages$ = combineLatest([this.route.parent.paramMap, this.route.queryParamMap])
+    this.standingPages$ = combineLatest([this.route.parent!.paramMap, this.route.queryParamMap])
       .pipe(
         map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
         switchMap(({id, page}) =>

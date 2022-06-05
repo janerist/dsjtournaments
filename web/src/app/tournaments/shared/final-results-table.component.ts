@@ -19,85 +19,85 @@ import {FinalResultResponseModel} from '../../shared/api-responses';
       </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let fr of results, let i = index">
-          <tr>
-            <td>
-              <span *ngIf="fr.rank > results[i - 1]?.rank">{{fr.rank}}.</span>
-            </td>
-            <td *ngIf="!isTeamResults">
-              {{fr.bib || 'N/A'}}<span *ngIf="fr.luckyLoser">*</span>
-            </td>
-            <td>
-              <a *ngIf="fr.jumperName" [routerLink]="['/jumpers', fr.jumperId]">
-                {{fr.jumperName}}
-              </a>
-              <span *ngIf="fr.teamNation">
+      <ng-container *ngFor="let fr of results, let i = index">
+        <tr>
+          <td>
+            <span *ngIf="fr.rank > results[i - 1]?.rank">{{fr.rank}}.</span>
+          </td>
+          <td *ngIf="!isTeamResults">
+            {{fr.bib || 'N/A'}}<span *ngIf="fr.luckyLoser">*</span>
+          </td>
+          <td>
+            <a *ngIf="fr.jumperName" [routerLink]="['/jumpers', fr.jumperId]">
+              {{fr.jumperName}}
+            </a>
+            <span *ngIf="fr.teamNation">
                 {{fr.teamNation}} {{fr.teamRank}}
               </span>
-            </td>
-            <td>
-              <i *ngIf="fr.jumperNation" [appFlag]="fr.jumperNation"></i>{{fr.jumperNation}}
-              <i *ngIf="fr.teamNation" [appFlag]="fr.teamNation"></i>{{fr.teamNation}}
-            </td>
-            <td class="right aligned">{{fr.rating}}</td>
-            <td class="right aligned" [class.longest-jump]="fr.length1 === longestJump1">
+          </td>
+          <td>
+            <i *ngIf="fr.jumperNation" [appFlag]="fr.jumperNation"></i>{{fr.jumperNation}}
+            <i *ngIf="fr.teamNation" [appFlag]="fr.teamNation"></i>{{fr.teamNation}}
+          </td>
+          <td class="right aligned">{{fr.rating}}</td>
+          <td class="right aligned" [class.longest-jump]="fr.length1 === longestJump1">
               <span *ngIf="fr.length1">
                 <span *ngIf="fr.crashed1">*</span>{{fr.length1.toFixed(2)}}m
               </span>
-            </td>
-            <td class="right aligned" [class.longest-jump]="fr.length2 === longestJump2">
+          </td>
+          <td class="right aligned" [class.longest-jump]="fr.length2 === longestJump2">
               <span *ngIf="fr.length2">
                 <span *ngIf="fr.crashed2">*</span>{{fr.length2.toFixed(2)}}m
               </span>
-            </td>
-            <td class="right aligned">{{fr.points?.toFixed(1)}}</td>
-            <td *ngIf="isTeamResults"></td>
-          </tr>
-          <tr *ngFor="let jfr of fr.teamJumpers">
-            <td></td>
-            <td>
-              <a [routerLink]="['/jumpers', jfr.jumperId]">
-                {{jfr.jumperName}}
-              </a>
-            </td>
-            <td>
-              <i [appFlag]="jfr.jumperNation"></i>{{jfr.jumperNation}}
-            </td>
-            <td class="right aligned">{{jfr.rating}}</td>
-            <td class="right aligned" [class.longest-jump]="jfr.length1 === longestJump1">
+          </td>
+          <td class="right aligned">{{fr.points?.toFixed(1)}}</td>
+          <td *ngIf="isTeamResults"></td>
+        </tr>
+        <tr *ngFor="let jfr of fr.teamJumpers">
+          <td></td>
+          <td>
+            <a [routerLink]="['/jumpers', jfr.jumperId]">
+              {{jfr.jumperName}}
+            </a>
+          </td>
+          <td>
+            <i [appFlag]="jfr.jumperNation"></i>{{jfr.jumperNation}}
+          </td>
+          <td class="right aligned">{{jfr.rating}}</td>
+          <td class="right aligned" [class.longest-jump]="jfr.length1 === longestJump1">
               <span *ngIf="jfr.length1">
                 <span *ngIf="jfr.crashed1">*</span>{{jfr.length1.toFixed(2)}}m
               </span>
-            </td>
-            <td class="right aligned" [class.longest-jump]="jfr.length2 === longestJump2">
+          </td>
+          <td class="right aligned" [class.longest-jump]="jfr.length2 === longestJump2">
               <span *ngIf="jfr.length2">
                 <span *ngIf="jfr.crashed2">*</span>{{jfr.length2.toFixed(2)}}m
               </span>
-            </td>
-            <td class="right aligned">{{jfr.points?.toFixed(1)}}</td>
-            <td>({{jfr.rank}}.)</td>
-          </tr>
-        </ng-container>
+          </td>
+          <td class="right aligned">{{jfr.points?.toFixed(1)}}</td>
+          <td>({{jfr.rank}}.)</td>
+        </tr>
+      </ng-container>
       </tbody>
     </table>
 
     <p *ngIf="!results.length">There is no data available.</p>
-`
+  `
 })
 export class FinalResultsTableComponent implements OnChanges {
-  @Input() results: FinalResultResponseModel[];
-  longestJump1: number;
-  longestJump2: number;
-  isTeamResults: boolean;
+  @Input() results!: FinalResultResponseModel[];
+  longestJump1?: number;
+  longestJump2?: number;
+  isTeamResults?: boolean;
 
   ngOnChanges() {
-    this.isTeamResults = this.results.length && !!this.results[0].teamId;
-    this.longestJump1 = this.getLongestJump(this.results, 'length1');
-    this.longestJump2 = this.getLongestJump(this.results, 'length2');
+    this.isTeamResults = this.results.length > 0 && this.results[0].teamId !== undefined;
+    this.longestJump1 = this.getLongestJump(this.results, r => r.length1);
+    this.longestJump2 = this.getLongestJump(this.results, r => r.length2);
   }
 
-  private getLongestJump(results: FinalResultResponseModel[], prop: string) {
+  private getLongestJump(results: FinalResultResponseModel[], propSelector: (r: FinalResultResponseModel) => number | undefined): number {
     return results.reduce((max, r) =>
-      Math.max(max, r.teamJumpers ? this.getLongestJump(r.teamJumpers, prop) : +r[prop] || 0), 0);
+      Math.max(max, r.teamJumpers ? this.getLongestJump(r.teamJumpers, propSelector) : propSelector(r) || 0), 0);
   }
 }

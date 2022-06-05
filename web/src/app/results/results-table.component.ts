@@ -76,6 +76,6 @@ import {ResultResponseModel} from '../shared/api-responses';
   `
 })
 export class ResultsTableComponent {
-  @Input() standings: ResultResponseModel[];
-  @Input() rankMethod: string;
+  @Input() standings!: ResultResponseModel[];
+  @Input() rankMethod!: string;
 }

@@ -44,8 +44,8 @@ import {iso3toiso2} from '../../shared/country-codes';
   `
 })
 export class TournamentRankingsTableComponent implements AfterViewInit {
-  @Input() competitions: CompetitionResponseModel[];
-  @Input() rankings: TournamentRankingsResponseModel[];
+  @Input() competitions!: CompetitionResponseModel[];
+  @Input() rankings!: TournamentRankingsResponseModel[];
 
   getPopupContent(comp: CompetitionResponseModel) {
     return `

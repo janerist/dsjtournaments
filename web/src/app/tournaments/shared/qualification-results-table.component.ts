@@ -56,12 +56,12 @@ import {QualificationResultResponseModel} from '../../shared/api-responses';
   `
 })
 export class QualificationResultsTableComponent implements OnChanges {
-  @Input() results: QualificationResultResponseModel[];
-  isTeamQual: boolean;
-  longestJump: number;
+  @Input() results!: QualificationResultResponseModel[];
+  isTeamQual?: boolean;
+  longestJump?: number;
 
   ngOnChanges() {
-    this.isTeamQual = this.results.length && !!this.results[0].teamId;
+    this.isTeamQual = this.results?.length > 0 && !!this.results[0].teamId;
     this.longestJump = this.results.reduce((max, r) => Math.max(max, r.length || 0), 0);
   }
 }

@@ -15,7 +15,7 @@ import {map, switchMap} from 'rxjs/operators';
   `
 })
 export class CupStandingsTextComponent implements OnInit {
-  standings$: Observable<CupStandingResponseModel[]>;
+  standings$?: Observable<CupStandingResponseModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,11 +24,11 @@ export class CupStandingsTextComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.standings$ = this.route.parent.params
+    this.standings$ = this.route.parent!.paramMap
       .pipe(
         switchMap(params =>
           this.httpClient
-            .get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params.id}/standings?pageSize=10000`)),
+            .get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params.get('id')}/standings?pageSize=10000`)),
         map(pagedResponse => pagedResponse.data)
       );
   }

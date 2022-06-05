@@ -32,7 +32,7 @@ import {switchMap, tap} from 'rxjs/operators';
   providers: [CupService]
 })
 export class CupComponent implements OnInit {
-  cup$: Observable<CupResponseModel>;
+  cup$?: Observable<CupResponseModel>;
 
   constructor(
     private route: ActivatedRoute,

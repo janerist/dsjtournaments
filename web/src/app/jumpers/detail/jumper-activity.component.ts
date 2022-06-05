@@ -45,14 +45,14 @@ import {map, switchMap, tap} from 'rxjs/operators';
   `
 })
 export class JumperActivityComponent implements OnInit {
-  activityPages$: Observable<PagedResponse<JumperActivityResponseModel>>;
-  formRankings: JumperActivityResponseModel[];
+  activityPages$?: Observable<PagedResponse<JumperActivityResponseModel>>;
+  formRankings?: JumperActivityResponseModel[];
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {
   }
 
   ngOnInit() {
-    this.activityPages$ = combineLatest([this.route.parent.paramMap, this.route.queryParamMap])
+    this.activityPages$ = combineLatest([this.route.parent!.paramMap, this.route.queryParamMap])
       .pipe(
         map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
         switchMap(({id, page}) => this.httpClient

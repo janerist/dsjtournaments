@@ -20,5 +20,5 @@ import {CompetitionResponseModel} from '../../shared/api-responses';
   `
 })
 export class CompetitionListComponent {
-  @Input() competitions: CompetitionResponseModel[];
+  @Input() competitions!: CompetitionResponseModel[];
 }

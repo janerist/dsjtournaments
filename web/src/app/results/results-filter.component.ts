@@ -7,7 +7,7 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
   selector: 'app-results-filter',
   template: `
     <div class="ui segment" style="margin-bottom: 10px;">
-      <form class="ui form" [formGroup]="form" (ngSubmit)="filter.emit(form.value)">
+      <form class="ui form" *ngIf="form" [formGroup]="form" (ngSubmit)="filter.emit(form.value)">
         <div class="three equal width fields">
           <div class="three wide field">
             <label>Type</label>
@@ -33,14 +33,14 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
             </div>
             <select formControlName="type">
               <option value="" [ngValue]="null">
-              <span *ngIf="form.get('gameVersion').value, let version">
+              <span *ngIf="form.get('gameVersion')?.value, let version">
                 All DSJ{{version}} types
               </span>
-                <span *ngIf="!form.get('gameVersion').value">
+                <span *ngIf="!form.get('gameVersion')?.value">
                 All types
               </span>
               </option>
-              <option *ngFor="let type of typesOfVersion(form.get('gameVersion').value)" [value]="type.id">
+              <option *ngFor="let type of typesOfVersion(form.get('gameVersion')?.value)" [value]="type.id">
                 {{type.name}} <span *ngIf="!form.get('gameVersion').value">(DSJ{{type.gameVersion}})</span>
               </option>
             </select>
@@ -109,10 +109,10 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
   `
 })
 export class ResultsFilterComponent implements OnInit, AfterViewInit {
-  @Input() types: TournamentTypeWithCount[];
+  @Input() types!: TournamentTypeWithCount[];
   @Output() filter = new EventEmitter<any>();
 
-  form: FormGroup;
+  form?: FormGroup;
   dateSelection = new FormControl();
 
   constructor(private el: ElementRef) {
@@ -130,21 +130,21 @@ export class ResultsFilterComponent implements OnInit, AfterViewInit {
     this.dateSelection.valueChanges.subscribe(value => {
       switch (value) {
         case 'month':
-          this.form.patchValue({
+          this.form!.patchValue({
             dateFrom: format(startOfMonth(new Date()), 'y-MM-dd'),
             dateTo: format(endOfMonth(new Date()), 'y-MM-dd')
           });
           break;
 
         case 'year':
-          this.form.patchValue({
+          this.form!.patchValue({
             dateFrom: format(startOfYear(new Date()), 'y-MM-dd'),
             dateTo: format(endOfYear(new Date()), 'y-MM-dd')
           });
           break;
 
         default:
-          this.form.patchValue({
+          this.form!.patchValue({
             dateFrom: '',
             dateTo: ''
           });

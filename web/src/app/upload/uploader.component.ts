@@ -33,7 +33,9 @@ export class UploaderComponent {
         this.startUpload();
         break;
       case 'addedToQueue':
-        this.files.push(output.file);
+        if (output.file) {
+          this.files.push(output.file);
+        }
         break;
     }
   }

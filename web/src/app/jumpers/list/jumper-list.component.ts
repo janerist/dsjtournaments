@@ -32,5 +32,5 @@ import {Observable} from 'rxjs';
   `]
 })
 export class JumperListComponent {
-  @Input() jumpers: JumperResponseModel[];
+  @Input() jumpers!: JumperResponseModel[];
 }

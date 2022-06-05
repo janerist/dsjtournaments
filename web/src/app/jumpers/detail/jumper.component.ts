@@ -33,7 +33,7 @@ import {switchMap} from 'rxjs/operators';
   `
 })
 export class JumperComponent implements OnInit {
-  jumper$: Observable<JumperResponseModel>;
+  jumper$?: Observable<JumperResponseModel>;
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {
   }

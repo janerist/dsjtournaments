@@ -41,7 +41,7 @@ import {CupStandingResponseModel} from '../../shared/api-responses';
   `
 })
 export class CupStandingsTableTextComponent {
-  @Input() standings: CupStandingResponseModel[];
+  @Input() standings!: CupStandingResponseModel[];
 
   cell(width: number, align: 'left'|'center'|'right', content: string) {
     const numSpacesNeeded = width - content.length < 0 ? 0 : width - content.length;

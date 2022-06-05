@@ -38,11 +38,11 @@ import {JumperAllStatsResponseModel, JumperStatsResponseModel} from '../../share
   `
 })
 export class JumperStatsTableComponent implements AfterViewInit {
-  @Input() stats: JumperStatsResponseModel[];
+  @Input() stats!: JumperStatsResponseModel[];
 
   ngAfterViewInit() {
     ($('.stats.table') as any).tablesort({
-      compare: (a, b) => {
+      compare: (a: string, b: string) => {
         const aNumber = +a;
         const bNumber = +b;
 

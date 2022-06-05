@@ -24,5 +24,5 @@ import {TournamentResponseModel} from '../../shared/api-responses';
   `
 })
 export class TournamentListComponent {
-  @Input() tournaments: TournamentResponseModel[];
+  @Input() tournaments!: TournamentResponseModel[];
 }
