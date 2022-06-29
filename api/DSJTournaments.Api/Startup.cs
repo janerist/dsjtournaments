@@ -1,11 +1,8 @@
 ﻿using System;
 using DSJTournaments.Api.ActionFilters;
-using DSJTournaments.Api.Controllers.Cups.Data;
 using DSJTournaments.Api.Controllers.Cups.Services;
-using DSJTournaments.Api.Controllers.Jumpers.Data;
 using DSJTournaments.Api.Controllers.Jumpers.Services;
 using DSJTournaments.Api.Controllers.Results.Services;
-using DSJTournaments.Api.Controllers.Tournaments.Data;
 using DSJTournaments.Api.Controllers.Tournaments.Services;
 using DSJTournaments.Api.Controllers.Upload.Services;
 using DSJTournaments.Api.Controllers.Upload.Services.FileArchive;

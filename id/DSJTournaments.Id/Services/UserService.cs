@@ -1,44 +1,41 @@
-using System;
-using System.Threading.Tasks;
 using DSJTournaments.Data;
 using DSJTournaments.Data.Schema;
 
-namespace DSJTournaments.Id.Services
+namespace DSJTournaments.Id.Services;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<(bool, User)> ValidatePassword(string userName, string password);
-        Task UpdateLastLogin(User user);
-    }
+    Task<(bool, User)> ValidatePassword(string userName, string password);
+    Task UpdateLastLogin(User user);
+}
     
-    public class UserService : IUserService
+public class UserService : IUserService
+{
+    private readonly Database _database;
+    private readonly PasswordHasher _passwordHasher;
+
+    public UserService(Database database, PasswordHasher passwordHasher)
     {
-        private readonly Database _database;
-        private readonly PasswordHasher _passwordHasher;
+        _database = database;
+        _passwordHasher = passwordHasher;
+    }
 
-        public UserService(Database database, PasswordHasher passwordHasher)
+    public async Task<(bool, User)> ValidatePassword(string userName, string password)
+    {
+        var user = await _database.Query<User>()
+            .Where("username = @UserName", new {UserName = userName})
+            .FirstOrDefaultAsync();
+
+        if (user == null || !_passwordHasher.VerifyHashedPassword(user.PasswordHash, password))
         {
-            _database = database;
-            _passwordHasher = passwordHasher;
+            return (false, null);
         }
 
-        public async Task<(bool, User)> ValidatePassword(string userName, string password)
-        {
-            var user = await _database.Query<User>()
-                .Where("username = @UserName", new {UserName = userName})
-                .FirstOrDefaultAsync();
+        return (true, user);
+    }
 
-            if (user == null || !_passwordHasher.VerifyHashedPassword(user.PasswordHash, password))
-            {
-                return (false, null);
-            }
-
-            return (true, user);
-        }
-
-        public Task UpdateLastLogin(User user)
-        {
-            return _database.Update<User, string>(user, u => u.LastLogin = DateTime.Now);
-        }
+    public Task UpdateLastLogin(User user)
+    {
+        return _database.Update<User, string>(user, u => u.LastLogin = DateTime.Now);
     }
 }

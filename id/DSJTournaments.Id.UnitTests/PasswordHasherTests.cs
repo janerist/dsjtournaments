@@ -1,3 +1,4 @@
+using DSJTournaments.Id.Services;
 using Xunit;
 
 namespace DSJTournaments.Id.UnitTests

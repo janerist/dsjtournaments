@@ -1,46 +1,50 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+﻿using DSJTournaments.Id;
 using Serilog;
 using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
 
-namespace DSJTournaments.Id
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
+Log.Information("Starting up");
+
+try
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    var builder = WebApplication.CreateBuilder(args);
+    
+    var basePath = builder.Configuration["Logging:BasePath"];
+    var minimumLevel = builder.Configuration["Logging:MinimumLevel"];
+    const string outputTemplate =
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}{Exception}";
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => webBuilder
-                    .UseStartup<Startup>()
-                    .UseSerilog(ConfigureLogging));
+    builder.Host.UseSerilog((ctx, lc) => lc
+        .MinimumLevel.Is(Enum.Parse<LogEventLevel>(minimumLevel))
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+        .WriteTo.File(
+            path: $"{basePath}/id-.log",
+            outputTemplate: outputTemplate,
+            rollingInterval: RollingInterval.Day)
+        .WriteTo.File(
+            path: $"{basePath}/id-error-.log",
+            restrictedToMinimumLevel: LogEventLevel.Error,
+            rollingInterval: RollingInterval.Day,
+            outputTemplate: outputTemplate)
+        .Enrich.FromLogContext());
 
-        private static void ConfigureLogging(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
-        {
-            var basePath = context.Configuration["Logging:BasePath"];
-            var minimumLevel = context.Configuration["Logging:MinimumLevel"];
-
-            const string outputTemplate =
-                "[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}{Exception}";
-
-            loggerConfiguration
-                .MinimumLevel.Is(Enum.Parse<LogEventLevel>(minimumLevel))
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-                .WriteTo.Console(outputTemplate: outputTemplate, theme: AnsiConsoleTheme.Literate)
-                .WriteTo.RollingFile(
-                    pathFormat: $"{basePath}/id-{{Date}}.log",
-                    outputTemplate: outputTemplate)
-                .WriteTo.RollingFile(
-                    pathFormat: $"{basePath}/id-error-{{Date}}.log",
-                    restrictedToMinimumLevel: LogEventLevel.Error,
-                    outputTemplate: outputTemplate)
-                .Enrich.FromLogContext();
-        }
-    }
+    var app = builder
+        .ConfigureServices()
+        .ConfigurePipeline();
+    
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Unhandled exception");
+}
+finally
+{
+    Log.Information("Shut down complete");
+    Log.CloseAndFlush();
 }

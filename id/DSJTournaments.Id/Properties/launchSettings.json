@@ -1,12 +1,12 @@
-{
+﻿{
   "profiles": {
-    "id": {
+    "DSJTournaments.Id": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "https://localhost:4000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:4000"
     }
   }
 }

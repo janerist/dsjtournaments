@@ -1,10 +1,10 @@
 version: "3.8"
 services:
     db:
-        image: postgres:13
+        image: postgres:14
         ports:
             - "5432:5432"
-        environment: 
+        environment:
             POSTGRES_HOST_AUTH_METHOD: trust
             POSTGRES_DB: dsjtournaments_dev
         volumes:
