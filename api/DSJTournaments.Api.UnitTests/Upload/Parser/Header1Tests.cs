@@ -192,5 +192,15 @@ namespace DSJTournaments.Api.UnitTests.Upload.Parser
             Assert.Equal("Team Cup", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
+        
+        [Fact]
+        public async Task DSJ4_OldSchoolTournament()
+        {
+            var stats = await _parser.Parse("Old School Tournament - Tuesday 21.00 CE(S)T 2022-12-20".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2022-12-20 21:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("Old School Tournament", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
     }
 }

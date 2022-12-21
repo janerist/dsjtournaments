@@ -248,6 +248,13 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[8], elems[4]);
             }
+            else if (elems.Length == 8 && elems[0] == "Old")
+            {
+                // DSJ4 Old School Tournament
+                stats.Type = "Old School Tournament";
+                stats.GameVersion = 4;
+                stats.Date = ParseDate(elems[7], elems[5]);
+            }
             else
             {
                 throw new StatParserException("Can't determine the type of tournament");

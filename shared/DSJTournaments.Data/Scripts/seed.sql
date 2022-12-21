@@ -28,6 +28,7 @@ INSERT INTO tournament_types (name, game_version) VALUES ('Tour de DSJ 2021', 4)
 INSERT INTO tournament_types (name, game_version) VALUES ('Central European Four', 4);
 INSERT INTO tournament_types (name, game_version) VALUES ('Sunday Special A', 4);
 INSERT INTO tournament_types (name, game_version) VALUES ('Sunday Special B', 4);
+INSERT INTO tournament_types (name, game_version) VALUES ('Old School Tournament', 4);
 
 -- Hills
 INSERT INTO hills (name, nation, game_version) VALUES ('Germany HS261', 'GER', 3);
