@@ -202,5 +202,15 @@ namespace DSJTournaments.Api.UnitTests.Upload.Parser
             Assert.Equal("Old School Tournament", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
+        
+        [Fact]
+        public async Task DSJ4_NormalHillsTournament()
+        {
+            var stats = await _parser.Parse("Normal Hills Tournament - Friday 20.00 CE(S)T 2022-12-30".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2022-12-30 20:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("Normal Hills Tournament", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
     }
 }
