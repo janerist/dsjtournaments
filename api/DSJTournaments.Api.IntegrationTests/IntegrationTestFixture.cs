@@ -103,7 +103,7 @@ namespace DSJTournaments.Api.IntegrationTests
             var psi = new ProcessStartInfo
             {
                 FileName = "docker",
-                Arguments = $"exec dsjtournaments_db_1 psql -h {host} -d {database} -U {userName}",
+                Arguments = $"exec dsjtournaments-db-1 psql -h {host} -d {database} -U {userName}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
