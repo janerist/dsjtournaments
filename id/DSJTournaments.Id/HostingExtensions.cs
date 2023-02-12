@@ -1,5 +1,6 @@
 using DSJTournaments.Data;
 using DSJTournaments.Id.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 
 namespace DSJTournaments.Id;
@@ -70,6 +71,14 @@ internal static class HostingExtensions
         app.UseStaticFiles();
         app.UseCors();
         app.UseRouting();
+
+
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                               ForwardedHeaders.XForwardedProto
+        });
+        
         app.UseIdentityServer();
         app.UseAuthorization();
         
