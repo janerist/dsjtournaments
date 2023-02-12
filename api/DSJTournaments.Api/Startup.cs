@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace DSJTournaments.Api
@@ -69,7 +70,10 @@ namespace DSJTournaments.Api
                 .AddJwtBearer(opts =>
                 {
                     opts.Authority = _configuration["IdentityServer:Origin"];
-                    opts.Audience = "dsjt";
+                    opts.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
                 });
 
             // Authorization
