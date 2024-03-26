@@ -33,11 +33,15 @@ namespace DSJTournaments.Api
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .WriteTo.Console(outputTemplate: outputTemplate, theme: AnsiConsoleTheme.Literate)
-                .WriteTo.RollingFile(
-                    pathFormat: $"{basePath}/api-{{Date}}.log",
+                .WriteTo.File(
+                    path: $"{basePath}/api-.log",
+                    rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: 5,
                     outputTemplate: outputTemplate)
-                .WriteTo.RollingFile(
-                    pathFormat: $"{basePath}/api-error-{{Date}}.log",
+                .WriteTo.File(
+                    path: $"{basePath}/api-error-.log",
+                    rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: 5,
                     restrictedToMinimumLevel: LogEventLevel.Error,
                     outputTemplate: outputTemplate)
                 .Enrich.FromLogContext();

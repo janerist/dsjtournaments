@@ -7,13 +7,9 @@ namespace DSJTournaments.Api.ActionFilters
     {
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            var content = context.Result as ObjectResult;
-            if (content != null)
+            if (context.Result is ObjectResult content)
             {
-                content.Value = new
-                {
-                    Data = content.Value
-                };
+                context.Result = new ObjectResult(new { Data = content.Value});
             }
         }
     }
