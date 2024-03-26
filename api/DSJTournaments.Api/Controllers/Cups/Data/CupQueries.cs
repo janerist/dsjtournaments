@@ -32,7 +32,7 @@ namespace DSJTournaments.Api.Controllers.Cups.Data
                 .Select(
                     @"CASE WHEN c.rank_method = 'jump_points'
                         THEN (RANK() OVER (ORDER BY SUM(fs.points) DESC))
-                        ELSE (RANK() OVER (ORDER BY SUM(fs.cup_points) DESC, SUM(fs.points) DESC))
+                        ELSE (RANK() OVER (ORDER BY SUM(fs.cup_points) DESC))
                       END AS rank",
                     "j.id AS jumper_id",
                     "j.name",
@@ -56,7 +56,12 @@ namespace DSJTournaments.Api.Controllers.Cups.Data
                 .Join("cups c ON c.id = cd.cup_id")
                 .Where("c.id = @CupId")
                 .GroupBy("j.id, c.id")
-                .OrderBy("rank");
+                .OrderBy("rank", """
+                                 CASE WHEN rank_method = 'jump_points'
+                                 THEN SUM(fs.cup_points)
+                                 ELSE SUM(fs.points)
+                                 END DESC
+                                 """);
         }
 
         public static QueryBuilder<CupRankingsResponseModel> CupRankingsQuery(this Database database)
