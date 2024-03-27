@@ -1,0 +1,29 @@
+name: Deploy .NET Application via SSH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: debian-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish api
+      run: dotnet publish api/DSJTournaments.Api -c Release -r linux-x64 --self-contained -o dist/api
+
+    - name: Copy files via SSH
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        source: "dist/api/*"
+        target: "/tmp/api"
