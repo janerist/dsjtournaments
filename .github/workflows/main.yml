@@ -20,11 +20,24 @@ jobs:
     - name: Publish api
       run: dotnet publish api/DSJTournaments.Api -c Release -r linux-x64 --self-contained -o dist/api
 
-    - name: Copy files via SSH
+    - name: Deploy api
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
+        rm: true
+        strip_components: 2
         source: "dist/api/*"
-        target: "/tmp/api"
+        target: "/opt/dsjtournaments/api"
+        
+    - name: Post-deploy api
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          sudo chown -R dsjtournaments:dsjtournaments /opt/dsjtournaments/api
+          sudo chmod +x /opt/dsjtournaments/api/DSJTournaments.Api
+          sudo systemctl restart dsjtournaments-api.service
