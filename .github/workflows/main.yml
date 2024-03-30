@@ -30,6 +30,7 @@ jobs:
             sudo systemctl stop dsjtournaments-api.service
             sudo rm -rf /opt/dsjtournaments/api
             sudo mkdir /opt/dsjtournaments/api
+            sudo chown janerist:janerist /opt/dsjtournaments/api
     
     - name: Deploy
       uses: appleboy/scp-action@master
