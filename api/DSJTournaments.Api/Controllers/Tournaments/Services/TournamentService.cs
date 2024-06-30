@@ -23,7 +23,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.Services
         public async Task<Responses.PagedResponse<TournamentResponseModel>> GetPageOfTournaments(GetTournamentsRequestModel model)
         {
             var (data, count) = await _database.TournamentQuery()
-                .Filter("t.tournament_type_id = @TypeId", new {TypeId = model.Type}, onlyIf: model.Type.HasValue)
+                .Filter("t.tournament_type_id = ANY(@TypeIds)", new { TypeIds = model.Type}, onlyIf: model.Type?.Length > 0)
                 .Filter("t.date >= @StartDate", new {StartDate = model.StartDate?.Date}, onlyIf: model.StartDate.HasValue)
                 .Filter("t.date < @EndDate", new {EndDate = model.EndDate?.Date.AddDays(1)}, onlyIf: model.EndDate.HasValue)
                 .OrderBy(model.Sort)

@@ -212,5 +212,15 @@ namespace DSJTournaments.Api.UnitTests.Upload.Parser
             Assert.Equal("Normal Hills Tournament", stats.Type);
             Assert.Equal(4, stats.GameVersion);
         }
+        
+        [Fact]
+        public async Task DSJ4_25thAnniversary()
+        {
+            var stats = await _parser.Parse("25th Anniversary Tournament 2024-07-04".AsHeader1().Build());
+
+            Assert.Equal(DateTime.Parse("2024-07-04 20:00", CultureInfo.InvariantCulture), stats.Date);
+            Assert.Equal("25th Anniversary Tournament", stats.Type);
+            Assert.Equal(4, stats.GameVersion);
+        }
     }
 }

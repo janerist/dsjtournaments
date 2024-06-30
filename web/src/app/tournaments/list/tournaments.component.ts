@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 import {PagedResponse, TournamentResponseModel, TournamentTypeWithCount} from '../../shared/api-responses';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -22,7 +22,10 @@ import {switchMap} from 'rxjs/operators';
       </div>
       <div class="four wide column">
         <div class="ui segment">
-          <app-tournament-types [types]="typesWithCount$"></app-tournament-types>
+          <app-tournament-types
+            *ngIf="typesWithCount$ | async as typesWithCount"
+            [types]="typesWithCount">
+          </app-tournament-types>
         </div>
         <div class="ui segment">
           <app-tournament-month-select></app-tournament-month-select>
@@ -49,16 +52,39 @@ export class TournamentsComponent implements OnInit {
       .pipe(
         switchMap(params =>
           this.httpClient.get<PagedResponse<TournamentResponseModel>>(`${environment.apiUrl}/tournaments`, {
-            params: new HttpParams()
-              .set('type', params.get('type') || '')
-              .set('startDate', params.get('startDate') || '')
-              .set('endDate', params.get('endDate') || '')
-              .set('sort', params.get('sort') || '')
-              .set('page', params.get('page') || '1')
+            params: this.toHttpParams(params)
           }))
       );
 
     this.typesWithCount$ = this.httpClient
       .get<TournamentTypeWithCount[]>(`${environment.apiUrl}/tournaments/typeswithcount`);
+  }
+
+  private toHttpParams(params: ParamMap): HttpParams {
+    const types = params.getAll('type');
+    const startDate = params.get('startDate');
+    const endDate = params.get('endDate');
+    const sort = params.get('sort');
+    const page = params.get('page');
+
+    let httpParams = new HttpParams();
+
+    for (const type of types) {
+      httpParams = httpParams.append('type', type);
+    }
+    if (startDate) {
+      httpParams = httpParams.set('startDate', startDate);
+    }
+    if (endDate) {
+      httpParams = httpParams.set('endDate', endDate);
+    }
+    if (sort) {
+      httpParams = httpParams.set('sort', sort);
+    }
+    if (page) {
+      httpParams = httpParams.set('page', page);
+    }
+
+    return httpParams;
   }
 }

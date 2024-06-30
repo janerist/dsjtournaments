@@ -223,11 +223,11 @@ namespace DSJTournaments.Api.Controllers.Upload.Services.Parser
                 stats.GameVersion = 4;
                 stats.Date = ParseDate(elems[9], elems[7]);
             }
-            else if (elems.Length == 4 && elems[0] == "20th")
+            else if (elems.Length == 4 && elems[1] == "Anniversary")
             {
-                stats.Type = "20th Anniversary Tournament";
+                stats.Type = $"{elems[0]} Anniversary Tournament";
                 stats.GameVersion = 4;
-                stats.Date = new DateTime(2019, 7, 4, 20, 0, 0);
+                stats.Date = ParseDate(elems[3], "20:00");
             }
             else if (elems.Length == 9 && elems[0] == "Central")
             {
