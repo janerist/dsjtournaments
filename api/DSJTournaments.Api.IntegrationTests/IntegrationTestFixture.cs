@@ -37,10 +37,10 @@ namespace DSJTournaments.Api.IntegrationTests
         protected override IHostBuilder CreateHostBuilder()
         {
             var currentDir = Directory.GetCurrentDirectory();
-            return Host.CreateDefaultBuilder(new string[0])
+            return Host.CreateDefaultBuilder([])
+                .UseSerilog()
                 .ConfigureWebHostDefaults(builder => builder
                     .UseStartup<Startup>()
-                    .UseSerilog()
                     .ConfigureAppConfiguration((_, config) => config
                         .AddJsonFile(Path.Combine(currentDir, "appsettings.json")))
                     .UseEnvironment("Test"));

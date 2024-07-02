@@ -16,11 +16,11 @@ namespace DSJTournaments.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog(ConfigureLogging)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder
-                    .UseStartup<Startup>()
-                    .UseSerilog(ConfigureLogging));
+                    .UseStartup<Startup>());
 
-        private static void ConfigureLogging(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
+        private static void ConfigureLogging(HostBuilderContext context, LoggerConfiguration loggerConfiguration)
         {
             var basePath = context.Configuration["Logging:BasePath"];
             var minimumLevel = context.Configuration["Logging:MinimumLevel"];
