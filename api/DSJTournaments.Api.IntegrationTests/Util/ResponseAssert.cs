@@ -13,7 +13,7 @@ namespace DSJTournaments.Api.IntegrationTests.Util
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Assert.True(false, $"Expected 200 OK, got {(int)response.StatusCode}. Response body:\n\n{content}");
+                Assert.Fail($"Expected 200 OK, got {(int)response.StatusCode}. Response body:\n\n{content}");
             }
         }
 
@@ -22,7 +22,7 @@ namespace DSJTournaments.Api.IntegrationTests.Util
             if (response.StatusCode != HttpStatusCode.BadRequest)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Assert.True(false, $"Expected 400 Bad Request, got {(int)response.StatusCode}. Response body:\n\n{content}");
+                Assert.Fail($"Expected 400 Bad Request, got {(int)response.StatusCode}. Response body:\n\n{content}");
                 return null;
             }
             else

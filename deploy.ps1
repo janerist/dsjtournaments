@@ -4,7 +4,7 @@ function DeployDotNetCoreApp(
     [string] $csprojPath,
     [string] $remotePath,
     [string] $serviceName,
-    [string] $framework = "net8.0",
+    [string] $framework = "net9.0",
     [string] $runtime = "linux-x64",
     [string] $configuration = "Release") 
 {

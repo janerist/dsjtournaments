@@ -1,13 +1,12 @@
-version: "3.8"
 services:
     db:
-        image: postgres:15
+        image: postgres:17
         ports:
             - "5432:5432"
         environment:
             POSTGRES_HOST_AUTH_METHOD: trust
             POSTGRES_DB: dsjtournaments_dev
+        restart: always
         volumes:
             - ./shared/DSJTournaments.Data/Scripts/schema.sql:/docker-entrypoint-initdb.d/schema.sql
             - ./shared/DSJTournaments.Data/Scripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
-            - ./backups:/backups

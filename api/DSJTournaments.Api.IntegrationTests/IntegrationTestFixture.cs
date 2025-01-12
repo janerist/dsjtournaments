@@ -102,7 +102,7 @@ namespace DSJTournaments.Api.IntegrationTests
         {
             var psi = new ProcessStartInfo
             {
-                FileName = "docker",
+                FileName = "podman",
                 Arguments = $"exec dsjtournaments-db-1 psql -h {host} -d {database} -U {userName}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
