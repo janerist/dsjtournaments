@@ -86,6 +86,6 @@ function DeployAdmin()
 }
 
 DeployApi
-DeployWeb
+#DeployWeb
 DeployId
-DeployAdmin
+#DeployAdmin
