@@ -50,7 +50,7 @@ export class UploaderComponent {
   }
 
   isInvalid = (file: UploadFile) => file.response && this.invalidMessages.some(m => m.test(file.response.message));
-  isSuccess = (file: UploadFile) => file.response && file.response.data;
+  isSuccess = (file: UploadFile) => file.response && file.responseStatus === 200;
   isError = (file: UploadFile) => file.response && !this.isInvalid(file) && !this.isSuccess(file);
 
   get completedCount(): number {
