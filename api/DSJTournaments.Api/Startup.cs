@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -81,6 +82,9 @@ namespace DSJTournaments.Api
                 {
                     options.ExpireTimeSpan = TimeSpan.FromDays(14);
                     options.SlidingExpiration = false;
+                    
+                    options.Cookie.Name = "__Host-DSJTournaments";
+                    options.Cookie.SameSite = SameSiteMode.Strict;
                     
                     options.Events.OnRedirectToLogin = context =>
                     {
