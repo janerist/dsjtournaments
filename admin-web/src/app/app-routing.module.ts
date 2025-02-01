@@ -6,8 +6,8 @@ import {JumperListComponent} from './jumpers/jumper-list.component';
 import {TournamentListComponent} from './tournaments/tournament-list.component';
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {AuthCallbackComponent} from './auth-callback/auth-callback.component';
 import {ShellComponent} from './shell/shell.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
   {
@@ -17,8 +17,8 @@ const routes: Routes = [
   },
 
   {
-    path: 'auth-callback',
-    component: AuthCallbackComponent
+    path: 'login',
+    component: LoginComponent
   },
 
   {

@@ -61,14 +61,6 @@ deployWeb() {
     deployAngularApp $projectPath $remotePath
 }
 
-deployId() {
-    projectPath="id/DSJTournaments.Id"
-    remotePath="/opt/dsjtournaments/id"
-    serviceName="dsjtournaments-id"
-
-    deployDotNetCoreApp $projectPath $remotePath $serviceName
-}
-
 deployAdmin() {
     projectPath="admin-web"
     remotePath="/opt/dsjtournaments/admin"
@@ -78,5 +70,4 @@ deployAdmin() {
 
 deployApi
 deployWeb
-deployId
 deployAdmin

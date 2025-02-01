@@ -8,10 +8,11 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    if (this.authService.isAccessTokenValid) {
+    if (this.authService.isLoggedIn) {
       return true;
     }
 
+    console.log('redirecting to login from auth guard');
     this.authService.login(state.url);
     return false;
   }

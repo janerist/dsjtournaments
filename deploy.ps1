@@ -68,15 +68,6 @@ function DeployWeb()
     DeployAngularApp $projectPath $remotePath
 }
 
-function DeployId()
-{
-    $csProjPath = ".\id/DSJTournaments.Id/DSJTournaments.Id.csproj"
-    $remotePath = "/opt/dsjtournaments/id"
-    $serviceName = "dsjtournaments-id"
-    
-    DeployDotNetCoreApp $csProjPath $remotePath $serviceName        
-}
-
 function DeployAdmin()
 {
     $projectPath = ".\admin-web"
@@ -86,6 +77,5 @@ function DeployAdmin()
 }
 
 DeployApi
-#DeployWeb
-DeployId
-#DeployAdmin
+DeployWeb
+DeployAdmin

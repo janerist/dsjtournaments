@@ -16,7 +16,6 @@ import {TournamentMonthSelectComponent} from './tournaments/list/tournament-mont
 import {TournamentTypesComponent} from './tournaments/list/tournament-types.component';
 import {FlagDirective} from './shared/directives/flag.directive';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {DataInterceptor} from './shared/http/data-interceptor';
 import {TournamentComponent} from './tournaments/detail/tournament.component';
 import {QualificationResultsTableComponent} from './tournaments/shared/qualification-results-table.component';
 import {FinalResultsTableComponent} from './tournaments/shared/final-results-table.component';
@@ -151,7 +150,6 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   providers: [
     // App
-    { provide: HTTP_INTERCEPTORS, useClass: DataInterceptor, multi: true},
     { provide: ErrorHandler, useClass: GlobalErrorHandler}
   ],
   bootstrap: [AppComponent]

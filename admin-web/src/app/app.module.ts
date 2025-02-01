@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, inject, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -26,12 +26,11 @@ import {JumperSearchboxComponent} from './jumpers/jumper-searchbox.component';
 import {AuthGuard} from './common/services/auth-guard.service';
 import {AuthService} from './common/services/auth.service';
 import {LoginWidgetComponent} from './navbar/login-widget.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpErrorResponse} from '@angular/common/http';
 import {AuthInterceptor} from './common/http/auth-interceptor';
-import {DataInterceptor} from './common/http/data-interceptor';
 import {AppRoutingModule} from './app-routing.module';
-import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { ShellComponent } from './shell/shell.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -68,9 +67,8 @@ import { ShellComponent } from './shell/shell.component';
     // Pipes
     RankMethodPipe,
 
-    AuthCallbackComponent,
-
     ShellComponent,
+      LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,17 +78,19 @@ import { ShellComponent } from './shell/shell.component';
     HttpClientModule
   ],
   providers: [
-    // APP_INIT
     {
-      provide: APP_INITIALIZER,
-      useFactory: (authService: AuthService) => async () => await authService.loadUser(),
-      deps: [AuthService],
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     },
-
-    // HTTP interceptors
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: DataInterceptor, multi: true},
+    {
+      provide: APP_INITIALIZER,
+      useFactory:  (authService: AuthService) => async () => {
+        await authService.loadUser();
+      },
+      multi: true,
+      deps: [AuthService]
+    },
 
     // Cross-feature services
     ToastService,

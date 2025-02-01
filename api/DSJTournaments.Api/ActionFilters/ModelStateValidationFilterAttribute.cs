@@ -10,7 +10,7 @@ namespace DSJTournaments.Api.ActionFilters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var model = context.ActionArguments.FirstOrDefault(a => a.Key == "model");
-            if (model.Key == "model" && model.Value == null)
+            if (model is { Key: "model", Value: null })
             {
                 context.ModelState.AddModelError(string.Empty, "Body is empty.");
             }

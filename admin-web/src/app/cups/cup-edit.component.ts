@@ -55,7 +55,9 @@ export class CupEditComponent implements OnInit {
   private loadCup(id: number) {
     this.cupService
       .getCup(id)
-      .subscribe(cup => this.cup = cup);
+      .subscribe(cup => {
+        this.cup = cup;
+      });
   }
 
   private loadTypes() {

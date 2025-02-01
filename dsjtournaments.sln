@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSJTournaments.Api", "api\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSJTournaments.Data", "shared\DSJTournaments.Data\DSJTournaments.Data.csproj", "{D245458C-AD50-46B9-A5B8-42EF15078E6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSJTournaments.Id.UnitTests", "id\DSJTournaments.Id.UnitTests\DSJTournaments.Id.UnitTests.csproj", "{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api.IntegrationTests", "api\DSJTournaments.Api.IntegrationTests\DSJTournaments.Api.IntegrationTests.csproj", "{6D0C82FB-7046-4AC6-9DBC-06DE8CFE814B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Api.UnitTests", "api\DSJTournaments.Api.UnitTests\DSJTournaments.Api.UnitTests.csproj", "{1E5F7156-1070-4BEF-BDA9-1B8F22AB478B}"
@@ -17,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{0D35D7
 ProjectSection(SolutionItems) = preProject
 	docker-compose.dev.yml = docker-compose.yml
 EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSJTournaments.Id", "id\DSJTournaments.Id\DSJTournaments.Id.csproj", "{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,18 +50,6 @@ Global
 		{D245458C-AD50-46B9-A5B8-42EF15078E6B}.Release|x64.Build.0 = Release|Any CPU
 		{D245458C-AD50-46B9-A5B8-42EF15078E6B}.Release|x86.ActiveCfg = Release|Any CPU
 		{D245458C-AD50-46B9-A5B8-42EF15078E6B}.Release|x86.Build.0 = Release|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Debug|x64.Build.0 = Debug|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Debug|x86.Build.0 = Debug|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Release|x64.ActiveCfg = Release|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Release|x64.Build.0 = Release|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Release|x86.ActiveCfg = Release|Any CPU
-		{70F86848-1DCB-4320-BF31-4AC4DCCFDE27}.Release|x86.Build.0 = Release|Any CPU
 		{6D0C82FB-7046-4AC6-9DBC-06DE8CFE814B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D0C82FB-7046-4AC6-9DBC-06DE8CFE814B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D0C82FB-7046-4AC6-9DBC-06DE8CFE814B}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -90,18 +74,6 @@ Global
 		{1E5F7156-1070-4BEF-BDA9-1B8F22AB478B}.Release|x64.Build.0 = Release|Any CPU
 		{1E5F7156-1070-4BEF-BDA9-1B8F22AB478B}.Release|x86.ActiveCfg = Release|Any CPU
 		{1E5F7156-1070-4BEF-BDA9-1B8F22AB478B}.Release|x86.Build.0 = Release|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Debug|x64.Build.0 = Debug|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Debug|x86.Build.0 = Debug|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Release|x64.ActiveCfg = Release|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Release|x64.Build.0 = Release|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Release|x86.ActiveCfg = Release|Any CPU
-		{05445E0E-D6A8-4678-BCAA-EBD32E0BF72E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

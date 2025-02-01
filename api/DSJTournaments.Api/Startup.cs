@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DSJTournaments.Api.ActionFilters;
+using DSJTournaments.Api.Auth;
+using DSJTournaments.Api.Controllers.Account.Services;
 using DSJTournaments.Api.Controllers.Cups.Services;
 using DSJTournaments.Api.Controllers.Jumpers.Services;
 using DSJTournaments.Api.Controllers.Results.Services;
@@ -9,6 +12,7 @@ using DSJTournaments.Api.Controllers.Upload.Services.FileArchive;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser;
 using DSJTournaments.Api.Controllers.Upload.Services.Processor;
 using DSJTournaments.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +20,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace DSJTournaments.Api
@@ -57,38 +60,52 @@ namespace DSJTournaments.Api
             services.AddSingleton<FileArchive>();
             services.AddSingleton<StatParser>();
             services.AddSingleton<StatProcessor>();
+            
+            // Account
+            services.AddSingleton<PasswordHasher>();
+            services.AddSingleton<IUserService, UserService>();
 
             // Framework services
             services.AddCors(opts => opts.AddDefaultPolicy(builder => builder
                 .WithOrigins(_configuration.GetSection("Cors:Origins").Get<string[]>())
                 .AllowAnyMethod()
                 .AllowAnyHeader()
+                .AllowCredentials()
                 .SetPreflightMaxAge(TimeSpan.FromMinutes(10))));
 
+            services.AddHttpContextAccessor();
+
             // Authentication
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer(opts =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
                 {
-                    opts.Authority = _configuration["IdentityServer:Origin"];
-                    opts.TokenValidationParameters = new TokenValidationParameters
+                    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+                    options.SlidingExpiration = false;
+                    
+                    options.Events.OnRedirectToLogin = context =>
                     {
-                        ValidateAudience = false
+                        context.Response.StatusCode = 401;    
+                        return Task.CompletedTask;
+                    };
+                    options.Events.OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = 403;
+                        return Task.CompletedTask;
                     };
                 });
 
             // Authorization
-            var adminPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .RequireClaim("scope", "dsjt")
-                .Build();
-
-            services.AddAuthorization(opts => opts.AddPolicy("admin", adminPolicy));
+            services.AddSingleton<IAuthorizationHandler, CsrfHeaderRequirementHandler>();
+            services.AddAuthorizationBuilder()
+                .AddPolicy("admin", new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .RequireCsrfHeader()
+                    .Build());
 
             services.AddControllers(opts =>
             {
                 opts.Filters.Add(new ModelStateValidationFilterAttribute());
                 opts.Filters.Add(new ExceptionHandlerFilterAttribute());
-                opts.Filters.Add(new WrapResultInDataPropertyAttribute());
             });
         }
 

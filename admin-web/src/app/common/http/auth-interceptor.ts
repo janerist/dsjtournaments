@@ -1,4 +1,4 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {Injectable} from '@angular/core';
@@ -11,14 +11,15 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.authService.isAccessTokenValid) {
+    if (!req.url.includes('/account/') && !this.authService.isLoggedIn) {
+      console.log('redirecting to login from auth interceptor');
       this.authService.login(this.router.url);
       return of();
     }
 
-    const acessToken = this.authService.accessToken;
     const authReq = req.clone({
-      headers: req.headers.set('Authorization', 'Bearer ' + acessToken)
+      withCredentials: true,
+      headers: new HttpHeaders({'X-CSRF': '1'})
     });
 
     return next.handle(authReq);
