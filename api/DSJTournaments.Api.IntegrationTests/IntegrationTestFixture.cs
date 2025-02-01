@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using DSJTournaments.Api.Controllers.Upload.Services.FileArchive;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -58,9 +58,9 @@ namespace DSJTournaments.Api.IntegrationTests
         {
             var currentDir = Directory.GetCurrentDirectory();
             var schemaPath = Path.Combine(currentDir,
-                "..", "..", "..", "..", "..", "shared", "DSJTournaments.Data", "Scripts", "schema.sql");
+                "..", "..", "..", "..", "DSJTournaments.Api", "Data", "Scripts", "schema.sql");
             var seedPath = Path.Combine(currentDir,
-                "..", "..", "..", "..", "..", "shared", "DSJTournaments.Data", "Scripts", "seed.sql");
+                "..", "..", "..", "..", "DSJTournaments.Api", "Data", "Scripts", "seed.sql");
 
             ExecutePsql(
                 host: cnnStringBuilder.Host,

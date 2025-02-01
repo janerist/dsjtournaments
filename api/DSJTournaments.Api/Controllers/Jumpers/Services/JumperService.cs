@@ -3,9 +3,9 @@ using System.Transactions;
 using DSJTournaments.Api.Controllers.Jumpers.Data;
 using DSJTournaments.Api.Controllers.Jumpers.RequestModels;
 using DSJTournaments.Api.Controllers.Jumpers.ResponseModels;
+using DSJTournaments.Api.Data;
+using DSJTournaments.Api.Data.Schema;
 using DSJTournaments.Api.Exceptions;
-using DSJTournaments.Data;
-using DSJTournaments.Data.Schema;
 
 namespace DSJTournaments.Api.Controllers.Jumpers.Services
 {

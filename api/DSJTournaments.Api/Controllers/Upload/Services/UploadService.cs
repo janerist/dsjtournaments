@@ -8,8 +8,8 @@ using System.Transactions;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser.Model;
 using DSJTournaments.Api.Controllers.Upload.Services.Processor;
+using DSJTournaments.Api.Data;
 using DSJTournaments.Api.Exceptions;
-using DSJTournaments.Data;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 
@@ -94,7 +94,7 @@ namespace DSJTournaments.Api.Controllers.Upload.Services
 
                     var path = Path.Combine($"{statFile.Date:yyyy-MM-dd} {statFile.Type}{(statFile.SubType != null ? " " + statFile.SubType : string.Empty)}", fileName);
 
-                    await _db.Insert(new DSJTournaments.Data.Schema.Upload
+                    await _db.Insert(new Data.Schema.Upload
                     {
                         Path = Path.Combine(_fileArchive.BasePath, path),
                         RemoteIp = remoteIp,

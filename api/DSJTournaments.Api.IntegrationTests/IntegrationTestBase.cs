@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Transactions;
 using DSJTournaments.Api.Controllers.Upload.Services.FileArchive;
 using DSJTournaments.Api.Controllers.Upload.Services.Processor;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DSJTournaments.Api.IntegrationTests

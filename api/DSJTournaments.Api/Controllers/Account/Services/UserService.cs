@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using DSJTournaments.Data;
-using DSJTournaments.Data.Schema;
+using DSJTournaments.Api.Data;
+using DSJTournaments.Api.Data.Schema;
 
 namespace DSJTournaments.Api.Controllers.Account.Services;
 

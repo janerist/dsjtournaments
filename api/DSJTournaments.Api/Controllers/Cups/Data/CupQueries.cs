@@ -1,5 +1,5 @@
 ﻿using DSJTournaments.Api.Controllers.Cups.ResponseModels;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 
 namespace DSJTournaments.Api.Controllers.Cups.Data
 {

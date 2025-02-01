@@ -3,11 +3,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser.Model;
-using DSJTournaments.Data;
-using DSJTournaments.Data.Schema;
-using FinalResult = DSJTournaments.Data.Schema.FinalResult;
-using QualificationResult = DSJTournaments.Data.Schema.QualificationResult;
-using TeamFinalResult = DSJTournaments.Data.Schema.TeamFinalResult;
+using DSJTournaments.Api.Data;
+using DSJTournaments.Api.Data.Schema;
+using FinalResult = DSJTournaments.Api.Data.Schema.FinalResult;
+using QualificationResult = DSJTournaments.Api.Data.Schema.QualificationResult;
+using TeamFinalResult = DSJTournaments.Api.Data.Schema.TeamFinalResult;
 
 namespace DSJTournaments.Api.Controllers.Upload.Services.Processor
 {

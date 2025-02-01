@@ -1,5 +1,5 @@
 ﻿using DSJTournaments.Api.Controllers.Tournaments.RequestModels;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 
 namespace DSJTournaments.Api.Controllers.Tournaments.Data
 {

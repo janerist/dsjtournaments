@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DSJTournaments.Api.Validation;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using static DSJTournaments.Data.Schema.RankMethod;
+using static DSJTournaments.Api.Data.Schema.RankMethod;
 
 namespace DSJTournaments.Api.Controllers.Cups.RequestModels
 {

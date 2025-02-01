@@ -5,9 +5,9 @@ using DSJTournaments.Api.Controllers.Cups.Data;
 using DSJTournaments.Api.Controllers.Tournaments.Data;
 using DSJTournaments.Api.Controllers.Tournaments.RequestModels;
 using DSJTournaments.Api.Controllers.Tournaments.ResponseModels;
+using DSJTournaments.Api.Data;
+using DSJTournaments.Api.Data.Schema;
 using DSJTournaments.Api.Exceptions;
-using DSJTournaments.Data;
-using DSJTournaments.Data.Schema;
 
 namespace DSJTournaments.Api.Controllers.Tournaments.Services
 {

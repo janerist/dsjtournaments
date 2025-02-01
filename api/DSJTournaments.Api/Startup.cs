@@ -11,7 +11,7 @@ using DSJTournaments.Api.Controllers.Upload.Services;
 using DSJTournaments.Api.Controllers.Upload.Services.FileArchive;
 using DSJTournaments.Api.Controllers.Upload.Services.Parser;
 using DSJTournaments.Api.Controllers.Upload.Services.Processor;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;

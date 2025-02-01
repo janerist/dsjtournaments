@@ -5,10 +5,10 @@ using System.Transactions;
 using DSJTournaments.Api.Controllers.Cups.Data;
 using DSJTournaments.Api.Controllers.Cups.RequestModels;
 using DSJTournaments.Api.Controllers.Cups.ResponseModels;
+using DSJTournaments.Api.Data;
+using DSJTournaments.Api.Data.Schema;
 using DSJTournaments.Api.Exceptions;
 using DSJTournaments.Api.Responses;
-using DSJTournaments.Data;
-using DSJTournaments.Data.Schema;
 
 namespace DSJTournaments.Api.Controllers.Cups.Services
 {

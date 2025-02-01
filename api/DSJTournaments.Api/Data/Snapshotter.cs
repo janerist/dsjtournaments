@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Dapper;
 
-namespace DSJTournaments.Data
+namespace DSJTournaments.Api.Data
 {
     internal static class Snapshotter
     {

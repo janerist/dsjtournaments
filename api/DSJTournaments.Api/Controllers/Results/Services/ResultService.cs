@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using DSJTournaments.Api.Controllers.Results.RequestModels;
 using DSJTournaments.Api.Controllers.Results.ResponseModels;
 using DSJTournaments.Api.Controllers.Tournaments.Data;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 
 namespace DSJTournaments.Api.Controllers.Results.Services
 {

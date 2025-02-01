@@ -1,5 +1,5 @@
 ﻿using DSJTournaments.Api.Controllers.Jumpers.RequestModels;
-using DSJTournaments.Data;
+using DSJTournaments.Api.Data;
 
 namespace DSJTournaments.Api.Controllers.Jumpers.Data
 {

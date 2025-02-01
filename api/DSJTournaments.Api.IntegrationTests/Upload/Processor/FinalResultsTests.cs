@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using DSJTournaments.Api.Data.Schema;
 using DSJTournaments.Api.IntegrationTests.Util;
-using DSJTournaments.Data.Schema;
 using Xunit;
 
 namespace DSJTournaments.Api.IntegrationTests.Upload.Processor
