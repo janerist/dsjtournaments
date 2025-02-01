@@ -43,6 +43,6 @@ export class AuthService {
   async logout() {
     await this.httpClient.post(`${environment.apiUrl}/account/logout`, {}).toPromise();
     this.isLoggedIn = false;
-    void this.router.navigate(['/']);
+    void this.router.navigate(['/login']);
   }
 }
