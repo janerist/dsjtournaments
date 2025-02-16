@@ -33,8 +33,8 @@ export class JumperSearchComponent implements OnInit {
       maxResults: 8,
       apiSettings: {
         url: `${environment.apiUrl}/jumpers?q={query}`,
-        onResponse: ({data: data}: { data: PagedResponse<JumperResponseModel> }) => ({ // tslint:disable-line
-          results: data.data.map(jumper => ({
+        onResponse: (response: PagedResponse<JumperResponseModel>) => ({ // tslint:disable-line
+          results: response.data.map(jumper => ({
             id: jumper.id,
             title: jumper.name,
             description: `
