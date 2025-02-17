@@ -1,15 +1,14 @@
-import {AuthGuard} from './common/services/auth-guard.service';
+import { Routes } from '@angular/router';
+import {LoginComponent} from './login/login.component';
+import {ShellComponent} from './shell/shell.component';
 import {CupListComponent} from './cups/cup-list.component';
 import {CupCreateComponent} from './cups/cup-create.component';
 import {CupEditComponent} from './cups/cup-edit.component';
 import {JumperListComponent} from './jumpers/jumper-list.component';
 import {TournamentListComponent} from './tournaments/tournament-list.component';
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {ShellComponent} from './shell/shell.component';
-import {LoginComponent} from './login/login.component';
+import {authGuard} from './common/services/auth.guard';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     redirectTo: 'a',
@@ -24,7 +23,7 @@ const routes: Routes = [
   {
     path: 'a',
     component: ShellComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     children: [
       {path: '', redirectTo: 'cups', pathMatch: 'full'},
 
@@ -46,10 +45,3 @@ const routes: Routes = [
     redirectTo: 'a'
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
-}

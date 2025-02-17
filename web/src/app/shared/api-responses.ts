@@ -143,14 +143,6 @@ export interface JumperActivityResponseModel {
   points?: number;
 }
 
-export interface JumperRankingResponseModel {
-  date: string;
-  tournamentId: number;
-  gameVersion: number;
-  tournamentType: string;
-  rank: number;
-}
-
 export interface CupResponseModel {
   id: number;
   name: string;

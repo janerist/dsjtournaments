@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 @Component({
   selector: 'dsjt-shell',
-  templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.css']
+  imports: [
+    RouterOutlet,
+    NavbarComponent
+  ],
+  template: `
+    <dsjt-navbar></dsjt-navbar>
+    <div class="container" id="main">
+      <router-outlet></router-outlet>
+    </div>
+  `
 })
-export class ShellComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class ShellComponent {
 }

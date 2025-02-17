@@ -1,26 +1,43 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CupService} from './cup.service';
 import {CupResponseModel, CupRequestModel} from './cup-models';
 import {TournamentService} from '../tournaments/tournament.service';
 import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-models';
 import {ToastService} from '../common/services/toast.service';
+import {CupFormComponent} from './cup-form.component';
 
 @Component({
-  templateUrl: './cup-edit.component.html'
+  imports: [
+    CupFormComponent
+  ],
+  template: `
+    @if (cup) {
+      <div>
+        <h3>
+          {{ cup.name }}
+          <span class="float-sm-end">
+            <button type="button" class="btn btn-outline-danger" (click)="deleteCup()">Delete</button>
+          </span>
+        </h3>
+        <dsjt-cup-form
+          [cup]="cup"
+          [types]="types"
+          (save)="onSave($event)">
+        </dsjt-cup-form>
+      </div>
+    }
+  `
 })
 export class CupEditComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private cupService = inject(CupService);
+  private tournamentService = inject(TournamentService);
+  private toastService = inject(ToastService);
+
   cup: CupResponseModel;
   types: TournamentTypeWithCountResponseModel[];
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private cupService: CupService,
-    private tournamentService: TournamentService,
-    private toastService: ToastService
-  ) {
-  }
 
   ngOnInit() {
     this.loadTypes();
@@ -47,7 +64,7 @@ export class CupEditComponent implements OnInit {
         .deleteCup(this.cup.id)
         .subscribe(() => {
           this.toastService.success('Cup deleted');
-          this.router.navigate(['../']);
+          void this.router.navigate(['../']);
         });
     }
   }

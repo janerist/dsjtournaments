@@ -11,6 +11,6 @@ export class FlagDirective implements OnChanges {
   }
 
   ngOnChanges({countryCode}: SimpleChanges) {
-    this.el.nativeElement.className = `flag-icon flag-icon-${iso3toiso2[countryCode.currentValue]}`;
+    this.el.nativeElement.className = `fi fi-${iso3toiso2[countryCode.currentValue]} me-1`;
   }
 }

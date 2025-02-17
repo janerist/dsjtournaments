@@ -1,24 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CupRequestModel} from './cup-models';
 import {CupService} from './cup.service';
 import {Router} from '@angular/router';
 import {TournamentService} from '../tournaments/tournament.service';
 import {TournamentTypeWithCountResponseModel} from '../tournaments/tournament-models';
 import {ToastService} from '../common/services/toast.service';
+import {CupFormComponent} from './cup-form.component';
 
 @Component({
-  templateUrl: './cup-create.component.html'
+  imports: [
+    CupFormComponent
+  ],
+  template: `
+    <h3>Create new cup</h3>
+    <dsjt-cup-form [types]="types" (save)="onSave($event)"></dsjt-cup-form>
+  `
 })
 export class CupCreateComponent implements OnInit {
-  types: TournamentTypeWithCountResponseModel[];
+  private cupService = inject(CupService);
+  private router = inject(Router);
+  private tournamentService = inject(TournamentService);
+  private toastService = inject(ToastService);
 
-  constructor(
-    private cupService: CupService,
-    private tournamentService: TournamentService,
-    private router: Router,
-    private toastService: ToastService
-  ) {
-  }
+  types: TournamentTypeWithCountResponseModel[];
 
   ngOnInit() {
     this.tournamentService
@@ -31,7 +35,7 @@ export class CupCreateComponent implements OnInit {
       .createCup(cup)
       .subscribe(() => {
         this.toastService.success('Cup created');
-        this.router.navigate(['../']);
+        void this.router.navigate(['../']);
       });
   }
 }

@@ -7,36 +7,37 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
+      "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/silent-refresh.html",
-              "src/oidc-client.min.js"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
               "node_modules/toastr/build/toastr.css",
               "node_modules/select2/dist/css/select2.css",
-              "node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css",
+              "node_modules/select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.css",
               "node_modules/font-awesome/css/font-awesome.css",
-              "node_modules/flag-icon-css/css/flag-icon.css",
+              "node_modules/@ostabo/flag-icons/css/flag-icons.min.css",
               "src/styles.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.slim.min.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
               "node_modules/toastr/build/toastr.min.js",
               "node_modules/select2/dist/js/select2.js"
@@ -50,93 +51,52 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "500kB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
-              ]
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
-            "browserTarget": "admin:build",
-            "port": 4201
+            "port": 4201,
+            "buildTarget": "admin:build"
           },
           "configurations": {
+            "development": {
+              "buildTarget": "admin:build:development",
+              "hmr": false
+            },
             "production": {
-              "browserTarget": "admin:build:production"
+              "buildTarget": "admin:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
-            "browserTarget": "admin:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.slim.min.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
-              "node_modules/toastr/build/toastr.min.js",
-              "node_modules/select2/dist/js/select2.js"
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
-              "node_modules/toastr/build/toastr.css",
-              "node_modules/select2/dist/css/select2.css",
-              "node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css",
-              "node_modules/font-awesome/css/font-awesome.css",
-              "node_modules/flag-icon-css/css/flag-icon.css",
-              "src/styles.css"
-            ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/silent-refresh.html",
-              "src/oidc-client.min.js"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "buildTarget": "admin:build"
           }
         }
       }
     }
-  },
-  "defaultProject": "admin"
+  }
 }

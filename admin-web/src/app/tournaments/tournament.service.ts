@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {TournamentTypeWithCountResponseModel, TournamentResponseModel} from './tournament-models';
 import {PagedResponse} from '../common/models';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class TournamentService {
-  constructor(private http: HttpClient) {
-  }
+  private http = inject(HttpClient);
 
   getTournamentTypes(): Observable<TournamentTypeWithCountResponseModel[]> {
     return this.http

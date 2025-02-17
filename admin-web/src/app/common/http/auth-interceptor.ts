@@ -1,14 +1,13 @@
 import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {AuthService} from '../services/auth.service';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
-  constructor(private router: Router, private authService: AuthService) {
-  }
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!req.url.includes('/account/') && !this.authService.isLoggedIn) {

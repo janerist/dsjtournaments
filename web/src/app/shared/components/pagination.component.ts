@@ -1,48 +1,62 @@
 import {Component, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
-  template: `
-    <div *ngIf="totalCount > pageSize" class="ui pagination menu" style="margin: 1rem 0;">
-      <div class="item">
-        Showing {{1+(page-1)*pageSize}} - {{min(totalCount, page*pageSize)}} of {{totalCount}}
-      </div>
-      <ng-container *ngIf="!compact">
-        <ng-container *ngFor="let p of pagination()">
-          <a *ngIf="p > 0"
-             class="item"
-             [class.active]="p === page"
-             routerLink="./"
-             [queryParams]="{page: p}"
-             queryParamsHandling="merge">
-            {{p}}
-          </a>
-          <div *ngIf="p === 0" class="disabled item">...</div>
-        </ng-container>
-      </ng-container>
-      <a *ngIf="hasPrev"
-         class="item"
-         routerLink="./"
-         [queryParams]="{page: page - 1}"
-         queryParamsHandling="merge"
-         title="Previous">
-        <i class="caret left icon"></i>
-      </a>
-      <div *ngIf="!hasPrev" class="disabled item"><i class="caret left icon"></i></div>
-      <a *ngIf="hasNext"
-         class="item"
-         routerLink="./"
-         [queryParams]="{page: page + 1}"
-         queryParamsHandling="merge"
-         title="Next">
-        <i class="caret right icon"></i>
-      </a>
-      <div *ngIf="!hasNext" class="disabled item"><i class="caret right icon"></i></div>
-    </div>
-  `,
+  imports: [
+    RouterLink
+  ],
   styles: [`
-    * { font-size: 90%;}
-  `]
+    * {
+      font-size: 90%;
+    }
+  `],
+  template: `@if (totalCount > pageSize) {
+    <div class="ui pagination menu" style="margin: 1rem 0;">
+      <div class="item">
+        Showing {{ 1 + (page - 1) * pageSize }} - {{ min(totalCount, page * pageSize) }} of {{ totalCount }}
+      </div>
+      @if (!compact) {
+        @for (p of pagination(); track $index) {
+          @if (p > 0) {
+            <a class="item"
+               [class.active]="p === page"
+               routerLink="./"
+               [queryParams]="{page: p}"
+               queryParamsHandling="merge">
+              {{ p }}
+            </a>
+          } @else {
+            <div class="disabled item">...</div>
+          }
+        }
+      }
+      @if (hasPrev) {
+        <a class="item"
+           routerLink="./"
+           [queryParams]="{page: page - 1}"
+           queryParamsHandling="merge"
+           title="Previous">
+          <i class="caret left icon"></i>
+        </a>
+      } @else {
+        <div class="disabled item"><i class="caret left icon"></i></div>
+      }
+
+      @if (hasNext) {
+        <a class="item"
+           routerLink="./"
+           [queryParams]="{page: page + 1}"
+           queryParamsHandling="merge"
+           title="Next">
+          <i class="caret right icon"></i>
+        </a>
+      } @else {
+        <div class="disabled item"><i class="caret right icon"></i></div>
+      }
+    </div>
+  }
+  `
 })
 export class PaginationComponent {
   @Input() compact = false;
@@ -71,7 +85,7 @@ export class PaginationComponent {
     for (let num = 1; num <= this.pages; num++) {
       if (num <= leftEdge
         || (num > this.page - leftCurrent - 1 &&
-            num < this.page + rightCurrent)
+          num < this.page + rightCurrent)
         || num > this.pages - rightEdge) {
         if (last + 1 !== num) {
           pages.push(0);

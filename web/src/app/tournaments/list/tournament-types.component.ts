@@ -1,50 +1,64 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, input, OnInit} from '@angular/core';
 import {TournamentTypeWithCount} from '../../shared/api-responses';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-tournament-types',
+  imports: [
+    RouterLink
+  ],
   template: `
     <h4>Type:</h4>
     <ul class="ui list">
       <li>
         <a routerLink="./" [queryParams]="{page: 1, type: ''}" queryParamsHandling="merge">
-          All ({{totalCount}})
+          All ({{ totalCount }})
         </a>
       </li>
       <li>DSJ4
         <ul>
-          <li *ngFor="let type of dsj4Types">
-            <a routerLink="./" [queryParams]="{page: 1, type: type.id}" queryParamsHandling="merge">
-              {{type.name}} ({{type.count}})
-            </a>
-          </li>
-          <li *ngIf="dsj4AnniversaryTypes">
-            <a routerLink="./" [queryParams]="{page: 1, type: dsj4AnniversaryTypes.typeIds}" queryParamsHandling="merge">
-              Anniversary tournaments ({{dsj4AnniversaryTypes.count}})
-            </a>
-          </li>
+          @for (type of dsj4Types; track type.id) {
+            <li>
+              <a routerLink="./" [queryParams]="{page: 1, type: type.id}" queryParamsHandling="merge">
+                {{ type.name }} ({{ type.count }})
+              </a>
+            </li>
+          }
+          @if (dsj4AnniversaryTypes) {
+            <li>
+              <a routerLink="./" [queryParams]="{page: 1, type: dsj4AnniversaryTypes.typeIds}"
+                 queryParamsHandling="merge">
+                Anniversary tournaments ({{ dsj4AnniversaryTypes.count }})
+              </a>
+            </li>
+          }
         </ul>
 
       </li>
       <li>DSJ3
         <ul>
-          <li *ngFor="let type of dsj3Types">
-            <a routerLink="./" [queryParams]="{page: 1, type: type.id}" queryParamsHandling="merge">
-              {{type.name}} ({{type.count}})
-            </a>
-          </li>
-          <li *ngIf="dsj3AnniversaryTypes">
-            <a routerLink="./" [queryParams]="{page: 1, type: dsj3AnniversaryTypes.typeIds}" queryParamsHandling="merge">
-              Anniversary tournaments ({{dsj3AnniversaryTypes.count}})
-            </a>
-          </li>
+          @for (type of dsj3Types; track type.id) {
+            <li>
+              <a routerLink="./" [queryParams]="{page: 1, type: type.id}" queryParamsHandling="merge">
+                {{ type.name }} ({{ type.count }})
+              </a>
+            </li>
+          }
+          @if (dsj3AnniversaryTypes) {
+            <li>
+              <a routerLink="./" [queryParams]="{page: 1, type: dsj3AnniversaryTypes.typeIds}"
+                 queryParamsHandling="merge">
+                Anniversary tournaments ({{ dsj3AnniversaryTypes.count }})
+              </a>
+            </li>
+          }
         </ul>
       </li>
     </ul>
   `
 })
 export class TournamentTypesComponent implements OnInit {
-  @Input() types!: TournamentTypeWithCount[];
+  types = input.required<TournamentTypeWithCount[]>();
 
   dsj3Types?: TournamentTypeWithCount[];
   dsj3AnniversaryTypes?: {typeIds: number[], count: number}
@@ -53,10 +67,10 @@ export class TournamentTypesComponent implements OnInit {
   totalCount?: number;
 
   ngOnInit() {
-    this.dsj3Types = this.types
+    this.dsj3Types = this.types()
       .filter(t => t.gameVersion === 3 && !t.name.includes('Anniversary'));
 
-    this.dsj3AnniversaryTypes = this.types
+    this.dsj3AnniversaryTypes = this.types()
       .filter(t => t.gameVersion === 3 && t.name.includes('Anniversary'))
       .reduce((acc: {typeIds: number[], count: number}, t: TournamentTypeWithCount) => {
         acc.typeIds.push(t.id);
@@ -64,10 +78,10 @@ export class TournamentTypesComponent implements OnInit {
         return acc;
       }, {typeIds: [], count: 0});
 
-    this.dsj4Types = this.types
+    this.dsj4Types = this.types()
       .filter(t => t.gameVersion === 4 && !t.name.includes('Anniversary'));
 
-    this.dsj4AnniversaryTypes = this.types
+    this.dsj4AnniversaryTypes = this.types()
         .filter(t => t.gameVersion === 4 && t.name.includes('Anniversary'))
       .reduce((acc: {typeIds: number[], count: number}, t: TournamentTypeWithCount) => {
         acc.typeIds.push(t.id);
@@ -75,6 +89,6 @@ export class TournamentTypesComponent implements OnInit {
         return acc;
       }, {typeIds: [], count: 0});
 
-    this.totalCount = this.types.reduce((sum, {count: count}) => sum + count, 0);
+    this.totalCount = this.types().reduce((sum, {count: count}) => sum + count, 0);
   }
 }

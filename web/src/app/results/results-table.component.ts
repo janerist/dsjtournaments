@@ -1,8 +1,14 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {ResultResponseModel} from '../shared/api-responses';
+import {RouterLink} from '@angular/router';
+import {FlagDirective} from '../shared/directives/flag.directive';
 
 @Component({
   selector: 'app-results-table',
+  imports: [
+    RouterLink,
+    FlagDirective
+  ],
   template: `
     <table class="ui small striped result table">
       <thead>
@@ -25,57 +31,61 @@ import {ResultResponseModel} from '../shared/api-responses';
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let standing of standings, let i = index">
-        <td>
-          <span *ngIf="standing.rank > standings[i - 1]?.rank">{{standing.rank}}.</span>
-        <td>
-          <a [routerLink]="['/jumpers', standing.jumperId]">{{standing.name}}</a>
-        </td>
-        <td>
-          <i [appFlag]="standing.nation"></i>{{standing.nation}}
-        </td>
-        <td class="right aligned">
-          {{standing.participations}}/{{standing.totalTournaments}}
-        </td>
-        <td class="right aligned">
-          {{standing.firstPlaces || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.secondPlaces || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.thirdPlaces || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.top10 || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.top30 || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.i || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.ii || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.iii || '-'}}
-        </td>
-        <td class="right aligned">
-          {{standing.completedHills}}/{{standing.totalHills}}
-        </td>
-        <td class="right aligned" [style.fontWeight]="rankMethod == 'jump_points' ? 'bold' : ''">
-          {{standing.jumpPoints}}
-        </td>
-        <td class="right aligned" [style.fontWeight]="rankMethod == 'cup_points' ? 'bold' : ''">
-          {{standing.cupPoints}}
-        </td>
-      </tr>
+        @for (standing of standings(); track standing.jumperId) {
+          <tr>
+            <td>
+              @if ($first || standing.rank > standings()[$index - 1].rank) {
+                {{ standing.rank }}.
+              }
+            <td>
+              <a [routerLink]="['/jumpers', standing.jumperId]">{{ standing.name }}</a>
+            </td>
+            <td>
+              <i [appFlag]="standing.nation"></i>{{ standing.nation }}
+            </td>
+            <td class="right aligned">
+              {{ standing.participations }}/{{ standing.totalTournaments }}
+            </td>
+            <td class="right aligned">
+              {{ standing.firstPlaces || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.secondPlaces || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.thirdPlaces || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.top10 || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.top30 || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.i || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.ii || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.iii || '-' }}
+            </td>
+            <td class="right aligned">
+              {{ standing.completedHills }}/{{ standing.totalHills }}
+            </td>
+            <td class="right aligned" [style.font-weight]="rankMethod() === 'jump_points' ? 'bold' : ''">
+              {{ standing.jumpPoints }}
+            </td>
+            <td class="right aligned" [style.font-weight]="rankMethod() === 'cup_points' ? 'bold' : ''">
+              {{ standing.cupPoints }}
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   `
 })
 export class ResultsTableComponent {
-  @Input() standings!: ResultResponseModel[];
-  @Input() rankMethod!: string;
+  standings = input.required<ResultResponseModel[]>();
+  rankMethod = input.required<string>();
 }

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 @Component({
-  template: 'Not found!'
+    template: 'Not found!'
 })
 export class PageNotFoundComponent {
-
 }

@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
-import {JumperAllStatsResponseModel, JumperStatsResponseModel} from '../../shared/api-responses';
+import {AfterViewInit, Component, input} from '@angular/core';
+import {JumperStatsResponseModel} from '../../shared/api-responses';
 
 @Component({
   selector: 'app-jumper-stats-table',
@@ -19,26 +19,28 @@ import {JumperAllStatsResponseModel, JumperStatsResponseModel} from '../../share
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let typeStats of stats">
-        <td>
-          <span class="ui dsj{{typeStats.gameVersion}} tiny label">DSJ{{typeStats.gameVersion}}</span>
-          {{typeStats.type}}
-        </td>
-        <td class="right aligned">{{typeStats.participations}}</td>
-        <td class="right aligned">{{typeStats.bestRank && typeStats.bestRank + '.' || '-'}}</td>
-        <td class="right aligned">{{typeStats.avgRank && typeStats.avgRank + '.' || '-'}}</td>
-        <td class="right aligned">{{typeStats.bestRating || '-'}}</td>
-        <td class="right aligned">{{typeStats.worstRating || '-'}}</td>
-        <td class="right aligned">{{typeStats.avgRating || '-'}}</td>
-        <td class="right aligned">{{typeStats.bestPoints || '-'}}</td>
-        <td class="right aligned">{{typeStats.avgPoints || '-'}}</td>
-      </tr>
+        @for (typeStats of stats(); track typeStats.type) {
+          <tr>
+            <td>
+              <span class="ui dsj{{typeStats.gameVersion}} tiny label">DSJ{{ typeStats.gameVersion }}</span>
+              {{ typeStats.type }}
+            </td>
+            <td class="right aligned">{{ typeStats.participations }}</td>
+            <td class="right aligned">{{ typeStats.bestRank && typeStats.bestRank + '.' || '-' }}</td>
+            <td class="right aligned">{{ typeStats.avgRank && typeStats.avgRank + '.' || '-' }}</td>
+            <td class="right aligned">{{ typeStats.bestRating || '-' }}</td>
+            <td class="right aligned">{{ typeStats.worstRating || '-' }}</td>
+            <td class="right aligned">{{ typeStats.avgRating || '-' }}</td>
+            <td class="right aligned">{{ typeStats.bestPoints || '-' }}</td>
+            <td class="right aligned">{{ typeStats.avgPoints || '-' }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   `
 })
 export class JumperStatsTableComponent implements AfterViewInit {
-  @Input() stats!: JumperStatsResponseModel[];
+  stats = input.required<JumperStatsResponseModel[]>();
 
   ngAfterViewInit() {
     ($('.stats.table') as any).tablesort({

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import * as toastr from 'toastr';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ToastService {
   success(message: string, title = 'Success', positionClass = 'toast-bottom-right', timeOut = 2000) {
     toastr.success(message, title, {positionClass, timeOut});

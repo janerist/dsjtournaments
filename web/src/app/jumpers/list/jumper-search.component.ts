@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {JumperResponseModel, PagedResponse} from '../../shared/api-responses';
 import {iso3toiso2} from '../../shared/country-codes';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-jumper-search',
-  template: `
+    selector: 'app-jumper-search',
+    template: `
     <div class="ui jumper search">
       <div class="ui icon input">
         <input #q class="prompt" placeholder="Search" autocomplete="off" (keyup.enter)="handleEnter(q.value)">
@@ -17,14 +17,12 @@ import {Router} from '@angular/router';
   `
 })
 export class JumperSearchComponent implements OnInit {
-
-  constructor(private router: Router) {
-  }
+  private router = inject(Router);
 
   handleEnter(q: string) {
     if (q) {
       $('.jumper.search').search('hide results');
-      this.router.navigate(['/jumpers'], {queryParams: {q}});
+      void this.router.navigate(['/jumpers'], {queryParams: {q}});
     }
   }
 
@@ -44,7 +42,7 @@ export class JumperSearchComponent implements OnInit {
         })
       },
       onSelect: ({id}: { id: number }) => {
-        this.router.navigate(['/jumpers', id]);
+        void this.router.navigate(['/jumpers', id]);
       }
     });
   }

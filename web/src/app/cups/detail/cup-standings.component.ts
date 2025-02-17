@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {CupStandingResponseModel, PagedResponse} from '../../shared/api-responses';
@@ -7,52 +7,50 @@ import {environment} from '../../../environments/environment';
 import {CupService} from './cup.service';
 import {map, switchMap} from 'rxjs/operators';
 import {combineLatest} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
+import {PaginationComponent} from '../../shared/components/pagination.component';
+import {CupStandingsTableComponent} from './cup-standings-table.component';
 
 @Component({
   selector: 'app-cup-standings',
+  imports: [
+    AsyncPipe,
+    PaginationComponent,
+    CupStandingsTableComponent
+  ],
   template: `
-    <div *ngIf="standingPages$ | async, let standingPage">
+    @if (standingPages$ | async; as standingPage) {
       <app-pagination [page]="standingPage.page"
                       [pageSize]="standingPage.pageSize"
                       [totalCount]="standingPage.totalCount">
       </app-pagination>
 
-      <app-cup-standings-table *ngIf="standingPage.data.length"
-                               [standings]="standingPage.data"
-                               [rankMethod]="cup?.rankMethod">
-      </app-cup-standings-table>
+      @if (standingPage.data.length) {
+        <app-cup-standings-table [standings]="standingPage.data"
+                                 [rankMethod]="cupService.cup?.rankMethod">
+        </app-cup-standings-table>
+      }
 
       <app-pagination [page]="standingPage.page"
                       [pageSize]="standingPage.pageSize"
                       [totalCount]="standingPage.totalCount">
       </app-pagination>
 
-      <p *ngIf="!standingPage.data.length">
-        There is no data available.
-      </p>
-    </div>
+      @if (!standingPage.data.length) {
+        <p>There is no data available.</p>
+      }
+    }
   `
 })
-export class CupStandingsComponent implements OnInit {
-  standingPages$?: Observable<PagedResponse<CupStandingResponseModel>>;
+export class CupStandingsComponent {
+  private route = inject(ActivatedRoute);
+  private httpClient = inject(HttpClient);
+  cupService = inject(CupService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private httpClient: HttpClient,
-    private cupService: CupService
-  ) {
-  }
-
-  ngOnInit() {
-    this.standingPages$ = combineLatest([this.route.parent!.paramMap, this.route.queryParamMap])
-      .pipe(
-        map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
-        switchMap(({id, page}) =>
-          this.httpClient.get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${id}/standings?page=${page || '1'}`))
-      );
-  }
-
-  get cup() {
-    return this.cupService.cup;
-  }
+  standingPages$ = combineLatest([this.route.parent!.paramMap, this.route.queryParamMap])
+    .pipe(
+      map(([params, qparams]) => ({id: params.get('id'), page: qparams.get('page')})),
+      switchMap(({id, page}) =>
+        this.httpClient.get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${id}/standings?page=${page || '1'}`))
+    );
 }

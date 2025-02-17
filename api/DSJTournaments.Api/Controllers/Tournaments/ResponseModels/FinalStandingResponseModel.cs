@@ -5,7 +5,7 @@ namespace DSJTournaments.Api.Controllers.Tournaments.ResponseModels
         public int Id { get; set; }
         public int TournamentId { get; set; }
         public int Rank { get; set; }
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
         public int I { get; set; }
         public int II { get; set; }
         public int III { get; set; }

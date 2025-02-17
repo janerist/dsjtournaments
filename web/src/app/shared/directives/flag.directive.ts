@@ -2,7 +2,7 @@ import {Input, Directive, ElementRef, OnChanges, SimpleChanges} from '@angular/c
 import {iso3toiso2} from '../country-codes';
 
 @Directive({
-  selector: '[appFlag]'
+    selector: '[appFlag]'
 })
 export class FlagDirective implements OnChanges {
   @Input() appFlag!: string;

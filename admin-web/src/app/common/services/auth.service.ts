@@ -1,25 +1,25 @@
 import {inject, Injectable} from '@angular/core';
-import { Router } from '@angular/router';
-import {Profile, User, UserManager} from 'oidc-client';
+import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {lastValueFrom} from 'rxjs';
 
 interface UserSession {
   username: string;
   expireIn: number;
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
+  private httpClient = inject(HttpClient);
+  private router = inject(Router);
+
   isLoggedIn = false;
   user: UserSession | undefined;
 
-  constructor(private httpClient: HttpClient, private router: Router) {
-  }
-
   async loadUser() {
     try {
-      this.user = await this.httpClient.get<UserSession>(`${environment.apiUrl}/account/user`).toPromise();
+      this.user = await lastValueFrom(this.httpClient.get<UserSession>(`${environment.apiUrl}/account/user`));
       this.isLoggedIn = true;
 
       setTimeout(() => this.isLoggedIn = false, this.user.expireIn * 1000);
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   async logout() {
-    await this.httpClient.post(`${environment.apiUrl}/account/logout`, {}).toPromise();
+    await lastValueFrom(this.httpClient.post(`${environment.apiUrl}/account/logout`, {}));
     this.isLoggedIn = false;
     void this.router.navigate(['/login']);
   }

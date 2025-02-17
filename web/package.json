@@ -4,47 +4,40 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^14.0.0",
-    "@angular/common": "^14.0.0",
-    "@angular/compiler": "^14.0.0",
-    "@angular/core": "^14.0.0",
-    "@angular/forms": "^14.0.0",
-    "@angular/platform-browser": "^14.0.0",
-    "@angular/platform-browser-dynamic": "^14.0.0",
-    "@angular/router": "^14.0.0",
+    "@angular/animations": "^19.1.7",
+    "@angular/common": "^19.1.7",
+    "@angular/compiler": "^19.1.7",
+    "@angular/core": "^19.1.7",
+    "@angular/forms": "^19.1.7",
+    "@angular/platform-browser": "^19.1.7",
+    "@angular/platform-browser-dynamic": "^19.1.7",
+    "@angular/router": "^19.1.7",
     "chart.js": "~3.8.0",
-    "date-fns": "^2.20.0",
-    "ngx-drag-scroll": "^13.0.1",
-    "ngx-uploader": "^11.0.0",
-    "rxjs": "~7.5.0",
-    "semantic-ui-css": "~2.4.1",
+    "date-fns": "^4.1.0",
+    "ngx-date-fns": "^12.0.0",
+    "ngx-drag-scroll": "^18.0.0",
+    "ngx-uploader": "^17.0.1",
+    "rxjs": "~7.8.0",
+    "semantic-ui-css": "~2.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.3"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.0.0",
-    "@angular/cli": "^14.0.0",
-    "@angular/compiler-cli": "^14.0.0",
-    "@types/jasmine": "~4.0.0",
+    "@angular-devkit/build-angular": "^19.1.8",
+    "@angular/cli": "^19.1.8",
+    "@angular/compiler-cli": "^19.1.7",
     "@types/jquery": "^3.2.11",
-    "@types/node": "^12.11.1",
     "@types/semantic-ui": "^2.2.5",
-    "jasmine-core": "~4.1.0",
-    "karma": "~6.3.2",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.0.0",
-    "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.7.3"
+    "typescript": "~5.7.3"
   },
   "overrides": {
-    "@angular/common": "^14.0.0",
-    "@angular/core": "^14.0.0"
+    "@angular/common": "^19.1.7",
+    "@angular/core": "^19.1.7"
   }
 }

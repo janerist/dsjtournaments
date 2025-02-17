@@ -1,24 +1,14 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {JumperResponseModel} from '../../shared/api-responses';
-import {Observable} from 'rxjs';
+import {RouterLink} from '@angular/router';
+import {FlagDirective} from '../../shared/directives/flag.directive';
 
 @Component({
   selector: 'app-jumper-list',
-  template: `
-    <div class="ui seven cards">
-      <a *ngFor="let j of jumpers" class="ui raised jumper card" [routerLink]="['/jumpers', j.id]">
-        <div class="content">
-          <div class="header">
-            {{j.name}}
-          </div>
-          <div class="meta">
-            <span class="ui tiny label">{{j.participations}}</span>
-            <i [appFlag]="j.nation"></i> {{j.nation}}
-          </div>
-        </div>
-      </a>
-    </div>
-  `,
+  imports: [
+    RouterLink,
+    FlagDirective
+  ],
   styles: [`
     .jumper.card {
       font-size: 75% !important;
@@ -29,8 +19,26 @@ import {Observable} from 'rxjs';
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-  `]
+  `],
+  template: `
+    <div class="ui seven cards">
+      @for (jumper of jumpers(); track jumper.id) {
+        <a class="ui raised jumper card" [routerLink]="['/jumpers', jumper.id]">
+          <div class="content">
+            <div class="header">
+              {{ jumper.name }}
+            </div>
+            <div class="meta">
+              <span class="ui tiny label">{{ jumper.participations }}</span>
+              <i [appFlag]="jumper.nation"></i> {{ jumper.nation }}
+            </div>
+          </div>
+        </a>
+      }
+
+    </div>
+  `
 })
 export class JumperListComponent {
-  @Input() jumpers!: JumperResponseModel[];
+  jumpers = input.required<JumperResponseModel[]>();
 }

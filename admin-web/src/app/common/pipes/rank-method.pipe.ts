@@ -1,8 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'dsjtRankMethod'})
+@Pipe({
+    name: 'dsjtRankMethod'
+})
 export class RankMethodPipe implements PipeTransform {
-  transform(value: string, args: any): string {
+  transform(value: string): string {
     switch (value) {
       case 'cup_points':
         return 'Cup points';

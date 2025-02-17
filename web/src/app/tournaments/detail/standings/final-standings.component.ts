@@ -1,31 +1,31 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FinalStandingResponseModel} from '../../../shared/api-responses';
-import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {switchMap} from 'rxjs/operators';
+import {FinalStandingsTableComponent} from '../../shared/final-standings-table.component';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-final-standings',
+  imports: [
+    FinalStandingsTableComponent,
+    AsyncPipe
+  ],
   template: `
-    <app-final-standings-table
-      *ngIf="$finalStandings | async, let results"
-      [results]="results">
-    </app-final-standings-table>
+    @if ($finalStandings | async; as results) {
+      <app-final-standings-table [results]="results"></app-final-standings-table>
+    }
   `
 })
-export class FinalStandingsComponent implements OnInit {
-  $finalStandings?: Observable<FinalStandingResponseModel[]>;
+export class FinalStandingsComponent {
+  private route = inject(ActivatedRoute);
+  private httpClient = inject(HttpClient);
 
-  constructor(private route: ActivatedRoute, private httpClient: HttpClient) {
-  }
-
-  ngOnInit() {
-    this.$finalStandings = this.route.parent!.paramMap
-      .pipe(
-        switchMap(params => this.httpClient
-          .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/finalstandings`))
-      );
-  }
+  $finalStandings = this.route.parent!.paramMap
+    .pipe(
+      switchMap(params => this.httpClient
+        .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/finalstandings`))
+    );
 }

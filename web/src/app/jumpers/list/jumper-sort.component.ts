@@ -1,7 +1,11 @@
 import {Component} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-jumper-sort',
+  imports: [
+    RouterLink
+  ],
   template: `
     <div class="ui horizontal list">
       <div class="item">Sort by:</div>

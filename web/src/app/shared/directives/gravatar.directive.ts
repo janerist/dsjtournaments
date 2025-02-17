@@ -1,7 +1,7 @@
 import {Directive, ElementRef, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 @Directive({
-  selector: '[appGravatar]'
+    selector: '[appGravatar]'
 })
 export class GravatarDirective implements OnChanges {
   @Input() appGravatar!: string;

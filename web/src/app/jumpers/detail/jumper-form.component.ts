@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, inject, input, OnChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {JumperActivityResponseModel} from '../../shared/api-responses';
 
@@ -25,20 +25,18 @@ Chart.register(
 );
 
 @Component({
-  selector: 'app-jumper-form',
-  template: `
+    selector: 'app-jumper-form',
+    template: `
     <div>
       <canvas id="jumper-form" (click)="handleClick($event)"></canvas>
     </div>
   `
 })
 export class JumperFormComponent implements OnChanges {
-  @Input() rankings!: JumperActivityResponseModel[];
+  private router = inject(Router);
+  rankings = input.required<JumperActivityResponseModel[]>();
 
   chart: Chart | undefined;
-
-  constructor(private router: Router) {
-  }
 
   handleClick(event: MouseEvent) {
     const activePoints = this.chart
@@ -47,7 +45,7 @@ export class JumperFormComponent implements OnChanges {
 
     if (activePoints.length === 1) {
       const index = activePoints[0].index;
-      this.router.navigate(['/tournaments', this.rankings[index].tournamentId]);
+      void this.router.navigate(['/tournaments', this.rankings()[index].tournamentId]);
     }
   }
 
@@ -56,7 +54,7 @@ export class JumperFormComponent implements OnChanges {
       this.chart.destroy();
     }
 
-    if (this.rankings.length) {
+    if (this.rankings().length) {
       this.buildChart();
     }
   }
@@ -66,12 +64,12 @@ export class JumperFormComponent implements OnChanges {
     this.chart = new Chart(canvas, {
       type: 'line',
       data: {
-        labels: this.rankings.map(r => format(new Date(r.date), 'dd MMM y')),
+        labels: this.rankings().map(r => format(new Date(r.date), 'dd MMM y')),
         datasets: [{
           label: 'Rank',
           backgroundColor: 'rgb(54, 162, 235)',
           borderColor: 'rgb(54, 162, 235)',
-          data: this.rankings.map(r => r.rank || 0),
+          data: this.rankings().map(r => r.rank || 0),
           fill: false,
           pointHitRadius: 10
         }]
@@ -86,7 +84,7 @@ export class JumperFormComponent implements OnChanges {
           tooltip: {
             callbacks: {
               beforeTitle: tooltipItems => {
-                const item = this.rankings[tooltipItems[0].dataIndex];
+                const item = this.rankings()[tooltipItems[0].dataIndex];
                 return `${item.tournamentType} (DSJ${item.gameVersion})`;
               }
             }
@@ -95,7 +93,7 @@ export class JumperFormComponent implements OnChanges {
         scales: {
           y: {
             min: 1,
-            max: Math.max(50, Math.ceil(this.rankings.reduce((m, r) => Math.max(m, r.rank ?? 0), 0) / 10) * 10),
+            max: Math.max(50, Math.ceil(this.rankings().reduce((m, r) => Math.max(m, r.rank ?? 0), 0) / 10) * 10),
             reverse: true,
             ticks: {
               stepSize: 10
@@ -106,7 +104,7 @@ export class JumperFormComponent implements OnChanges {
             }
           }
         },
-        onHover: (e, el) => {
+        onHover: (_, el) => {
           $('#jumper-form').css('cursor', el[0] ? 'pointer' : 'default');
         }
       }

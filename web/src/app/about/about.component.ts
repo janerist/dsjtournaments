@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-about',
-  template: `
+    selector: 'app-about',
+    template: `
     <h4>Contact</h4>
     <p>
       For ideas, suggestions or bug reports please open an issue at the

@@ -1,17 +1,94 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {TournamentResponseModel} from './tournament-models';
 import {TournamentService} from './tournament.service';
-import {ActivatedRoute, convertToParamMap, ParamMap, Params} from '@angular/router';
+import {ActivatedRoute, convertToParamMap, ParamMap, RouterLink} from '@angular/router';
 import {ToastService} from '../common/services/toast.service';
 import {merge} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
+import {PagerComponent} from '../common/components/pager.component';
+import {AsyncPipe} from '@angular/common';
+import {FormatPipeModule} from 'ngx-date-fns';
 
 @Component({
   selector: 'dsjt-tournament-list',
-  templateUrl: './tournament-list.component.html'
+  imports: [
+    PagerComponent,
+    RouterLink,
+    AsyncPipe,
+    FormatPipeModule
+  ],
+  template: `
+    <div class="row">
+      <div class="col-4 ml-auto">
+        <div class="float-right">
+          @if (totalCount > 0) {
+            <dsjt-pager [page]="page"
+                        [pageSize]="pageSize"
+                        [totalCount]="totalCount"
+                        [getQueryParams]="createGetQueryParams()">
+            </dsjt-pager>
+          }
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-sm">
+      @if (totalCount > 0) {
+        <thead class="thead-default">
+        <tr>
+          <th>
+            <a routerLink="./"
+               [queryParams]="assignQueryParams({sortBy: 'type', sortOrder: sortOrder*-1})">
+              Type
+            </a>
+          </th>
+          <th>
+            <a routerLink="./"
+               [queryParams]="assignQueryParams({sortBy: 'date', sortOrder: sortOrder*-1})">
+              Date
+            </a>
+          </th>
+          <th>
+            <a routerLink="./"
+               [queryParams]="assignQueryParams({sortBy: 'hillCount', sortOrder: sortOrder*-1})">
+              Hill count
+            </a>
+          </th>
+          <th>
+            <a routerLink="./"
+               [queryParams]="assignQueryParams({sortBy: 'participants', sortOrder: sortOrder*-1})">
+              Participants
+            </a>
+          </th>
+          <th></th>
+        </tr>
+        </thead>
+      }
+      <tbody>
+      @for (tournament of tournaments$ | async; track tournament.id) {
+        <tr>
+          <td>
+            <span class="badge badge-secondary badge-dsj{{tournament.gameVersion}} me-1">DSJ{{ tournament.gameVersion }}</span>
+            <a href="http://dsjtournaments.com/tournaments/{{tournament.id}}" target="_blank">{{ tournament.type }}</a>
+          </td>
+          <td>{{ tournament.date | dfnsFormat: 'MMM do, y' }}</td>
+          <td>{{ tournament.hillCount || '?' }}</td>
+          <td>{{ tournament.participantCount || '?' }}</td>
+          <td class="text-end">
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteTournament(tournament)">Delete</button>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  `
 })
 export class TournamentListComponent implements OnInit {
+  private tournamentService = inject(TournamentService);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+
   paramsSource = new Subject<ParamMap>();
   tournaments$: Observable<TournamentResponseModel[]>;
 
@@ -23,12 +100,6 @@ export class TournamentListComponent implements OnInit {
   sortOrder: number;
 
   totalCount: number;
-
-  constructor(
-    private tournamentService: TournamentService,
-    private route: ActivatedRoute,
-    private toastService: ToastService) {
-  }
 
   ngOnInit() {
     this.tournaments$ = merge(this.route.queryParamMap, this.paramsSource.asObservable())
@@ -66,11 +137,14 @@ export class TournamentListComponent implements OnInit {
     if (confirm('Do you want to delete this tournament? This operation cannot be undone.')) {
       this.tournamentService
         .deleteTournament(tournament.id)
-        .subscribe(() => {
-          this.toastService.success('Tournament was deleted');
-          this.paramsSource.next(convertToParamMap(this.assignQueryParams({})));
-        }, () => {
-          alert('Failed to delete tournament, try again later.');
+        .subscribe({
+          complete: () => {
+            this.toastService.success('Tournament was deleted');
+            this.paramsSource.next(convertToParamMap(this.assignQueryParams({})));
+          },
+          error: () => {
+            alert('Failed to delete tournament, try again later.');
+          }
         });
     }
   }

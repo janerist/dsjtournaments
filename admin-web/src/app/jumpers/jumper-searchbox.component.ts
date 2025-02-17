@@ -1,6 +1,6 @@
 import {
   Component, ElementRef, Input, EventEmitter, Output,
-  OnInit
+  OnInit, inject
 } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {JumperService} from './jumper.service';
@@ -11,30 +11,29 @@ import {QueryOptions} from 'select2';
 @Component({
   selector: 'dsjt-jumper-searchbox',
   template: `
-  <select class="col-sm-4">
-  </select>
+    <select class="col-sm-4">
+    </select>
   `
 })
 export class JumperSearchboxComponent implements OnInit {
+  private el = inject(ElementRef);
+  private jumperService = inject(JumperService);
+
   @Input() pageSize = 40;
   @Input() minimumInputLength = 1;
   @Input() delay = 250;
   @Input() autoOpen = false;
   @Input() ignore: JumperResponseModel[] = [];
   @Input() placeholder = 'Search for jumper';
+  @Input() parent: HTMLElement;
 
   @Output() selectJumper = new EventEmitter<any>();
-
-  constructor(
-    private el: ElementRef,
-    private jumperService: JumperService
-  ) {
-  }
 
   ngOnInit() {
     const $selectEl = $('select', this.el.nativeElement);
 
     $selectEl.select2({
+      dropdownParent: this.parent,
       placeholder: this.placeholder,
       minimumInputLength: this.minimumInputLength,
       width: '100%',
@@ -47,10 +46,12 @@ export class JumperSearchboxComponent implements OnInit {
           const data = params.data as any;
           this.jumperService
             .getJumpers(data.q, data.page, data.pageSize)
-            .subscribe(
-              jumpers => success(jumpers),
-              () => failure()
-            );
+            .subscribe({
+              next: (jumpers) => {
+                success(jumpers);
+              },
+              error: () => failure()
+            });
         }),
         data: (params: QueryOptions) => ({
           q: params.term,

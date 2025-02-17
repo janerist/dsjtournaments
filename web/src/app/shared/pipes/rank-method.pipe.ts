@@ -1,6 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'rankMethod'})
+@Pipe({
+    name: 'rankMethod'
+})
 export class RankMethodPipe implements PipeTransform {
   transform(value: string): string {
     switch (value) {

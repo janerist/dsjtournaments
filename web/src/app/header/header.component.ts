@@ -1,7 +1,17 @@
 ﻿import {Component} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
   selector: 'app-header',
+  imports: [
+    RouterLink,
+    RouterLinkActive
+  ],
+  styles: [`
+    .item.no-left-padding {
+      padding-left: 0;
+    }
+  `],
   template: `
     <div class="ui fixed inverted menu">
       <div class="ui container">
@@ -18,13 +28,7 @@
         </div>
       </div>
     </div>
-  `,
-  styles: [`
-    .item.no-left-padding {
-      padding-left: 0;
-    }
-  `]
+  `
 })
 export class HeaderComponent {
-
 }

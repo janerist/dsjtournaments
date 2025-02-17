@@ -1,15 +1,13 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {JumperResponseModel, JumperUpdateModel, JumperMergeRequestModel} from './jumper-models';
 import {Observable} from 'rxjs';
 import {PagedResponse} from '../common/models';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class JumperService {
-
-  constructor(private httpClient: HttpClient) {
-  }
+  private httpClient = inject(HttpClient);
 
   getJumpers(q: string, page: number, pageSize: number, sort?: string): Observable<PagedResponse<JumperResponseModel>> {
     let params = new HttpParams();

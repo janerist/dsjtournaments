@@ -22,7 +22,7 @@ import { UploadComponent } from './upload/upload.component';
 import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './util/page-not-found.component';
 
-const routes: Routes = [
+export const routes: Routes = [
     {path: '', redirectTo: 'tournaments', pathMatch: 'full'},
     {path: 'tournaments', component: TournamentsComponent},
     {path: 'tournaments/:id', component: TournamentComponent, children: [
@@ -55,9 +55,3 @@ const routes: Routes = [
     {path: 'about', component: AboutComponent},
     {path: '**', component: PageNotFoundComponent}
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

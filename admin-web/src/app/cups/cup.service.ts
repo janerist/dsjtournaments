@@ -1,15 +1,13 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {CupResponseModel, CupRequestModel} from './cup-models';
 import {PagedResponse} from '../common/models';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CupService {
-
-  constructor(private httpClient: HttpClient) {
-  }
+  private httpClient = inject(HttpClient);
 
   getCups(): Observable<PagedResponse<CupResponseModel>> {
     return this.httpClient

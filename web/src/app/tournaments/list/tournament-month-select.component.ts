@@ -1,33 +1,40 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {eachMonthOfInterval, endOfMonth, format} from 'date-fns';
+import {FormatPipeModule} from 'ngx-date-fns';
 
 @Component({
   selector: 'app-tournament-month-select',
+  imports: [
+    FormatPipeModule
+  ],
   template: `
     <h4>Jump to month:</h4>
     <div class="ui form">
       <div class="field">
-        <select *ngIf="yearmonths" (change)="selectMonth($event.target.value)">
+        <select (change)="selectMonth($event.target.value)">
           <option value="">-- Select year/month --</option>
-          <optgroup *ngFor="let year of keys(yearmonths).reverse()" [label]="year">
-            <option *ngFor="let date of yearmonths[year]" [value]="date | dsjtDate: 'y-MM-dd'">
-              {{date | dsjtDate: 'MMMM'}}
-            </option>
-          </optgroup>
+          @for (year of keys(yearmonths).reverse(); track year) {
+            <optgroup [label]="year">
+              @for (date of yearmonths[year]; track date) {
+                <option [value]="date | dfnsFormat: 'y-MM-dd'">
+                  {{ date | dfnsFormat: 'MMMM' }}
+                </option>
+              }
+            </optgroup>
+          }
         </select>
       </div>
     </div>
   `
 })
-export class TournamentMonthSelectComponent implements OnInit {
-  yearmonths?: { [key: string]: Date[] };
+export class TournamentMonthSelectComponent {
+  private router = inject(Router);
+
+  yearmonths: { [key: string]: Date[] };
   keys = Object.keys;
 
-  constructor(private router: Router) {
-  }
-
-  ngOnInit() {
+  constructor() {
     const range = eachMonthOfInterval({start: new Date(2007, 10, 1), end: new Date()});
     this.yearmonths = Array.from(range)
       .reduceRight((acc: {[key: string]: Date[]}, current: Date) => {
@@ -42,7 +49,7 @@ export class TournamentMonthSelectComponent implements OnInit {
   }
 
   selectMonth(startDate: string) {
-    this.router.navigate(['./'], {
+    void this.router.navigate(['./'], {
       queryParams: {
         page: 1,
         startDate: startDate || '',

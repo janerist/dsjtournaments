@@ -1,48 +1,59 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, inject, input, OnInit, Output} from '@angular/core';
 import {TournamentTypeWithCount} from '../shared/api-responses';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns';
 
 @Component({
   selector: 'app-results-filter',
+  imports: [
+    ReactiveFormsModule
+  ],
   template: `
     <div class="ui segment" style="margin-bottom: 10px;">
-      <form class="ui form" *ngIf="form" [formGroup]="form" (ngSubmit)="filter.emit(form.value)">
+      <form class="ui form" [formGroup]="form" (ngSubmit)="filter.emit(form.value)">
         <div class="three equal width fields">
           <div class="three wide field">
             <label>Type</label>
             <div class="inline fields">
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="gameVersion" tabindex="0" class="hidden" value="" formControlName="gameVersion">
+                  <input type="radio" name="gameVersion" tabindex="0" class="hidden" value=""
+                         formControlName="gameVersion">
                   <label>Any version</label>
                 </div>
               </div>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="gameVersion" tabindex="0" class="hidden" value="4" formControlName="gameVersion">
+                  <input type="radio" name="gameVersion" tabindex="0" class="hidden" value="4"
+                         formControlName="gameVersion">
                   <label>DSJ4</label>
                 </div>
               </div>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="gameVersion" tabindex="0" class="hidden" value="3" formControlName="gameVersion">
+                  <input type="radio" name="gameVersion" tabindex="0" class="hidden" value="3"
+                         formControlName="gameVersion">
                   <label>DSJ3</label>
                 </div>
               </div>
             </div>
             <select formControlName="type">
               <option value="" [ngValue]="null">
-              <span *ngIf="form.get('gameVersion')?.value, let version">
-                All DSJ{{version}} types
-              </span>
-                <span *ngIf="!form.get('gameVersion')?.value">
-                All types
-              </span>
+                @if (form.get('gameVersion')?.value; as version) {
+                  All DSJ{{ version }} types
+                } @else {
+                  All types
+                }
               </option>
-              <option *ngFor="let type of typesOfVersion(form.get('gameVersion')?.value)" [value]="type.id">
-                {{type.name}} <span *ngIf="!form.get('gameVersion').value">(DSJ{{type.gameVersion}})</span>
-              </option>
+              @for (type of typesOfVersion(form.get('gameVersion')?.value); track type.id) {
+                <option [value]="type.id">
+                  {{ type.name }}
+                  @if (!form.get('gameVersion')?.value) {
+                    (DSJ{{ type.gameVersion }})
+                  }
+                </option>
+              }
+
             </select>
           </div>
 
@@ -50,7 +61,8 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
             <label for="date">Date</label>
             <div class="field">
               <div class="ui radio checkbox">
-                <input type="radio" name="date" tabindex="0" class="hidden" [value]="null" [formControl]="dateSelection">
+                <input type="radio" name="date" tabindex="0" class="hidden" [value]="null"
+                       [formControl]="dateSelection">
                 <label>All time</label>
               </div>
             </div>
@@ -68,7 +80,8 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
             </div>
             <div class="field">
               <div class="ui radio checkbox">
-                <input type="radio" name="date" tabindex="0" class="hidden" value="custom" [formControl]="dateSelection">
+                <input type="radio" name="date" tabindex="0" class="hidden" value="custom"
+                       [formControl]="dateSelection">
                 <label>Custom</label>
               </div>
             </div>
@@ -94,7 +107,8 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
             </div>
             <div class="field">
               <div class="ui radio checkbox">
-                <input type="radio" name="rankMethod" tabindex="0" class="hidden" value="cup_points" formControlName="rankMethod">
+                <input type="radio" name="rankMethod" tabindex="0" class="hidden" value="cup_points"
+                       formControlName="rankMethod">
                 <label>Cup Points</label>
               </div>
             </div>
@@ -109,24 +123,21 @@ import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from 'date-fns
   `
 })
 export class ResultsFilterComponent implements OnInit, AfterViewInit {
-  @Input() types!: TournamentTypeWithCount[];
+  private el = inject(ElementRef);
+
+  types = input.required<TournamentTypeWithCount[]>();
   @Output() filter = new EventEmitter<any>();
 
-  form?: FormGroup;
-  dateSelection = new FormControl();
-
-  constructor(private el: ElementRef) {
-  }
+  form = new FormGroup({
+    gameVersion: new FormControl(''),
+    type: new FormControl(''),
+    dateFrom: new FormControl(''),
+    dateTo: new FormControl(''),
+    rankMethod: new FormControl('jump_points')
+  });
+  dateSelection = new FormControl()
 
   ngOnInit() {
-    this.form = new FormGroup({
-      gameVersion: new FormControl(''),
-      type: new FormControl(''),
-      dateFrom: new FormControl(''),
-      dateTo: new FormControl(''),
-      rankMethod: new FormControl('jump_points')
-    });
-
     this.dateSelection.valueChanges.subscribe(value => {
       switch (value) {
         case 'month':
@@ -157,7 +168,7 @@ export class ResultsFilterComponent implements OnInit, AfterViewInit {
   }
 
   typesOfVersion(version: string) {
-    return this.types
+    return this.types()
       .filter(type => version ? type.gameVersion === +version : true)
       .filter(type => type.name !== 'Team Cup');
   }

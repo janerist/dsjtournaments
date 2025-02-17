@@ -1,7 +1,11 @@
 import {Component} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-tournament-sort',
+  imports: [
+    RouterLink
+  ],
   template: `
     <h4>Sort by:</h4>
     <ul class="ui list">
@@ -12,14 +16,15 @@ import {Component} from '@angular/core';
         <a routerLink="./" [queryParams]="{page: 1, sort: 'dateAsc'}" queryParamsHandling="merge">Oldest</a>
       </li>
       <li>
-        <a routerLink="./" [queryParams]="{page: 1, sort: 'participantsDesc'}" queryParamsHandling="merge">Most participants</a>
+        <a routerLink="./" [queryParams]="{page: 1, sort: 'participantsDesc'}" queryParamsHandling="merge">Most
+          participants</a>
       </li>
       <li>
-        <a routerLink="./" [queryParams]="{page: 1, sort: 'participantsAsc'}" queryParamsHandling="merge">Fewest participants</a>
+        <a routerLink="./" [queryParams]="{page: 1, sort: 'participantsAsc'}" queryParamsHandling="merge">Fewest
+          participants</a>
       </li>
     </ul>
   `
 })
 export class TournamentSortComponent {
-
 }
