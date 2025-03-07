@@ -119,7 +119,7 @@ export class FinalResultsTableComponent implements OnChanges {
   isTeamResults?: boolean;
 
   ngOnChanges() {
-    this.isTeamResults = this.results.length > 0 && this.results()[0].teamId !== undefined;
+    this.isTeamResults = this.results().length > 0 && this.results()[0].teamId !== undefined;
     this.longestJump1 = this.getLongestJump(this.results(), r => r.length1);
     this.longestJump2 = this.getLongestJump(this.results(), r => r.length2);
   }
