@@ -9,4 +9,4 @@ services:
         restart: always
         volumes:
             - ./api/DSJTournaments.Api/Data/Scripts/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-            - ./api/DSJTournaments.Api/Data//Scripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+            - ./api/DSJTournaments.Api/Data/Scripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
