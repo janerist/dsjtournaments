@@ -1,31 +1,26 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {FinalStandingResponseModel} from '../../../shared/api-responses';
-import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
-import {environment} from '../../../../environments/environment';
-import {switchMap} from 'rxjs/operators';
+import {httpResource} from '@angular/common/http';
 import {FinalStandingsTableComponent} from '../../shared/final-standings-table.component';
-import {AsyncPipe} from '@angular/common';
+import {TournamentService} from '../tournament.service';
 
 @Component({
   selector: 'app-final-standings',
   imports: [
     FinalStandingsTableComponent,
-    AsyncPipe
   ],
   template: `
-    @if ($finalStandings | async; as results) {
+    @if (finalStandings.value(); as results) {
       <app-final-standings-table [results]="results"></app-final-standings-table>
     }
   `
 })
 export class FinalStandingsComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
+  id = input.required();
+  tournamentService = inject(TournamentService);
+  finalStandings = httpResource<FinalStandingResponseModel[]>(() => `/tournaments/${this.id()}/finalstandings`);
 
-  $finalStandings = this.route.parent!.paramMap
-    .pipe(
-      switchMap(params => this.httpClient
-        .get<FinalStandingResponseModel[]>(`${environment.apiUrl}/tournaments/${params.get('id')}/finalstandings`))
-    );
+  constructor() {
+    this.tournamentService.hideCompetitions.set(false);
+  }
 }

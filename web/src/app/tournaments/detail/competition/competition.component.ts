@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, effect, inject, input, numberAttribute} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {TournamentService} from '../tournament.service';
 
 @Component({
   selector: 'app-competition',
@@ -17,4 +18,11 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
   `
 })
 export class CompetitionComponent {
+  cid = input.required({transform: numberAttribute});
+
+  tournamentService = inject(TournamentService);
+
+  constructor() {
+    effect(() => this.tournamentService.setCompetition(this.cid()));
+  }
 }

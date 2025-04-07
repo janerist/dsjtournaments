@@ -1,26 +1,22 @@
-import {Component, inject} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {JumperResponseModel, PagedResponse} from '../../shared/api-responses';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import {switchMap} from 'rxjs/operators';
-import {AsyncPipe} from '@angular/common';
+import {httpResource} from '@angular/common/http';
 import {JumperSearchComponent} from './jumper-search.component';
 import {JumperSortComponent} from './jumper-sort.component';
 import {JumperListComponent} from './jumper-list.component';
 import {PaginationComponent} from '../../shared/components/pagination.component';
+import {toHttpParams} from '../../util/http-utils';
 
 @Component({
   selector: 'app-jumpers',
   imports: [
-    AsyncPipe,
     JumperSearchComponent,
     JumperSortComponent,
     JumperListComponent,
     PaginationComponent
   ],
   template: `
-    @if (jumperPages$ | async; as jumperPage) {
+    @if (jumperPagesResource.value(); as jumperPage) {
       <div class="ui stackable two column grid">
         <div class="eight wide column">
           <app-jumper-search></app-jumper-search>
@@ -40,17 +36,16 @@ import {PaginationComponent} from '../../shared/components/pagination.component'
   `
 })
 export class JumpersComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
+  q = input<string>();
+  sort = input<string>();
+  page = input<number>();
 
-  jumperPages$ = this.route.queryParamMap
-    .pipe(
-      switchMap(params =>
-        this.httpClient.get<PagedResponse<JumperResponseModel>>(`${environment.apiUrl}/jumpers`, {
-          params: new HttpParams()
-            .set('q', params.get('q') || '')
-            .set('sort', params.get('sort') || '')
-            .set('page', params.get('page') || '1')
-        }))
-    );
+  jumperPagesResource = httpResource<PagedResponse<JumperResponseModel>>(() => ({
+    url: '/jumpers',
+    params: toHttpParams({
+      q: this.q(),
+      sort: this.sort(),
+      page: this.page()
+    })
+  }));
 }

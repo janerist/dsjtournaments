@@ -14,20 +14,15 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
       <a class="item" routerLink="finalstandings" routerLinkActive="active">
         Final standings
       </a>
-      @if (tournament?.competitions.length) {
+      @if (tournamentService.tournament()?.competitions.length) {
         <a class="item" routerLink="rankings" routerLinkActive="active">
           Per-hill rankings
         </a>
       }
-
     </div>
     <router-outlet></router-outlet>
   `
 })
 export class TournamentStandingsComponent {
-  private tournamentService = inject(TournamentService);
-
-  get tournament() {
-    return this.tournamentService.tournament;
-  }
+  tournamentService = inject(TournamentService);
 }

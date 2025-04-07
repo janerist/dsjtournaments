@@ -1,18 +1,12 @@
-import {Component, inject} from '@angular/core';
-import {CupResponseModel} from '../../shared/api-responses';
-import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
+import {Component, inject, input} from '@angular/core';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {CupService} from './cup.service';
-import {switchMap, tap} from 'rxjs/operators';
-import {AsyncPipe} from '@angular/common';
 import {CupHeaderComponent} from './cup-header.component';
 import {CupScheduleComponent} from './cup-schedule.component';
 
 @Component({
   selector: 'app-cup',
   imports: [
-    AsyncPipe,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -21,7 +15,7 @@ import {CupScheduleComponent} from './cup-schedule.component';
   ],
   providers: [CupService],
   template: `
-    @if (cup$ | async; as cup) {
+    @if (cupService.cup(); as cup) {
       <div class="ui two column stackable grid">
         <div class="twelve wide column">
           <app-cup-header [cup]="cup"></app-cup-header>
@@ -44,12 +38,10 @@ import {CupScheduleComponent} from './cup-schedule.component';
   `
 })
 export class CupComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
-  private cupService = inject(CupService);
+  id = input.required<number>();
+  cupService = inject(CupService);
 
-  cup$ = this.route.paramMap.pipe(
-      switchMap(params => this.httpClient.get<CupResponseModel>(`${environment.apiUrl}/cups/${params.get('id')}`)),
-      tap(cup => this.cupService.cup = cup)
-    );
+  constructor() {
+    this.cupService.init(this.id);
+  }
 }

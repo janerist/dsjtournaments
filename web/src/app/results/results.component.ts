@@ -1,13 +1,11 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {PagedResponse, ResultResponseModel, TournamentTypeWithCount} from '../shared/api-responses';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {filter, switchMap, tap} from 'rxjs/operators';
+import {httpResource} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PaginationComponent} from '../shared/components/pagination.component';
-import {AsyncPipe} from '@angular/common';
 import {ResultsFilterComponent} from './results-filter.component';
 import {ResultsTableComponent} from './results-table.component';
+import {toHttpParams} from '../util/http-utils';
 
 interface GetResultsRequestModel {
   gameVersion: number;
@@ -21,7 +19,6 @@ interface GetResultsRequestModel {
   selector: 'app-results',
   imports: [
     PaginationComponent,
-    AsyncPipe,
     ResultsFilterComponent,
     ResultsTableComponent
   ],
@@ -30,12 +27,12 @@ interface GetResultsRequestModel {
       Here you can aggregate results from tournaments to create custom result tables of your choice.
     </p>
 
-    @if (types$ | async; as types) {
+    @if (types.value(); as types) {
       <app-results-filter [types]="types" (filter)="handleFilter($event)">
       </app-results-filter>
     }
 
-    @if (standingPages$ | async; as standingPage) {
+    @if (standingPages.value(); as standingPage) {
       <app-pagination [page]="standingPage.page"
                       [pageSize]="standingPage.pageSize"
                       [totalCount]="standingPage.totalCount">
@@ -43,7 +40,7 @@ interface GetResultsRequestModel {
 
       @if (standingPage.data.length) {
         <app-results-table [standings]="standingPage.data"
-                           [rankMethod]="rankMethod">
+                           [rankMethod]="rankMethod()">
         </app-results-table>
       }
 
@@ -61,28 +58,30 @@ interface GetResultsRequestModel {
   `
 })
 export class ResultsComponent {
-  private route = inject(ActivatedRoute);
+  gameVersion = input<number>();
+  rankMethod = input<string>('jumper_points');
+  type = input<number>();
+  dateFrom = input<string>();
+  dateTo = input<string>();
+  page = input<number>();
+  submitted = input<boolean>();
+
   private router = inject(Router);
-  private httpClient = inject(HttpClient);
+  private route = inject(ActivatedRoute);
 
-  types$ = this.httpClient.get<TournamentTypeWithCount[]>(`${environment.apiUrl}/tournaments/typeswithcount`);
+  types = httpResource<TournamentTypeWithCount[]>(() => '/tournaments/typeswithcount');
 
-  standingPages$ = this.route.queryParamMap.pipe(
-    filter(qparams => !!qparams.get('submitted')),
-    tap(qparams => this.rankMethod = qparams.get('rankMethod') || 'jump_points'),
-    switchMap(qparams =>
-      this.httpClient.get<PagedResponse<ResultResponseModel>>(`${environment.apiUrl}/results`, {
-        params: new HttpParams()
-          .set('gameVersion', qparams.get('gameVersion') || '')
-          .set('rankMethod', qparams.get('rankMethod') || '')
-          .set('type', qparams.get('type') || '')
-          .set('dateFrom', qparams.get('dateFrom') || '')
-          .set('dateTo', qparams.get('dateTo') || '')
-          .set('page', qparams.get('page') || '1')
-      }))
-  );
-
-  rankMethod?: string;
+  standingPages = httpResource<PagedResponse<ResultResponseModel>>(() => this.submitted() ? ({
+    url: '/results',
+    params: toHttpParams({
+      gameVersion: this.gameVersion(),
+      rankMethod: this.rankMethod(),
+      type: this.type(),
+      dateFrom: this.dateFrom(),
+      dateTo: this.dateTo(),
+      page: this.page(),
+    }),
+  }) : undefined);
 
   handleFilter(data: GetResultsRequestModel) {
     void this.router.navigate(['./'], {

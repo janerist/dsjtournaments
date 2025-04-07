@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 @Component({
@@ -11,16 +11,16 @@ import {RouterLink} from '@angular/router';
       font-size: 90%;
     }
   `],
-  template: `@if (totalCount > pageSize) {
+  template: `@if (totalCount() > pageSize()) {
     <div class="ui pagination menu" style="margin: 1rem 0;">
       <div class="item">
-        Showing {{ 1 + (page - 1) * pageSize }} - {{ min(totalCount, page * pageSize) }} of {{ totalCount }}
+        Showing {{ 1 + (page() - 1) * pageSize() }} - {{ min(totalCount(), page() * pageSize()) }} of {{ totalCount() }}
       </div>
-      @if (!compact) {
+      @if (!compact()) {
         @for (p of pagination(); track $index) {
           @if (p > 0) {
             <a class="item"
-               [class.active]="p === page"
+               [class.active]="p === page()"
                routerLink="./"
                [queryParams]="{page: p}"
                queryParamsHandling="merge">
@@ -34,7 +34,7 @@ import {RouterLink} from '@angular/router';
       @if (hasPrev) {
         <a class="item"
            routerLink="./"
-           [queryParams]="{page: page - 1}"
+           [queryParams]="{page: page() - 1}"
            queryParamsHandling="merge"
            title="Previous">
           <i class="caret left icon"></i>
@@ -46,7 +46,7 @@ import {RouterLink} from '@angular/router';
       @if (hasNext) {
         <a class="item"
            routerLink="./"
-           [queryParams]="{page: page + 1}"
+           [queryParams]="{page: page() + 1}"
            queryParamsHandling="merge"
            title="Next">
           <i class="caret right icon"></i>
@@ -59,23 +59,23 @@ import {RouterLink} from '@angular/router';
   `
 })
 export class PaginationComponent {
-  @Input() compact = false;
-  @Input() page = 1;
-  @Input() pageSize = 1;
-  @Input() totalCount = 0;
+  compact = input(false);
+  page = input(1);
+  pageSize = input(1);
+  totalCount = input(0);
 
   min = Math.min;
 
   get pages(): number {
-    return Math.ceil(this.totalCount / this.pageSize);
+    return Math.ceil(this.totalCount() / this.pageSize());
   }
 
   get hasPrev(): boolean {
-    return this.page > 1;
+    return this.page() > 1;
   }
 
   get hasNext(): boolean {
-    return this.page < this.pages;
+    return this.page() < this.pages;
   }
 
   pagination(leftEdge = 2, leftCurrent = 2, rightCurrent = 4, rightEdge = 2): number[] {
@@ -84,8 +84,8 @@ export class PaginationComponent {
 
     for (let num = 1; num <= this.pages; num++) {
       if (num <= leftEdge
-        || (num > this.page - leftCurrent - 1 &&
-          num < this.page + rightCurrent)
+        || (num > this.page() - leftCurrent - 1 &&
+          num < this.page() + rightCurrent)
         || num > this.pages - rightEdge) {
         if (last + 1 !== num) {
           pages.push(0);

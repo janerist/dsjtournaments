@@ -10,14 +10,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.1.7",
-    "@angular/common": "^19.1.7",
-    "@angular/compiler": "^19.1.7",
-    "@angular/core": "^19.1.7",
-    "@angular/forms": "^19.1.7",
-    "@angular/platform-browser": "^19.1.7",
-    "@angular/platform-browser-dynamic": "^19.1.7",
-    "@angular/router": "^19.1.7",
+    "@angular/animations": "^19.2.3",
+    "@angular/common": "^19.2.3",
+    "@angular/compiler": "^19.2.3",
+    "@angular/core": "^19.2.3",
+    "@angular/forms": "^19.2.3",
+    "@angular/platform-browser": "^19.2.3",
+    "@angular/platform-browser-dynamic": "^19.2.3",
+    "@angular/router": "^19.2.3",
     "chart.js": "~3.8.0",
     "date-fns": "^4.1.0",
     "ngx-date-fns": "^12.0.0",
@@ -29,15 +29,15 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.1.8",
-    "@angular/cli": "^19.1.8",
-    "@angular/compiler-cli": "^19.1.7",
+    "@angular-devkit/build-angular": "^19.2.4",
+    "@angular/cli": "^19.2.4",
+    "@angular/compiler-cli": "^19.2.3",
     "@types/jquery": "^3.2.11",
     "@types/semantic-ui": "^2.2.5",
     "typescript": "~5.7.3"
   },
   "overrides": {
-    "@angular/common": "^19.1.7",
-    "@angular/core": "^19.1.7"
+    "@angular/common": "^19.2.3",
+    "@angular/core": "^19.2.3"
   }
 }

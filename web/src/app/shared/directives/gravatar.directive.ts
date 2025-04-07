@@ -1,15 +1,15 @@
-import {Directive, ElementRef, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Directive, effect, ElementRef, input} from '@angular/core';
 
 @Directive({
     selector: '[appGravatar]'
 })
-export class GravatarDirective implements OnChanges {
-  @Input() appGravatar!: string;
-  constructor(private el: ElementRef) {
+export class GravatarDirective{
+  appGravatar = input.required<string>();
 
-  }
-  ngOnChanges({appGravatar}: SimpleChanges) {
-    this.el.nativeElement.className = 'ui circular bordered image';
-    this.el.nativeElement.src = `https://www.gravatar.com/avatar/` + appGravatar.currentValue;
+  constructor(private el: ElementRef) {
+    effect(() => {
+      this.el.nativeElement.className = 'ui circular bordered image';
+      this.el.nativeElement.src = `https://www.gravatar.com/avatar/${this.appGravatar()}`;
+    });
   }
 }

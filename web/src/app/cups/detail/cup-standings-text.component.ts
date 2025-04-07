@@ -1,32 +1,23 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {CupStandingResponseModel, PagedResponse} from '../../shared/api-responses';
-import {Observable} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {map, switchMap} from 'rxjs/operators';
+import {httpResource} from '@angular/common/http';
 import {CupStandingsTableTextComponent} from './cup-standings-table-text.component';
-import {AsyncPipe} from '@angular/common';
+import {CupService} from './cup.service';
 
 @Component({
   selector: 'app-cup-standings-text',
   imports: [
-    CupStandingsTableTextComponent,
-    AsyncPipe
+    CupStandingsTableTextComponent
   ],
   template: `
-    @if (standings$ | async; as standings) {
-      <app-cup-standings-table-text [standings]="standings"></app-cup-standings-table-text>
+    @if (standingsResource.value(); as standings) {
+      <app-cup-standings-table-text [standings]="standings.data"></app-cup-standings-table-text>
     }
   `
 })
 export class CupStandingsTextComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
+  private cupService = inject(CupService);
 
-  standings$ = this.route.parent!.paramMap.pipe(
-    switchMap(params =>
-      this.httpClient.get<PagedResponse<CupStandingResponseModel>>(`${environment.apiUrl}/cups/${params.get('id')}/standings?pageSize=10000`)),
-    map(pagedResponse => pagedResponse.data)
-  );
+  standingsResource = httpResource<PagedResponse<CupStandingResponseModel>>(() =>
+    `/cups/${this.cupService.cup()?.id}/standings?pageSize=10000`);
 }

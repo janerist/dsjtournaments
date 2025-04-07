@@ -1,11 +1,9 @@
-import {Component, inject} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {JumperResponseModel} from '../../shared/api-responses';
-import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {httpResource} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {switchMap} from 'rxjs/operators';
 import {FlagDirective} from '../../shared/directives/flag.directive';
-import {AsyncPipe} from '@angular/common';
 import {GravatarDirective} from '../../shared/directives/gravatar.directive';
 
 @Component({
@@ -15,11 +13,10 @@ import {GravatarDirective} from '../../shared/directives/gravatar.directive';
     RouterLink,
     FlagDirective,
     RouterLinkActive,
-    AsyncPipe,
     GravatarDirective
   ],
   template: `
-    @if (jumper$ | async; as jumper) {
+    @if (jumperResource.value(); as jumper) {
       <h2 class="ui header">
         @if (jumper.gravatarHash) {
           <img [appGravatar]="jumper.gravatarHash" alt="gravatar">
@@ -48,10 +45,6 @@ import {GravatarDirective} from '../../shared/directives/gravatar.directive';
   `
 })
 export class JumperComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
-
-  jumper$ = this.route.paramMap.pipe(
-    switchMap(params => this.httpClient.get<JumperResponseModel>(`${environment.apiUrl}/jumpers/${params.get('id')}`))
-  );
+  id = input<number>();
+  jumperResource = httpResource<JumperResponseModel>(() => `${environment.apiUrl}/jumpers/${this.id()}`)
 }

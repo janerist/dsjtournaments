@@ -1,20 +1,15 @@
-import {Component, inject} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {Component, input} from '@angular/core';
+import { httpResource} from '@angular/common/http';
 import {JumperAllStatsResponseModel} from '../../shared/api-responses';
-import {environment} from '../../../environments/environment';
-import {switchMap} from 'rxjs/operators';
-import {AsyncPipe} from '@angular/common';
 import {JumperStatsTableComponent} from './jumper-stats-table.component';
 
 @Component({
   selector: 'app-jumper-stats',
   imports: [
-    AsyncPipe,
     JumperStatsTableComponent
   ],
   template: `
-    @if (stats$ | async; as stats) {
+    @if (stats.value(); as stats) {
       <h4>Total</h4>
       <table class="ui compact small table">
         <thead>
@@ -48,11 +43,6 @@ import {JumperStatsTableComponent} from './jumper-stats-table.component';
   `
 })
 export class JumperStatsComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
-
-  stats$ = this.route.parent!.paramMap.pipe(
-    switchMap(params => this.httpClient
-      .get<JumperAllStatsResponseModel>(`${environment.apiUrl}/jumpers/${params.get('id')}/stats`))
-  );
+  id = input<number>();
+  stats = httpResource<JumperAllStatsResponseModel>(() => `/jumpers/${this.id()}/stats`);
 }

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 import { TournamentsComponent } from './tournaments/list/tournaments.component';
 import { TournamentComponent } from './tournaments/detail/tournament.component';
 import { TournamentStandingsComponent } from './tournaments/detail/standings/tournament-standings.component';
@@ -29,7 +28,7 @@ export const routes: Routes = [
       {path: '', component: TournamentStandingsComponent, children: [
         {path: '', redirectTo: 'finalstandings', pathMatch: 'full'},
         {path: 'finalstandings', component: FinalStandingsComponent},
-        {path: 'rankings', component: TournamentRankingsComponent, data: {hideCompetitions: true}}
+        {path: 'rankings', component: TournamentRankingsComponent}
       ]},
       {path: 'competitions/:cid', component: CompetitionComponent, children: [
         {path: '', redirectTo: 'final', pathMatch: 'full'},

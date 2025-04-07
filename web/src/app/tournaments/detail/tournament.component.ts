@@ -1,19 +1,16 @@
-import {Component, inject} from '@angular/core';
-import {TournamentResponseModel} from '../../shared/api-responses';
-import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
-import {environment} from '../../../environments/environment';
+import {Component, effect, inject, input} from '@angular/core';
+import { RouterLink, RouterOutlet} from '@angular/router';
 import {TournamentService} from './tournament.service';
-import {switchMap, tap} from 'rxjs/operators';
-import {AsyncPipe, NgClass} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {TournamentHeaderComponent} from '../shared/tournament-header.component';
 import {FlagDirective} from '../../shared/directives/flag.directive';
 import {CompetitionListComponent} from './competition-list.component';
+import {httpResource} from '@angular/common/http';
+import {TournamentResponseModel} from '../../shared/api-responses';
 
 @Component({
   selector: 'app-tournament',
   imports: [
-    AsyncPipe,
     NgClass,
     TournamentHeaderComponent,
     FlagDirective,
@@ -22,9 +19,9 @@ import {CompetitionListComponent} from './competition-list.component';
     CompetitionListComponent
   ],
   template: `
-    @if ($tournament | async; as tournament) {
+    @if (tournamentService.tournament(); as tournament) {
       <div class="ui two column stackable grid">
-        <div [ngClass]="hideCompetitions ? ['sixteen wide column'] : ['twelve wide column']">
+        <div [ngClass]="tournamentService.hideCompetitions() ? ['sixteen wide column'] : ['twelve wide column']">
           <div class="ui stackable two column grid">
             <div class="eight wide column">
               <div class="ui items">
@@ -32,7 +29,7 @@ import {CompetitionListComponent} from './competition-list.component';
               </div>
             </div>
             <div class="eight wide column">
-              @if (getSelectedCompetition(tournament); as competition) {
+              @if (tournamentService.selectedCompetition(); as competition) {
                 <div class="ui segment center aligned">
                   <i [appFlag]="competition.hillNation"></i>
                   {{ competition.hillName }}
@@ -66,7 +63,7 @@ import {CompetitionListComponent} from './competition-list.component';
           <router-outlet></router-outlet>
         </div>
 
-        <div class="four wide column" [hidden]="hideCompetitions">
+        <div class="four wide column" [hidden]="tournamentService.hideCompetitions()">
           <div class="ui segment">
             @if (tournament.competitions.length) {
               <app-competition-list [competitions]="tournament.competitions"></app-competition-list>
@@ -83,23 +80,15 @@ import {CompetitionListComponent} from './competition-list.component';
   providers: [TournamentService]
 })
 export class TournamentComponent {
-  private route = inject(ActivatedRoute);
-  private httpClient = inject(HttpClient);
-  private tournamentService = inject(TournamentService);
+  id = input.required();
+  tournamentService = inject(TournamentService);
 
-  $tournament = this.route.paramMap
-    .pipe(
-      switchMap(params => this.httpClient.get<TournamentResponseModel>(`${environment.apiUrl}/tournaments/${params.get('id')}`)),
-      tap(tournament => this.tournamentService.tournament = tournament)
-    );
-
-  getSelectedCompetition(tournament: TournamentResponseModel) {
-    return this.tournamentService.competitionId
-      ? tournament.competitions.find(c => c.id === this.tournamentService.competitionId)
-      : null;
-  }
-
-  get hideCompetitions() {
-    return this.tournamentService.hideCompetitions;
+  constructor() {
+    const tournamentResource = httpResource<TournamentResponseModel>(() => `/tournaments/${this.id()}`);
+    effect(() => {
+      if (tournamentResource.hasValue()) {
+        this.tournamentService.setTournament(tournamentResource.value());
+      }
+    });
   }
 }
